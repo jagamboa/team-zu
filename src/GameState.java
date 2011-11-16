@@ -11,8 +11,17 @@ public class GameState
 	private Player player;
 	private Forsaken gameloop;
 	private boolean showingCutscene;
+	static int stage; // 0 for menu, 1 for instructions, 2 for editor, 3 for test level
+	
+	// Button list
+	private Sprite start; // Start game button
+	private Sprite instruction; // Instruction button
+	private Sprite editor; // Editor starter button
+	private Sprite menu; // Button to go back to the menu
 	
 	// Sprite list
+	private Sprite startPicture; // The picture in the menu screen
+	private Sprite instructions;  // The actual instructions shown on the instructions screen
 	private Sprite emptyTileSprite;
 	private Sprite arrowPanelSprite;
 	private Sprite goalSprite;
@@ -32,35 +41,25 @@ public class GameState
 	public GameState(Forsaken gameloop)
 	{
 		this.gameloop = gameloop;
+		stage = 0;
 		showingCutscene = false;
 		
 		// initialize Sprites
+		startPicture = new Sprite(gameloop.getImage("Art/picture.png", 255, 255, 255));
+		start = gameloop.makeButton("Start", gameloop.getImage("Art/start.png", 255, 255, 255), 180, 51);
+		instruction = gameloop.makeButton("Instruction", gameloop.getImage("Art/instructions.png", 255, 255, 255), 378, 51);
+		editor  = gameloop.makeButton("Editor", gameloop.getImage("Art/editor.png", 255, 255, 255), 204, 51);
+		menu = gameloop.makeButton("Menu", gameloop.getImage("Art/Menu.png", 255, 255, 255), 169, 51);
+		instructions = new Sprite(gameloop.getImage("Art/Instructions1.png", 255, 255, 255));
 		emptyTileSprite = new Sprite(gameloop.getImage("Art/Grass.png"));
-		arrowPanelSprite = new Sprite(gameloop.getImage("Art/ArrowPanel.png"));
+		arrowPanelSprite = new Sprite(gameloop.getImage("Art/ArrowPanel.png"), 32, 32);
+		arrowPanelSprite.addFrame(gameloop.getImage("Art/ArrowPanel.png"), 32, 0);
+		arrowPanelSprite.framerate(1);
 		goalSprite = new Sprite(gameloop.getImage("Art/Goal.png"));
 		pitSprite = new Sprite(gameloop.getImage("Art/Pit.png"));
 		
-		girlSprite = new Sprite(30, 35);
-		girlSprite.addFrames(gameloop.getImage("Art/belarus2small.png"), 0,0, 30,0, 60,0, 90,0,
-																			0,35, 30,35, 60,35, 90,35,
-																			0,70, 30,70, 60,70, 90,70,
-																			0,105, 30,105, 60,105, 90,105);
-		
-		girlSprite.defineSequence("spin", 0, 4, 12, 8);
-		
-		girlSprite.defineSequence("upStand", 12);
-		girlSprite.defineSequence("downStand", 0);
-		girlSprite.defineSequence("leftStand", 4);
-		girlSprite.defineSequence("rightStand", 8);
-		
-		girlSprite.defineSequence("upMove", 12, 13, 14, 15);
-		girlSprite.defineSequence("downMove", 0, 1, 2, 3);
-		girlSprite.defineSequence("leftMove", 4, 5, 6, 7);
-		girlSprite.defineSequence("rightMove", 8, 9, 10, 11);
-		
-		girlSprite.framerate(7);
-		//girlSprite = new Sprite(gameloop.getImage("Art/Girl.png"));
-		boundarySprite = new Sprite(gameloop.getImage("Art/Boundary.png"));
+		girlSprite = new Sprite(gameloop.getImage("Art/Girl.png"));
+		boundarySprite = new Sprite(gameloop.getImage("Art/Boundary.png", 255, 255, 255));
 		doorSprite = new Sprite(gameloop.getImage("Art/Door.png"));
 		helperCharacterSprite = new Sprite(gameloop.getImage("Art/HelperCharacter.png"));
 		keySprite = new Sprite(gameloop.getImage("Art/Key.png"));
@@ -115,9 +114,9 @@ public class GameState
 		
 		int bgm = inReader.read();
 		
-//		if (width != Grid.WIDTH || height != Grid.HEIGHT)
-//			throw new DataFormatException("Grid dimentions don't match! input = (" + width + 
-//					", " + height + "); expected = (" + Grid.WIDTH + ", " + Grid.HEIGHT + ")");
+		if (width != Grid.WIDTH || height != Grid.HEIGHT)
+			throw new DataFormatException("Grid dimentions don't match! input = (" + width + 
+					", " + height + "); expected = (" + Grid.WIDTH + ", " + Grid.HEIGHT + ")");
 		
 		for (int x = 0; x < Grid.WIDTH; x++)
 			for (int y = 0; y < Grid.HEIGHT; y++)
@@ -135,71 +134,35 @@ public class GameState
 	{
 		grid = new Grid();
 		
-		grid.setTileDown(new ArrowPanel(20, 5, Direction.Down));
-		grid.setTileDown(new Goal(0, 0));
-		grid.setTileDown(new Pit(0, 23));
+		grid.setTileDown(new ArrowPanel(5, 3, Direction.Down));
+		grid.setTileDown(new ArrowPanel(5, 20, Direction.Right));
+		grid.setTileDown(new ArrowPanel(6, 20, Direction.Right));
+		grid.setTileDown(new ArrowPanel(20, 20, Direction.Up));
+		grid.setTileDown(new ArrowPanel(20, 3, Direction.Left));
+		grid.setTileDown(new Goal(12, 12));
+		grid.setTileDown(new Pit(0, 7));
+		grid.setTileDown(new Pit(8, 9));
+//		grid.setTileDown(new Pit(6, 20));
 		
-		grid.setPieceDown(new Spikeball(5, 5, Direction.Left));
-		grid.setPieceDown(new SpikeTrap(5, 9));
+		grid.setPieceDown(new Boundary(2, 2));
+		grid.setPieceDown(new Door(5, 11));
+		grid.setPieceDown(new HelperCharacter(3, 2));
+		grid.setPieceDown(new Key(4, 4));
+		grid.setPieceDown(new PushableBlock(8, 2));
+		grid.setPieceDown(new PushableBlock(11, 2));
+		grid.setPieceDown(new Spikeball(6, 2, Direction.Down));
+		grid.setPieceDown(new SpikeTrap(8, 8));
+//		grid.setPieceDown(new Spikeball(1, 11, Direction.Right));
 		
-		grid.setPieceDown(new HelperCharacter(2, 8));
-		grid.setPieceDown(new HelperCharacter(27, 6));
-		grid.setPieceDown(new HelperCharacter(18, 4));
-		
-		grid.setPieceDown(new Key(2, 0));
-		grid.setPieceDown(new Key(2, 15));
-		grid.setPieceDown(new Key(4, 9));
-		grid.setPieceDown(new Key(6, 9));
-		grid.setPieceDown(new Key(4, 7));
-		grid.setPieceDown(new Key(14, 9));
-		grid.setPieceDown(new Key(18, 5));
-		grid.setPieceDown(new Key(25, 20));
-		grid.setPieceDown(new Key(7, 1));
-		
-		grid.setPieceDown(new Door(5, 10));
-		grid.setPieceDown(new Door(3, 17));
-		grid.setPieceDown(new Door(6, 17));
-		grid.setPieceDown(new Door(17, 19));
-		grid.setPieceDown(new Door(5, 8));
-		grid.setPieceDown(new Door(9, 14));
-		grid.setPieceDown(new Door(14, 8));
-		grid.setPieceDown(new Door(7, 11));
-		grid.setPieceDown(new Door(11, 15));
-		grid.setPieceDown(new Door(25, 13));
-		grid.setPieceDown(new Door(0, 1));
-		grid.setPieceDown(new Door(1, 0));
-		
-//		grid.setTileDown(new ArrowPanel(5, 3, Direction.Down));
-//		grid.setTileDown(new ArrowPanel(5, 20, Direction.Right));
-//		grid.setTileDown(new ArrowPanel(6, 20, Direction.Right));
-//		grid.setTileDown(new ArrowPanel(20, 20, Direction.Up));
-//		grid.setTileDown(new ArrowPanel(20, 3, Direction.Left));
-//		grid.setTileDown(new Goal(12, 12));
-//		grid.setTileDown(new Pit(0, 7));
-//		grid.setTileDown(new Pit(8, 9));
-////		grid.setTileDown(new Pit(6, 20));
-//		
-//		grid.setPieceDown(new Boundary(2, 2));
-//		grid.setPieceDown(new Door(5, 11));
-//		grid.setPieceDown(new HelperCharacter(3, 2));
-//		grid.setPieceDown(new Key(4, 4));
-//		grid.setPieceDown(new PushableBlock(8, 2));
-//		grid.setPieceDown(new PushableBlock(11, 2));
-//		grid.setPieceDown(new Spikeball(6, 2, Direction.Down));
-//		grid.setPieceDown(new SpikeTrap(8, 8));
-////		grid.setPieceDown(new Spikeball(1, 11, Direction.Right));
-//		
-//		Girl girl = new Girl(0,0);
-		
-		Girl girl = new Girl(20, 20);
+		Girl girl = new Girl(0,0);
 		grid.setPieceDown(girl);
 		
 		player = new Player(girl);
 		
-		SoundPlayer.playBGM(SoundPlayer.hopefulUnderstanding);
+		SoundPlayer.playBGM(SoundPlayer.grandWaltz);
 		
 //		try {
-//			writeLevel("Levels/LotsOfKeys");
+//			writeLevel("Levels/SpikeTrapTest1");
 //		} catch (IOException e) {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
@@ -213,52 +176,7 @@ public class GameState
 	// Moves the piece that the player currently controls.
 	public void move(Direction d)
 	{
-		boolean wasMoving = player.getCurrentPiece().isMoving();
-		Direction prevDirection = player.getCurrentPiece().getLastDirectionMoved();
-		
 		grid.movePiece(player.getX(), player.getY(), d);
-		
-		if (player.getCurrentPiece() instanceof Girl)
-		{
-			Girl girl = (Girl)player.getCurrentPiece();
-			
-			if (girl.getLastDirectionMoved() == Direction.Up)
-			{
-				girlSprite.play("upMove");
-				
-				if (!wasMoving || prevDirection != Direction.Up)
-				{
-					girlSprite.setToFrame(12);
-				}
-			}
-			else if (girl.getLastDirectionMoved() == Direction.Down)
-			{
-				girlSprite.play("downMove");
-				
-				if (!wasMoving || prevDirection != Direction.Down)
-				{
-					girlSprite.setToFrame(0);
-				}
-			}
-			else if (girl.getLastDirectionMoved() == Direction.Left)
-			{	
-				girlSprite.play("leftMove");
-				
-				if (!wasMoving || prevDirection != Direction.Left)
-				{
-					girlSprite.setToFrame(4);
-				}
-			}
-			else if (girl.getLastDirectionMoved() == Direction.Right)
-			{	
-				girlSprite.play("rightMove");
-				
-				if (!wasMoving || prevDirection != Direction.Right)
-				{
-					girlSprite.setToFrame(8);
-				}
-			}
-		}
 	}
 	
 	// This function is called when the player clicks the
@@ -287,41 +205,6 @@ public class GameState
 	// lost the level.
 	public void update()
 	{
-		Girl girl = player.getGirl();
-		
-		if (girl.isBeingLaunched())
-		{
-			girlSprite.play("spin");
-		}
-		else if (girl.getLastDirectionMoved() == Direction.Up)
-		{
-			//girlSprite.setToFrame(12);
-			
-			if (!girl.isMoving())
-				girlSprite.play("upStand");
-		}
-		else if (girl.getLastDirectionMoved() == Direction.Down)
-		{
-			//girlSprite.setToFrame(0);
-			
-			if (!girl.isMoving())
-				girlSprite.play("downStand");
-		}
-		else if (girl.getLastDirectionMoved() == Direction.Left)
-		{
-			//girlSprite.setToFrame(4);
-			
-			if (!girl.isMoving())
-				girlSprite.play("leftStand");
-		}
-		else if (girl.getLastDirectionMoved() == Direction.Right)
-		{
-			girlSprite.setToFrame(8);
-			
-			if (!girl.isMoving())
-				girlSprite.play("rightStand");
-		}
-		
 		grid.update();
 		player.update();
 		
@@ -358,91 +241,141 @@ public class GameState
 	// draws each tile and piece in the grid and the player
 	public void draw()
 	{
-		// draw tiles
-		for (int x = 0; x < Grid.WIDTH; x++)
+		if (stage == 0) // Front screen
 		{
-			for (int y = 0; y < Grid.HEIGHT; y++)
-			{
-				Tile tile = grid.getTileAt(x, y);
-				
-				if (tile instanceof EmptyTile)
-				{
-					emptyTileSprite.position(tile.getPixelX(), tile.getPixelY());
-					emptyTileSprite.draw();
-				}
-				else if (tile instanceof ArrowPanel)
-				{
-					arrowPanelSprite.position(tile.getPixelX(), tile.getPixelY());
-					
-					if (((ArrowPanel)tile).getDirection() == Direction.Down)
-						arrowPanelSprite.rotate(180);
-					else if (((ArrowPanel)tile).getDirection() == Direction.Left)
-						arrowPanelSprite.rotate(270);
-					else if (((ArrowPanel)tile).getDirection() == Direction.Right)
-						arrowPanelSprite.rotate(90);
-					
-					arrowPanelSprite.draw();
-				}
-				else if (tile instanceof Goal)
-				{
-					goalSprite.position(tile.getPixelX(), tile.getPixelY());
-					goalSprite.draw();
-				}
-				else if (tile instanceof Pit)
-				{
-					pitSprite.position(tile.getPixelX(), tile.getPixelY());
-					pitSprite.draw();
-				}
-			}
+			menu.hide();
+			instructions.hide();
+			gameloop.canvas.clear();
+			gameloop.canvas.background(155, 155, 152);
+			startPicture.position(400, 119);
+			startPicture.show();
+			startPicture.draw();
+			start.position(422, 384);
+			start.show();
+			start.draw();
+			instruction.position(323, 474);
+			instruction.show();
+			instruction.draw();
+			editor.position(410, 564);
+			editor.show();
+			editor.draw();
 		}
-		
-		// draw pieces
-		for (int x = 0; x < Grid.WIDTH; x++)
+		else if (stage == 1) // Instruction Screen
 		{
-			for (int y = 0; y < Grid.HEIGHT; y++)
+			start.hide();
+			instruction.hide();
+			editor.hide();
+			gameloop.canvas.clear();
+			instructions.position(537 - instructions.width()/2, 200);
+			instructions.show();
+			instructions.draw();
+			menu.position(453, 564);
+			menu.show();
+			menu.draw();
+		}
+		else if (stage == 2) // Editor stage
+		{
+			start.hide();
+			instruction.hide();
+			editor.hide();
+			gameloop.canvas.clear();
+			menu.position(25, 660);
+			menu.show();
+			menu.draw();
+		}
+		else if (stage == 3) // Test level 
+		{
+			System.out.println("stage is " + stage);
+			// draw tiles
+			for (int x = 0; x < Grid.WIDTH; x++)
 			{
-				Piece piece = grid.getPieceAt(x, y);
-				
-				if (piece == null)
+				for (int y = 0; y < Grid.HEIGHT; y++)
 				{
-					continue;
-				}
-				else if (piece instanceof Girl)
-				{	
-					girlSprite.position(piece.getPixelX(), piece.getPixelY());
-					girlSprite.draw();
-				}
-				else if (piece instanceof Boundary)
-				{
-					boundarySprite.position(piece.getPixelX(), piece.getPixelY());
-					boundarySprite.draw();
-				}
-				else if (piece instanceof Door)
-				{
-					doorSprite.position(piece.getPixelX(), piece.getPixelY());
-					doorSprite.draw();
-				}
-				else if (piece instanceof HelperCharacter)
-				{
-					helperCharacterSprite.position(piece.getPixelX(), piece.getPixelY());
-					helperCharacterSprite.draw();
-				}
-				else if (piece instanceof Key)
-				{
-					keySprite.position(piece.getPixelX(), piece.getPixelY());
-					keySprite.draw();
-				}
-				else if (piece instanceof PushableBlock)
-				{
-					pushableBlockSprite.position(piece.getPixelX(), piece.getPixelY());
-					pushableBlockSprite.draw();
-				}
-				else if (piece instanceof Spikeball || piece instanceof SpikeTrap)
-				{
-					spikeballSprite.position(piece.getPixelX(), piece.getPixelY());
-					spikeballSprite.draw();
+					Tile tile = grid.getTileAt(x, y);
+					
+					if (tile instanceof EmptyTile)
+					{
+						emptyTileSprite.position(tile.getPixelX(), tile.getPixelY());
+						emptyTileSprite.draw();
+					}
+					else if (tile instanceof ArrowPanel)
+					{
+						arrowPanelSprite.position(tile.getPixelX(), tile.getPixelY());
+						
+						if (((ArrowPanel)tile).getDirection() == Direction.Down)
+							arrowPanelSprite.rotate(180);
+						else if (((ArrowPanel)tile).getDirection() == Direction.Left)
+							arrowPanelSprite.rotate(270);
+						else if (((ArrowPanel)tile).getDirection() == Direction.Right)
+							arrowPanelSprite.rotate(90);
+						
+						arrowPanelSprite.draw();
+					}
+					else if (tile instanceof Goal)
+					{
+						goalSprite.position(tile.getPixelX(), tile.getPixelY());
+						goalSprite.draw();
+					}
+					else if (tile instanceof Pit)
+					{
+						pitSprite.position(tile.getPixelX(), tile.getPixelY());
+						pitSprite.draw();
+					}
 				}
 			}
+		
+			// draw pieces
+			for (int x = 0; x < Grid.WIDTH; x++)
+			{
+				for (int y = 0; y < Grid.HEIGHT; y++)
+				{
+					Piece piece = grid.getPieceAt(x, y);
+					
+					if (piece == null)
+					{
+						continue;
+					}
+					else if (piece instanceof Girl)
+					{
+						girlSprite.position(piece.getPixelX(), piece.getPixelY());
+						girlSprite.draw();
+					}
+					else if (piece instanceof Boundary)
+					{
+						boundarySprite.position(piece.getPixelX(), piece.getPixelY());
+						boundarySprite.draw();
+					}
+					else if (piece instanceof Door)
+					{
+						doorSprite.position(piece.getPixelX(), piece.getPixelY());
+						doorSprite.draw();
+					}
+					else if (piece instanceof HelperCharacter)
+					{
+						helperCharacterSprite.position(piece.getPixelX(), piece.getPixelY());
+						helperCharacterSprite.draw();
+					}
+					else if (piece instanceof Key)
+					{
+						keySprite.position(piece.getPixelX(), piece.getPixelY());
+						keySprite.draw();
+					}
+					else if (piece instanceof PushableBlock)
+					{
+						pushableBlockSprite.position(piece.getPixelX(), piece.getPixelY());
+						pushableBlockSprite.draw();
+					}
+					else if (piece instanceof Spikeball || piece instanceof SpikeTrap)
+					{
+						spikeballSprite.position(piece.getPixelX(), piece.getPixelY());
+						spikeballSprite.draw();
+					}
+				}
+			}
+
+			menu.position(750, 25);
+			menu.show();
+			menu.draw();
 		}
 	}
 }

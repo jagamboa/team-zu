@@ -11,17 +11,8 @@ public class GameState
 	private Player player;
 	private Forsaken gameloop;
 	private boolean showingCutscene;
-	static int stage; // 0 for menu, 1 for instructions, 2 for editor, 3 for test level
-	
-	// Button list
-	private Sprite start; // Start game button
-	private Sprite instruction; // Instruction button
-	private Sprite editor; // Editor starter button
-	private Sprite menu; // Button to go back to the menu
 	
 	// Sprite list
-	private Sprite startPicture; // The picture in the menu screen
-	private Sprite instructions;  // The actual instructions shown on the instructions screen
 	private Sprite emptyTileSprite;
 	private Sprite arrowPanelSprite;
 	private Sprite goalSprite;
@@ -41,16 +32,9 @@ public class GameState
 	public GameState(Forsaken gameloop)
 	{
 		this.gameloop = gameloop;
-		stage = 0;
 		showingCutscene = false;
 		
 		// initialize Sprites
-		startPicture = new Sprite(gameloop.getImage("Art/picture.png", 255, 255, 255));
-		start = gameloop.makeButton("Start", gameloop.getImage("Art/start.png", 255, 255, 255), 180, 51);
-		instruction = gameloop.makeButton("Instruction", gameloop.getImage("Art/instructions.png", 255, 255, 255), 378, 51);
-		editor  = gameloop.makeButton("Editor", gameloop.getImage("Art/editor.png", 255, 255, 255), 204, 51);
-		menu = gameloop.makeButton("Menu", gameloop.getImage("Art/Menu.png", 255, 255, 255), 169, 51);
-		instructions = new Sprite(gameloop.getImage("Art/Instructions1.png", 255, 255, 255));
 		emptyTileSprite = new Sprite(gameloop.getImage("Art/Grass.png"));
 		arrowPanelSprite = new Sprite(32, 32);
 		arrowPanelSprite.addFrames(gameloop.getImage("Art/ArrowPanel.png"), 0,0, 32,0);
@@ -376,141 +360,91 @@ public class GameState
 	// draws each tile and piece in the grid and the player
 	public void draw()
 	{
-		if (stage == 0) // Front screen
+		// draw tiles
+		for (int x = 0; x < Grid.WIDTH; x++)
 		{
-			menu.hide();
-			instructions.hide();
-			gameloop.canvas.clear();
-			gameloop.canvas.background(155, 155, 152);
-			startPicture.position(400, 119);
-			startPicture.show();
-			startPicture.draw();
-			start.position(422, 384);
-			start.show();
-			start.draw();
-			instruction.position(323, 474);
-			instruction.show();
-			instruction.draw();
-			editor.position(410, 564);
-			editor.show();
-			editor.draw();
-		}
-		else if (stage == 1) // Instruction Screen
-		{
-			start.hide();
-			instruction.hide();
-			editor.hide();
-			gameloop.canvas.clear();
-			instructions.position(537 - instructions.width()/2, 200);
-			instructions.show();
-			instructions.draw();
-			menu.position(453, 564);
-			menu.show();
-			menu.draw();
-		}
-		else if (stage == 2) // Editor stage
-		{
-			start.hide();
-			instruction.hide();
-			editor.hide();
-			gameloop.canvas.clear();
-			menu.position(25, 660);
-			menu.show();
-			menu.draw();
-		}
-		else if (stage == 3) // Test level 
-		{
-			System.out.println("stage is " + stage);
-			// draw tiles
-			for (int x = 0; x < Grid.WIDTH; x++)
+			for (int y = 0; y < Grid.HEIGHT; y++)
 			{
-				for (int y = 0; y < Grid.HEIGHT; y++)
+				Tile tile = grid.getTileAt(x, y);
+				
+				if (tile instanceof EmptyTile)
 				{
-					Tile tile = grid.getTileAt(x, y);
+					emptyTileSprite.position(tile.getPixelX(), tile.getPixelY());
+					emptyTileSprite.draw();
+				}
+				else if (tile instanceof ArrowPanel)
+				{
+					arrowPanelSprite.position(tile.getPixelX(), tile.getPixelY());
 					
-					if (tile instanceof EmptyTile)
-					{
-						emptyTileSprite.position(tile.getPixelX(), tile.getPixelY());
-						emptyTileSprite.draw();
-					}
-					else if (tile instanceof ArrowPanel)
-					{
-						arrowPanelSprite.position(tile.getPixelX(), tile.getPixelY());
-						
-						if (((ArrowPanel)tile).getDirection() == Direction.Down)
-							arrowPanelSprite.rotate(180);
-						else if (((ArrowPanel)tile).getDirection() == Direction.Left)
-							arrowPanelSprite.rotate(270);
-						else if (((ArrowPanel)tile).getDirection() == Direction.Right)
-							arrowPanelSprite.rotate(90);
-						
-						arrowPanelSprite.draw();
-					}
-					else if (tile instanceof Goal)
-					{
-						goalSprite.position(tile.getPixelX(), tile.getPixelY());
-						goalSprite.draw();
-					}
-					else if (tile instanceof Pit)
-					{
-						pitSprite.position(tile.getPixelX(), tile.getPixelY());
-						pitSprite.draw();
-					}
+					if (((ArrowPanel)tile).getDirection() == Direction.Down)
+						arrowPanelSprite.rotate(180);
+					else if (((ArrowPanel)tile).getDirection() == Direction.Left)
+						arrowPanelSprite.rotate(270);
+					else if (((ArrowPanel)tile).getDirection() == Direction.Right)
+						arrowPanelSprite.rotate(90);
+					
+					arrowPanelSprite.draw();
+				}
+				else if (tile instanceof Goal)
+				{
+					goalSprite.position(tile.getPixelX(), tile.getPixelY());
+					goalSprite.draw();
+				}
+				else if (tile instanceof Pit)
+				{
+					pitSprite.position(tile.getPixelX(), tile.getPixelY());
+					pitSprite.draw();
 				}
 			}
-			
-			// draw pieces
-			for (int x = 0; x < Grid.WIDTH; x++)
+		}
+		
+		// draw pieces
+		for (int x = 0; x < Grid.WIDTH; x++)
+		{
+			for (int y = 0; y < Grid.HEIGHT; y++)
 			{
-				for (int y = 0; y < Grid.HEIGHT; y++)
+				Piece piece = grid.getPieceAt(x, y);
+				
+				if (piece == null)
 				{
-					Piece piece = grid.getPieceAt(x, y);
-					
-					if (piece == null)
-					{
-						continue;
-					}
-					else if (piece instanceof Girl)
-					{	
-						girlSprite.position(piece.getPixelX(), piece.getPixelY());
-						girlSprite.draw();
-					}
-					else if (piece instanceof Boundary)
-					{
-						boundarySprite.position(piece.getPixelX(), piece.getPixelY());
-						boundarySprite.draw();
-					}
-					else if (piece instanceof Door)
-					{
-						doorSprite.position(piece.getPixelX(), piece.getPixelY());
-						doorSprite.draw();
-					}
-					else if (piece instanceof HelperCharacter)
-					{
-						helperCharacterSprite.position(piece.getPixelX(), piece.getPixelY());
-						helperCharacterSprite.draw();
-					}
-					else if (piece instanceof Key)
-					{
-						keySprite.position(piece.getPixelX(), piece.getPixelY());
-						keySprite.draw();
-					}
-					else if (piece instanceof PushableBlock)
-					{
-						pushableBlockSprite.position(piece.getPixelX(), piece.getPixelY());
-						pushableBlockSprite.draw();
-					}
-					else if (piece instanceof Spikeball || piece instanceof SpikeTrap)
-					{
-						spikeballSprite.position(piece.getPixelX(), piece.getPixelY());
-						spikeballSprite.draw();
-					}
+					continue;
+				}
+				else if (piece instanceof Girl)
+				{	
+					girlSprite.position(piece.getPixelX(), piece.getPixelY());
+					girlSprite.draw();
+				}
+				else if (piece instanceof Boundary)
+				{
+					boundarySprite.position(piece.getPixelX(), piece.getPixelY());
+					boundarySprite.draw();
+				}
+				else if (piece instanceof Door)
+				{
+					doorSprite.position(piece.getPixelX(), piece.getPixelY());
+					doorSprite.draw();
+				}
+				else if (piece instanceof HelperCharacter)
+				{
+					helperCharacterSprite.position(piece.getPixelX(), piece.getPixelY());
+					helperCharacterSprite.draw();
+				}
+				else if (piece instanceof Key)
+				{
+					keySprite.position(piece.getPixelX(), piece.getPixelY());
+					keySprite.draw();
+				}
+				else if (piece instanceof PushableBlock)
+				{
+					pushableBlockSprite.position(piece.getPixelX(), piece.getPixelY());
+					pushableBlockSprite.draw();
+				}
+				else if (piece instanceof Spikeball || piece instanceof SpikeTrap)
+				{
+					spikeballSprite.position(piece.getPixelX(), piece.getPixelY());
+					spikeballSprite.draw();
 				}
 			}
-			
-			menu.position(750, 25);
-			menu.show();
-			menu.draw();
 		}
 	}
 }

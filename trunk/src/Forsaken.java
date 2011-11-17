@@ -26,7 +26,7 @@ public class Forsaken extends Ucigame
 				
 		gameState = new GameState(this);
 		try {
-			gameState.loadLevel("Levels/TestLevel");
+			gameState.loadLevel("Levels/SpikeTrapTest1");
 		} catch (IOException e) {
 			System.err.print(e.getMessage());
 			System.exit(1);
@@ -60,6 +60,27 @@ public class Forsaken extends Ucigame
 		{
 			gameState.move(Direction.Right);
 		}
+	}
+	public void onClickInstruction()
+	{
+		GameState.stage = 1;
+	}
+	
+	public void onClickEditor()
+	{
+		GameState.stage = 2;
+	}
+	
+	public void onClickStart()
+	{
+		GameState.stage = 3;
+	
+	}
+	
+	public void onClickMenu()
+	{
+		GameState.stage = 0;
+	
 	}
 	
 	public void onMousePressed()

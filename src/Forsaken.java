@@ -10,8 +10,9 @@ import ucigame.*;
 public class Forsaken extends Ucigame
 {
 	GameState gameState;
+	LevelEditor levelEditor;
 	
-	public static final int WINDOW_WIDTH = 1024;
+	public static final int WINDOW_WIDTH = 768;
 	public static final int WINDOW_HEIGHT = 768;
 	
 	public static final int MENU_STATE = 0;
@@ -41,6 +42,7 @@ public class Forsaken extends Ucigame
 		framerate(50);
 		
 		SoundPlayer.loadContent(this);
+		Tilesets.initialize(this);
 		
 		
 		// load Buttons
@@ -63,16 +65,11 @@ public class Forsaken extends Ucigame
 		// Show start menu
 		onClickMenu();
 				
+		// Create GameState
 		gameState = new GameState(this);
-		try {
-			gameState.loadLevel("Levels/SpikeTrapTest1");
-		} catch (IOException e) {
-			System.err.print(e.getMessage());
-			System.exit(1);
-		} catch (DataFormatException e) {
-			System.err.print(e.getMessage());
-			System.exit(1);
-		}
+		
+		// Create Level Editor
+		levelEditor = new LevelEditor(this);
 	}
 	
 	public void draw()
@@ -93,6 +90,7 @@ public class Forsaken extends Ucigame
 		}
 		else if (state == Forsaken.EDITOR_STATE) // Editor stage
 		{
+			levelEditor.draw();
 			menuButton.draw();
 		}
 		else if (state == Forsaken.START_GAME_STATE) // Test level 
@@ -103,6 +101,8 @@ public class Forsaken extends Ucigame
 			menuButton.draw();
 		}
 	}
+	
+	// Keyboard Input ///////////////////////////////////////////////////////////////////
 	
 	public void onKeyPress()
 	{	
@@ -124,9 +124,27 @@ public class Forsaken extends Ucigame
 		}
 	}
 	
+	// Mouse Input //////////////////////////////////////////////////////////////////////
+	
+	public void onMousePressed()
+	{
+		if (state == Forsaken.START_GAME_STATE)
+			gameState.onClick(mouse.x(), mouse.y());
+		else if (state == Forsaken.EDITOR_STATE)
+			levelEditor.onClick(mouse.x(), mouse.y());
+	}
+	
+	public void onMouseDragged()
+	{
+		if (state == Forsaken.EDITOR_STATE)
+			levelEditor.onClick(mouse.x(), mouse.y());
+	}
+	
+	
+	// Button functions //////////////////////////////////////////////////////////
+	
 	public void onClickMenu()
 	{
-		state = Forsaken.MENU_STATE;
 		canvas.background(155, 155, 152);
 		menuButton.hide();
 		instructions.hide();
@@ -134,11 +152,11 @@ public class Forsaken extends Ucigame
 		startButton.show();
 		instructionButton.show();
 		editorButton.show();
+		state = Forsaken.MENU_STATE;
 	}
 	
 	public void onClickInstruction()
 	{
-		state = Forsaken.INSTRUCTIONS_STATE;
 		canvas.background(155, 155, 152);
 		startButton.hide();
 		instructionButton.hide();
@@ -146,32 +164,105 @@ public class Forsaken extends Ucigame
 		instructions.show();
 		menuButton.position(453, 564);
 		menuButton.show();
+		state = Forsaken.INSTRUCTIONS_STATE;
 	}
 	
 	public void onClickEditor()
 	{
-		state = Forsaken.EDITOR_STATE;
 		canvas.background(155, 155, 152);
 		startButton.hide();
 		instructionButton.hide();
 		editorButton.hide();
 		menuButton.position(25, 660);
 		menuButton.show();
+		state = Forsaken.EDITOR_STATE;
 	}
 	
 	public void onClickStart()
 	{
-		state = Forsaken.START_GAME_STATE;
 		startButton.hide();
 		instructionButton.hide();
 		editorButton.hide();
 		menuButton.position(750, 25);
 		menuButton.show();
+		
+		try {
+			gameState.loadLevel("Levels/SpikeTrapTest1");
+		} catch (IOException e) {
+			System.err.print(e.getMessage());
+			System.exit(1);
+		} catch (DataFormatException e) {
+			System.err.print(e.getMessage());
+			System.exit(1);
+		}
+		
+		state = Forsaken.START_GAME_STATE;
 	}
 	
-	public void onMousePressed()
+	// Level Editor Palette Buttons
+	public void onClickLvlEdArrowPanelButton()
 	{
-		if (state == Forsaken.START_GAME_STATE)
-			gameState.onClick(mouse.x(), mouse.y());
+		levelEditor.mouseMode = PlacementType.ArrowPanel;
 	}
+	
+	public void onClickLvlEdBoundaryButton()
+	{
+		levelEditor.mouseMode = PlacementType.Boundary;
+	}
+	
+	public void onClickLvlEdDoorButton()
+	{
+		levelEditor.mouseMode = PlacementType.Door;
+	}
+	
+	public void onClickLvlEdEmptyTileButton()
+	{
+		levelEditor.mouseMode = PlacementType.EmptyTile;
+	}
+	
+	public void onClickLvlEdGirlButton()
+	{
+		levelEditor.mouseMode = PlacementType.Girl;
+	}
+	
+	public void onClickLvlEdGoalButton()
+	{
+		levelEditor.mouseMode = PlacementType.Goal;
+	}
+	
+	public void onClickLvlEdHelperCharacterButton()
+	{
+		levelEditor.mouseMode = PlacementType.HelperCharacter;
+	}
+	
+	public void onClickLvlEdKeyButton()
+	{
+		levelEditor.mouseMode = PlacementType.Key;
+	}
+	
+	public void onClickLvlEdPitButton()
+	{
+		levelEditor.mouseMode = PlacementType.Pit;
+	}
+	
+	public void onClickLvlEdPushableBlockButton()
+	{
+		levelEditor.mouseMode = PlacementType.PushableBlock;
+	}
+	
+	public void onClickLvlEdSpikeballButton()
+	{
+		levelEditor.mouseMode = PlacementType.Spikeball;
+	}
+	
+	public void onClickLvlEdSpikeTrapButton()
+	{
+		levelEditor.mouseMode = PlacementType.SpikeTrap;
+	}
+	
+	public void onClickLvlEdNullPieceButton()
+	{
+		levelEditor.mouseMode = PlacementType.nullPiece;
+	}
+	
 }

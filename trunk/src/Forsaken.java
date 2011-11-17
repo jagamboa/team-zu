@@ -14,6 +14,11 @@ public class Forsaken extends Ucigame
 	public static final int WINDOW_WIDTH = 1024;
 	public static final int WINDOW_HEIGHT = 768;
 	
+	public static final int MENU_STATE = 0;
+	public static final int INSTRUCTIONS_STATE = 1;
+	public static final int EDITOR_STATE = 2;
+	public static final int START_GAME_STATE = 3;
+	
 	// Button list
 	private Sprite startButton; // Start game button
 	private Sprite instructionButton; // Instruction button
@@ -74,23 +79,23 @@ public class Forsaken extends Ucigame
 	{	
 		canvas.clear();
 		
-		if (state == 0) // Front screen
+		if (state == Forsaken.MENU_STATE) // Front screen
 		{
 			startPicture.draw();
 			startButton.draw();
 			instructionButton.draw();
 			editorButton.draw();
 		}
-		else if (state == 1) // Instruction Screen
+		else if (state == Forsaken.INSTRUCTIONS_STATE) // Instruction Screen
 		{
 			instructions.draw();
 			menuButton.draw();
 		}
-		else if (state == 2) // Editor stage
+		else if (state == Forsaken.EDITOR_STATE) // Editor stage
 		{
 			menuButton.draw();
 		}
-		else if (state == 3) // Test level 
+		else if (state == Forsaken.START_GAME_STATE) // Test level 
 		{
 			gameState.update();
 			gameState.draw();
@@ -121,7 +126,7 @@ public class Forsaken extends Ucigame
 	
 	public void onClickMenu()
 	{
-		state = 0;
+		state = Forsaken.MENU_STATE;
 		canvas.background(155, 155, 152);
 		menuButton.hide();
 		instructions.hide();
@@ -133,7 +138,7 @@ public class Forsaken extends Ucigame
 	
 	public void onClickInstruction()
 	{
-		state = 1;
+		state = Forsaken.INSTRUCTIONS_STATE;
 		canvas.background(155, 155, 152);
 		startButton.hide();
 		instructionButton.hide();
@@ -145,7 +150,7 @@ public class Forsaken extends Ucigame
 	
 	public void onClickEditor()
 	{
-		state = 2;
+		state = Forsaken.EDITOR_STATE;
 		canvas.background(155, 155, 152);
 		startButton.hide();
 		instructionButton.hide();
@@ -156,7 +161,7 @@ public class Forsaken extends Ucigame
 	
 	public void onClickStart()
 	{
-		state = 3;
+		state = Forsaken.START_GAME_STATE;
 		startButton.hide();
 		instructionButton.hide();
 		editorButton.hide();
@@ -166,6 +171,7 @@ public class Forsaken extends Ucigame
 	
 	public void onMousePressed()
 	{
-		gameState.onClick(mouse.x(), mouse.y());
+		if (state == Forsaken.START_GAME_STATE)
+			gameState.onClick(mouse.x(), mouse.y());
 	}
 }

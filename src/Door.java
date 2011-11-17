@@ -45,4 +45,3 @@ public class Door extends Piece
 	}
 
 }
- /*hi*/

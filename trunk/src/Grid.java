@@ -2,8 +2,8 @@
 public class Grid 
 {
 	// constants
-	public static final int WIDTH = 32;
-	public static final int HEIGHT = 24;
+	public static final int WIDTH = 24;
+	public static final int HEIGHT = 20;
 	public static final int SQUARE_DIMENSIONS = 32;
 	
 	// private variables
@@ -39,6 +39,12 @@ public class Grid
 	{
 		if (piece != null)
 			grid[piece.getX()][piece.getY()].setPiece(piece);
+	}
+	
+	// erases the Piece at (x, y)
+	public void erasePiece(int x, int y)
+	{
+		grid[x][y].setPiece(null);
 	}
 	
 	// returns the tile at location (x,y)

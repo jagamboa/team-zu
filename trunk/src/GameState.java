@@ -1,3 +1,4 @@
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -12,19 +13,7 @@ public class GameState
 	private Forsaken gameloop;
 	private boolean showingCutscene;
 	
-	// Sprite list
-	private Sprite emptyTileSprite;
-	private Sprite arrowPanelSprite;
-	private Sprite goalSprite;
-	private Sprite pitSprite;
-	
-	private Sprite girlSprite;
-	private Sprite boundarySprite;
-	private Sprite doorSprite;
-	private Sprite helperCharacterSprite;
-	private Sprite keySprite;
-	private Sprite pushableBlockSprite;
-	private Sprite spikeballSprite;
+
 
 	// initializes the game state with the gameloop so that the
 	// game state can signal the gameloop when it is time to change
@@ -33,41 +22,33 @@ public class GameState
 	{
 		this.gameloop = gameloop;
 		showingCutscene = false;
-		
-		// initialize Sprites
-		emptyTileSprite = new Sprite(gameloop.getImage("Art/Grass.png"));
-		arrowPanelSprite = new Sprite(32, 32);
-		arrowPanelSprite.addFrames(gameloop.getImage("Art/ArrowPanel.png"), 0,0, 32,0);
-		arrowPanelSprite.framerate(1);
-		goalSprite = new Sprite(gameloop.getImage("Art/Goal.png"));
-		pitSprite = new Sprite(gameloop.getImage("Art/Pit.png"));
-		
-		girlSprite = new Sprite(30, 35);
-		girlSprite.addFrames(gameloop.getImage("Art/belarus2small.png"), 0,0, 30,0, 60,0, 90,0,
-																			0,35, 30,35, 60,35, 90,35,
-																			0,70, 30,70, 60,70, 90,70,
-																			0,105, 30,105, 60,105, 90,105);
-		
-		girlSprite.defineSequence("spin", 0, 4, 12, 8);
-		
-		girlSprite.defineSequence("upStand", 12);
-		girlSprite.defineSequence("downStand", 0);
-		girlSprite.defineSequence("leftStand", 4);
-		girlSprite.defineSequence("rightStand", 8);
-		
-		girlSprite.defineSequence("upMove", 12, 13, 14, 15);
-		girlSprite.defineSequence("downMove", 0, 1, 2, 3);
-		girlSprite.defineSequence("leftMove", 4, 5, 6, 7);
-		girlSprite.defineSequence("rightMove", 8, 9, 10, 11);
-		
-		girlSprite.framerate(7);
-		//girlSprite = new Sprite(gameloop.getImage("Art/Girl.png"));
-		boundarySprite = new Sprite(gameloop.getImage("Art/Boundary.png"));
-		doorSprite = new Sprite(gameloop.getImage("Art/Door.png"));
-		helperCharacterSprite = new Sprite(gameloop.getImage("Art/HelperCharacter.png"));
-		keySprite = new Sprite(gameloop.getImage("Art/Key.png"));
-		pushableBlockSprite = new Sprite(gameloop.getImage("Art/PushableBlock.png"));
-		spikeballSprite = new Sprite(gameloop.getImage("Art/SpikeBall.png"));
+	}
+	
+	// sets a Tile down onto this grid
+	public void setTileDown(Tile tile)
+	{
+		grid.setTileDown(tile);
+	}
+	
+	// gets the Tile at (x, y)
+	public Tile getTileAt(int x, int y)
+	{
+		return grid.getTileAt(x, y);
+	}
+	
+	// sets a Piece down onto this grid
+	public void setPieceDown(Piece piece, int column, int row)
+	{
+		if (piece == null)
+			grid.erasePiece(column, row);
+		else
+			grid.setPieceDown(piece);
+	}
+	
+	// gets the Piece at (x, y)
+	public Piece getPieceAt(int x, int y)
+	{
+		return grid.getPieceAt(x, y);
 	}
 	
 	// writes the level into a file called "fileOut"
@@ -117,9 +98,9 @@ public class GameState
 		
 		int bgm = inReader.read();
 		
-		if (width != Grid.WIDTH || height != Grid.HEIGHT)
-			throw new DataFormatException("Grid dimentions don't match! input = (" + width + 
-					", " + height + "); expected = (" + Grid.WIDTH + ", " + Grid.HEIGHT + ")");
+//		if (width != Grid.WIDTH || height != Grid.HEIGHT)
+//			throw new DataFormatException("Grid dimentions don't match! input = (" + width + 
+//					", " + height + "); expected = (" + Grid.WIDTH + ", " + Grid.HEIGHT + ")");
 		
 		for (int x = 0; x < Grid.WIDTH; x++)
 			for (int y = 0; y < Grid.HEIGHT; y++)
@@ -131,6 +112,27 @@ public class GameState
 		player = new Player(IO.getGirl());
 		
 		SoundPlayer.playBGM(bgm);
+	}
+	
+	public void loadEmptyLevel()
+	{
+		grid = new Grid();
+	}
+	
+	// Creates a copy of this GameState and returns it
+	public GameState copy(Forsaken gameloop) throws IOException, DataFormatException
+	{
+		GameState gs = new GameState(gameloop);
+		
+		String tempFileName = "temp_" + System.currentTimeMillis();
+		
+		writeLevel(tempFileName);
+		
+		gs.loadLevel(tempFileName);
+		
+		new File(tempFileName).delete();
+		
+		return gs;
 	}
 	
 	private void loadTestLevel()
@@ -226,38 +228,38 @@ public class GameState
 			
 			if (girl.getLastDirectionMoved() == Direction.Up)
 			{
-				girlSprite.play("upMove");
+				Tilesets.girlSprite.play("upMove");
 				
 				if (!wasMoving || prevDirection != Direction.Up)
 				{
-					girlSprite.setToFrame(12);
+					Tilesets.girlSprite.setToFrame(12);
 				}
 			}
 			else if (girl.getLastDirectionMoved() == Direction.Down)
 			{
-				girlSprite.play("downMove");
+				Tilesets.girlSprite.play("downMove");
 				
 				if (!wasMoving || prevDirection != Direction.Down)
 				{
-					girlSprite.setToFrame(0);
+					Tilesets.girlSprite.setToFrame(0);
 				}
 			}
 			else if (girl.getLastDirectionMoved() == Direction.Left)
 			{	
-				girlSprite.play("leftMove");
+				Tilesets.girlSprite.play("leftMove");
 				
 				if (!wasMoving || prevDirection != Direction.Left)
 				{
-					girlSprite.setToFrame(4);
+					Tilesets.girlSprite.setToFrame(4);
 				}
 			}
 			else if (girl.getLastDirectionMoved() == Direction.Right)
 			{	
-				girlSprite.play("rightMove");
+				Tilesets.girlSprite.play("rightMove");
 				
 				if (!wasMoving || prevDirection != Direction.Right)
 				{
-					girlSprite.setToFrame(8);
+					Tilesets.girlSprite.setToFrame(8);
 				}
 			}
 		}
@@ -293,35 +295,35 @@ public class GameState
 		
 		if (girl.isBeingLaunched())
 		{
-			girlSprite.play("spin");
+			Tilesets.girlSprite.play("spin");
 		}
 		else if (girl.getLastDirectionMoved() == Direction.Up)
 		{
 			//girlSprite.setToFrame(12);
 			
 			if (!girl.isMoving())
-				girlSprite.play("upStand");
+				Tilesets.girlSprite.play("upStand");
 		}
 		else if (girl.getLastDirectionMoved() == Direction.Down)
 		{
 			//girlSprite.setToFrame(0);
 			
 			if (!girl.isMoving())
-				girlSprite.play("downStand");
+				Tilesets.girlSprite.play("downStand");
 		}
 		else if (girl.getLastDirectionMoved() == Direction.Left)
 		{
 			//girlSprite.setToFrame(4);
 			
 			if (!girl.isMoving())
-				girlSprite.play("leftStand");
+				Tilesets.girlSprite.play("leftStand");
 		}
 		else if (girl.getLastDirectionMoved() == Direction.Right)
 		{
-			girlSprite.setToFrame(8);
+			Tilesets.girlSprite.setToFrame(8);
 			
 			if (!girl.isMoving())
-				girlSprite.play("rightStand");
+				Tilesets.girlSprite.play("rightStand");
 		}
 		
 		grid.update();
@@ -369,31 +371,31 @@ public class GameState
 				
 				if (tile instanceof EmptyTile)
 				{
-					emptyTileSprite.position(tile.getPixelX(), tile.getPixelY());
-					emptyTileSprite.draw();
+					Tilesets.emptyTileSprite.position(tile.getPixelX(), tile.getPixelY());
+					Tilesets.emptyTileSprite.draw();
 				}
 				else if (tile instanceof ArrowPanel)
 				{
-					arrowPanelSprite.position(tile.getPixelX(), tile.getPixelY());
+					Tilesets.arrowPanelSprite.position(tile.getPixelX(), tile.getPixelY());
 					
 					if (((ArrowPanel)tile).getDirection() == Direction.Down)
-						arrowPanelSprite.rotate(180);
+						Tilesets.arrowPanelSprite.rotate(180);
 					else if (((ArrowPanel)tile).getDirection() == Direction.Left)
-						arrowPanelSprite.rotate(270);
+						Tilesets.arrowPanelSprite.rotate(270);
 					else if (((ArrowPanel)tile).getDirection() == Direction.Right)
-						arrowPanelSprite.rotate(90);
+						Tilesets.arrowPanelSprite.rotate(90);
 					
-					arrowPanelSprite.draw();
+					Tilesets.arrowPanelSprite.draw();
 				}
 				else if (tile instanceof Goal)
 				{
-					goalSprite.position(tile.getPixelX(), tile.getPixelY());
-					goalSprite.draw();
+					Tilesets.goalSprite.position(tile.getPixelX(), tile.getPixelY());
+					Tilesets.goalSprite.draw();
 				}
 				else if (tile instanceof Pit)
 				{
-					pitSprite.position(tile.getPixelX(), tile.getPixelY());
-					pitSprite.draw();
+					Tilesets.pitSprite.position(tile.getPixelX(), tile.getPixelY());
+					Tilesets.pitSprite.draw();
 				}
 			}
 		}
@@ -411,38 +413,43 @@ public class GameState
 				}
 				else if (piece instanceof Girl)
 				{	
-					girlSprite.position(piece.getPixelX(), piece.getPixelY());
-					girlSprite.draw();
+					Tilesets.girlSprite.position(piece.getPixelX(), piece.getPixelY());
+					Tilesets.girlSprite.draw();
 				}
 				else if (piece instanceof Boundary)
 				{
-					boundarySprite.position(piece.getPixelX(), piece.getPixelY());
-					boundarySprite.draw();
+					Tilesets.boundarySprite.position(piece.getPixelX(), piece.getPixelY());
+					Tilesets.boundarySprite.draw();
 				}
 				else if (piece instanceof Door)
 				{
-					doorSprite.position(piece.getPixelX(), piece.getPixelY());
-					doorSprite.draw();
+					Tilesets.doorSprite.position(piece.getPixelX(), piece.getPixelY());
+					Tilesets.doorSprite.draw();
 				}
 				else if (piece instanceof HelperCharacter)
 				{
-					helperCharacterSprite.position(piece.getPixelX(), piece.getPixelY());
-					helperCharacterSprite.draw();
+					Tilesets.helperCharacterSprite.position(piece.getPixelX(), piece.getPixelY());
+					Tilesets.helperCharacterSprite.draw();
 				}
 				else if (piece instanceof Key)
 				{
-					keySprite.position(piece.getPixelX(), piece.getPixelY());
-					keySprite.draw();
+					Tilesets.keySprite.position(piece.getPixelX(), piece.getPixelY());
+					Tilesets.keySprite.draw();
 				}
 				else if (piece instanceof PushableBlock)
 				{
-					pushableBlockSprite.position(piece.getPixelX(), piece.getPixelY());
-					pushableBlockSprite.draw();
+					Tilesets.pushableBlockSprite.position(piece.getPixelX(), piece.getPixelY());
+					Tilesets.pushableBlockSprite.draw();
 				}
-				else if (piece instanceof Spikeball || piece instanceof SpikeTrap)
+				else if (piece instanceof Spikeball)
 				{
-					spikeballSprite.position(piece.getPixelX(), piece.getPixelY());
-					spikeballSprite.draw();
+					Tilesets.spikeballSprite.position(piece.getPixelX(), piece.getPixelY());
+					Tilesets.spikeballSprite.draw();
+				}
+				else if (piece instanceof SpikeTrap)
+				{
+					Tilesets.spikeTrapSprite.position(piece.getPixelX(), piece.getPixelY());
+					Tilesets.spikeTrapSprite.draw();
 				}
 			}
 		}

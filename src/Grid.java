@@ -2,8 +2,8 @@
 public class Grid 
 {
 	// constants
-	public static final int WIDTH = 24;
-	public static final int HEIGHT = 20;
+	public static final int WIDTH = 32;
+	public static final int HEIGHT = 24;
 	public static final int SQUARE_DIMENSIONS = 32;
 	
 	// private variables

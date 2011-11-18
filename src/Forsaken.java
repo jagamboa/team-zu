@@ -316,6 +316,7 @@ public class Forsaken extends Ucigame
 		{
 			state = TEST_LEVEL_STATE;
 			gameState = testLevel;
+			menuButton.hide();
 		}
 	}
 	
@@ -333,6 +334,7 @@ public class Forsaken extends Ucigame
 	{
 		levelEditor.endTest();
 		state = EDITOR_STATE;
+		menuButton.show();
 	}
 	
 }

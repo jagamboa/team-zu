@@ -12,6 +12,7 @@ public class GameState
 	private Player player;
 	private Forsaken gameloop;
 	private boolean showingCutscene;
+	private String loadedLevel;
 	
 
 
@@ -51,6 +52,18 @@ public class GameState
 		return grid.getPieceAt(x, y);
 	}
 	
+	// returns the Girl's X coordinate
+	public int getGirlX()
+	{
+		return player.getGirl().getX();
+	}
+	
+	// returns the girl's Y coordinate
+	public int getGirlY()
+	{
+		return player.getGirl().getY();
+	}
+	
 	// writes the level into a file called "fileOut"
 	public void writeLevel(String fileOut) throws IOException, DataFormatException
 	{
@@ -81,6 +94,8 @@ public class GameState
 	{
 //		loadTestLevel();
 		
+		loadedLevel = fileIn;
+		
 		grid = new Grid();
 		
 		FileReader inReader = new FileReader(fileIn);
@@ -98,9 +113,9 @@ public class GameState
 		
 		int bgm = inReader.read();
 		
-//		if (width != Grid.WIDTH || height != Grid.HEIGHT)
-//			throw new DataFormatException("Grid dimentions don't match! input = (" + width + 
-//					", " + height + "); expected = (" + Grid.WIDTH + ", " + Grid.HEIGHT + ")");
+		if (width != Grid.WIDTH || height != Grid.HEIGHT)
+			throw new DataFormatException("Grid dimentions don't match! input = (" + width + 
+					", " + height + "); expected = (" + Grid.WIDTH + ", " + Grid.HEIGHT + ")");
 		
 		for (int x = 0; x < Grid.WIDTH; x++)
 			for (int y = 0; y < Grid.HEIGHT; y++)
@@ -124,13 +139,13 @@ public class GameState
 	{
 		GameState gs = new GameState(gameloop);
 		
-		String tempFileName = "temp_" + System.currentTimeMillis();
+		String tempFileName = "Levels/temp/temp_" + System.currentTimeMillis();
 		
 		writeLevel(tempFileName);
 		
 		gs.loadLevel(tempFileName);
 		
-		new File(tempFileName).delete();
+		new File(tempFileName).deleteOnExit();
 		
 		return gs;
 	}
@@ -333,7 +348,7 @@ public class GameState
 		{
 			// advance to next level
 			try {
-				loadLevel("Levels/SpikeTrapTest1");
+				loadLevel(loadedLevel);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -348,7 +363,7 @@ public class GameState
 			// TODO
 			// reset level
 			try {
-				loadLevel("Levels/SpikeTrapTest1");
+				loadLevel(loadedLevel);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -357,6 +372,9 @@ public class GameState
 				e.printStackTrace();
 			}
 		}
+		
+		if (grid.getPieceAt(player.getGirl().getX(), player.getGirl().getY()) == null)
+			throw new NullPointerException();
 	}
 	
 	// draws each tile and piece in the grid and the player

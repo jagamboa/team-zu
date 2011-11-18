@@ -1,6 +1,8 @@
 import java.io.IOException;
 import java.util.zip.DataFormatException;
 
+import javax.swing.JOptionPane;
+
 import ucigame.*;
 
 // TODO
@@ -18,7 +20,8 @@ public class Forsaken extends Ucigame
 	public static final int MENU_STATE = 0;
 	public static final int INSTRUCTIONS_STATE = 1;
 	public static final int EDITOR_STATE = 2;
-	public static final int START_GAME_STATE = 3;
+	public static final int TEST_LEVEL_STATE = 3;
+	public static final int START_GAME_STATE = 4;
 	
 	// Button list
 	private Sprite startButton; // Start game button
@@ -93,6 +96,21 @@ public class Forsaken extends Ucigame
 			levelEditor.draw();
 			menuButton.draw();
 		}
+		else if (state == Forsaken.TEST_LEVEL_STATE)
+		{
+			try
+			{
+				gameState.update();
+				gameState.draw();
+				
+				levelEditor.draw();
+			}
+			catch (java.lang.Throwable t)
+			{
+	        	JOptionPane.showMessageDialog(this, "Error Testing Level!", "Error", JOptionPane.ERROR_MESSAGE, null);
+	        	onClickLvlEdBackButton();
+			}
+		}
 		else if (state == Forsaken.START_GAME_STATE) // Test level 
 		{
 			gameState.update();
@@ -128,7 +146,7 @@ public class Forsaken extends Ucigame
 	
 	public void onMousePressed()
 	{
-		if (state == Forsaken.START_GAME_STATE)
+		if (state == Forsaken.START_GAME_STATE || state == Forsaken.TEST_LEVEL_STATE)
 			gameState.onClick(mouse.x(), mouse.y());
 		else if (state == Forsaken.EDITOR_STATE)
 			levelEditor.onClick(mouse.x(), mouse.y());
@@ -187,7 +205,7 @@ public class Forsaken extends Ucigame
 		menuButton.show();
 		
 		try {
-			gameState.loadLevel("Levels/SpikeTrapTest1");
+			gameState.loadLevel("Levels/ArrowCircle");
 		} catch (IOException e) {
 			System.err.print(e.getMessage());
 			System.exit(1);
@@ -263,6 +281,58 @@ public class Forsaken extends Ucigame
 	public void onClickLvlEdNullPieceButton()
 	{
 		levelEditor.mouseMode = PlacementType.nullPiece;
+	}
+	
+	public void onClickLvlEdRotateButton()
+	{
+		if (levelEditor.mouseDirection == Direction.Up)
+		{
+			levelEditor.mouseDirection = Direction.Right;
+		}
+		else if (levelEditor.mouseDirection == Direction.Right)
+		{
+			levelEditor.mouseDirection = Direction.Down;
+		}
+		else if (levelEditor.mouseDirection == Direction.Down)
+		{
+			levelEditor.mouseDirection = Direction.Left;
+		}
+		else if (levelEditor.mouseDirection == Direction.Left)
+		{
+			levelEditor.mouseDirection = Direction.Up;
+		}
+	}
+	
+	public void onClickLvlEdOptionsButton()
+	{
+		levelEditor.displayOptions();
+	}
+	
+	public void onClickLvlEdTestButton()
+	{
+		GameState testLevel = levelEditor.testLevel();
+		
+		if (testLevel != null)
+		{
+			state = TEST_LEVEL_STATE;
+			gameState = testLevel;
+		}
+	}
+	
+	public void onClickLvlEdLoadButton()
+	{
+		levelEditor.loadLevel();
+	}
+	
+	public void onClickLvlEdSaveButton()
+	{
+		levelEditor.saveLevel();
+	}
+	
+	public void onClickLvlEdBackButton()
+	{
+		levelEditor.endTest();
+		state = EDITOR_STATE;
 	}
 	
 }

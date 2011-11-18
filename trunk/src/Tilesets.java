@@ -19,6 +19,7 @@ public class Tilesets
 	public static Sprite spikeTrapSprite;
 	
 	public static Sprite nullPieceSprite;
+	public static Sprite rotateButtonSprite;
 	
 	public static void initialize(Forsaken gameloop)
 	{
@@ -57,9 +58,10 @@ public class Tilesets
 		keySprite = new Sprite(gameloop.getImage("Art/Key.png"));
 		pushableBlockSprite = new Sprite(gameloop.getImage("Art/PushableBlock.png"));
 		spikeballSprite = new Sprite(gameloop.getImage("Art/SpikeBall.png"));
-		spikeTrapSprite = new Sprite(gameloop.getImage("Art/SpikeBall.png"));
+		spikeTrapSprite = new Sprite(gameloop.getImage("Art/SpikeTrap.png"));
 		
 		nullPieceSprite = new Sprite(gameloop.getImage("Art/NullPiece.png"));
+		rotateButtonSprite = new Sprite(gameloop.getImage("Art/RotateButton.png"));
 	}
 	
 	public static void loadTileSet(int tileSet)

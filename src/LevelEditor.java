@@ -1,8 +1,18 @@
-import ucigame.*;
+import java.io.File;
+import java.io.IOException;
+import java.util.zip.DataFormatException;
+
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+
+import ucigame.Sprite;
 
 public class LevelEditor 
 {
 	public PlacementType mouseMode = null;
+	public Direction mouseDirection = Direction.Up;
+	
+	private Forsaken gameloop;
 	
 	private GameState editLevel;
 	private GameState testLevel;
@@ -16,6 +26,7 @@ public class LevelEditor
 	// Level Variables
 	private int girlX = -1;
 	private int girlY = -1;
+	private boolean testing = false;
 	
 	// Palette Buttons
 	private Sprite arrowPanelButton;
@@ -32,10 +43,22 @@ public class LevelEditor
 	private Sprite spikeTrapButton;
 	private Sprite nullPieceButton;
 	
+	// Other Button
+	private Sprite rotateButton;
+	private Sprite optionsButton;
+	private Sprite testButton;
+	private Sprite loadButton;
+	private Sprite saveButton;
+	private Sprite backButton;
+	
 	public LevelEditor(Forsaken gameloop)
 	{
+		this.gameloop = gameloop;
+		
 		editLevel = new GameState(gameloop);
 		editLevel.loadEmptyLevel();
+		
+		SoundPlayer.playBGM(SoundPlayer.grandWaltz);
 		
 		gridSquare = new Sprite(gameloop.getImage("Art/GridSquare.png"));
 		
@@ -81,67 +104,116 @@ public class LevelEditor
 				Grid.SQUARE_DIMENSIONS, Grid.SQUARE_DIMENSIONS);
 		nullPieceButton.position((paletteX + 8) * Grid.SQUARE_DIMENSIONS, (paletteY + 1) * Grid.SQUARE_DIMENSIONS);
 		
+		
+		// Initialize Other Buttons
+		rotateButton = gameloop.makeButton("LvlEdRotateButton", gameloop.getImage("Art/LvlEdPaletteButton.png"), 
+				Grid.SQUARE_DIMENSIONS, Grid.SQUARE_DIMENSIONS);
+		rotateButton.position((paletteX - 1.5) * Grid.SQUARE_DIMENSIONS, (paletteY + 0.5) * Grid.SQUARE_DIMENSIONS);
+		optionsButton = gameloop.makeButton("LvlEdOptionsButton", gameloop.getImage("Art/LvlEdOptionsButton.png"),
+				Grid.SQUARE_DIMENSIONS * 3, Grid.SQUARE_DIMENSIONS);
+		optionsButton.position( 20 * Grid.SQUARE_DIMENSIONS, paletteY * Grid.SQUARE_DIMENSIONS - 5);
+		testButton = gameloop.makeButton("LvlEdTestButton", gameloop.getImage("Art/LvlEdTestButton.png"),
+				Grid.SQUARE_DIMENSIONS * 3, Grid.SQUARE_DIMENSIONS);
+		testButton.position(20 * Grid.SQUARE_DIMENSIONS, (paletteY + 1) * Grid.SQUARE_DIMENSIONS + 5);
+		loadButton = gameloop.makeButton("LvlEdLoadButton", gameloop.getImage("Art/LvlEdLoadButton.png"),
+				Grid.SQUARE_DIMENSIONS * 3, Grid.SQUARE_DIMENSIONS);
+		loadButton.position(0.5 * Grid.SQUARE_DIMENSIONS, (paletteY + 1.5) * Grid.SQUARE_DIMENSIONS);
+		saveButton = gameloop.makeButton("LvlEdSaveButton", gameloop.getImage("Art/LvlEdSaveButton.png"),
+				Grid.SQUARE_DIMENSIONS * 3, Grid.SQUARE_DIMENSIONS);
+		saveButton.position(4.5 * Grid.SQUARE_DIMENSIONS, (paletteY + 1.5) * Grid.SQUARE_DIMENSIONS);
+		backButton = gameloop.makeButton("LvlEdBackButton", gameloop.getImage("Art/LvlEdBackButton.png"),
+				Grid.SQUARE_DIMENSIONS * 3, Grid.SQUARE_DIMENSIONS);
+		backButton.position(0.5 * Grid.SQUARE_DIMENSIONS, (paletteY + 1.5) * Grid.SQUARE_DIMENSIONS);
+		
 	}
 	
 	public void draw()
 	{
-		editLevel.draw();
-		
-		// draw grid overlay
-		for (int x = 0; x < Grid.WIDTH; x++)
-			for (int y = 0; y < Grid.HEIGHT; y++)
-			{
-				gridSquare.position(x * Grid.SQUARE_DIMENSIONS, y * Grid.SQUARE_DIMENSIONS);
-				gridSquare.draw();
-			}
-		
-		// draw GUI
-		
-		// TODO: draw HUD menu bar
-		
-		// Draw Palette
-		Tilesets.arrowPanelSprite.position(paletteX * Grid.SQUARE_DIMENSIONS, paletteY * Grid.SQUARE_DIMENSIONS);
-		Tilesets.arrowPanelSprite.draw();
-		Tilesets.emptyTileSprite.position((paletteX + 1) * Grid.SQUARE_DIMENSIONS, paletteY * Grid.SQUARE_DIMENSIONS);
-		Tilesets.emptyTileSprite.draw();
-		Tilesets.goalSprite.position((paletteX + 2) * Grid.SQUARE_DIMENSIONS, paletteY * Grid.SQUARE_DIMENSIONS);
-		Tilesets.goalSprite.draw();
-		Tilesets.pitSprite.position((paletteX + 3) * Grid.SQUARE_DIMENSIONS, paletteY * Grid.SQUARE_DIMENSIONS);
-		Tilesets.pitSprite.draw();
-		
-		Tilesets.boundarySprite.position(paletteX * Grid.SQUARE_DIMENSIONS, (paletteY + 1) * Grid.SQUARE_DIMENSIONS);
-		Tilesets.boundarySprite.draw();
-		Tilesets.doorSprite.position((paletteX + 1) * Grid.SQUARE_DIMENSIONS, (paletteY + 1) * Grid.SQUARE_DIMENSIONS);
-		Tilesets.doorSprite.draw();
-		Tilesets.girlSprite.position((paletteX + 2) * Grid.SQUARE_DIMENSIONS, (paletteY + 1) * Grid.SQUARE_DIMENSIONS);
-		Tilesets.girlSprite.draw();
-		Tilesets.helperCharacterSprite.position((paletteX + 3) * Grid.SQUARE_DIMENSIONS, (paletteY + 1) * Grid.SQUARE_DIMENSIONS);
-		Tilesets.helperCharacterSprite.draw();
-		Tilesets.keySprite.position((paletteX + 4) * Grid.SQUARE_DIMENSIONS, (paletteY + 1) * Grid.SQUARE_DIMENSIONS);
-		Tilesets.keySprite.draw();
-		Tilesets.pushableBlockSprite.position((paletteX + 5) * Grid.SQUARE_DIMENSIONS, (paletteY + 1) * Grid.SQUARE_DIMENSIONS);
-		Tilesets.pushableBlockSprite.draw();
-		Tilesets.spikeballSprite.position((paletteX + 6) * Grid.SQUARE_DIMENSIONS, (paletteY + 1) * Grid.SQUARE_DIMENSIONS);
-		Tilesets.spikeballSprite.draw();
-		Tilesets.spikeTrapSprite.position((paletteX + 7) * Grid.SQUARE_DIMENSIONS, (paletteY + 1) * Grid.SQUARE_DIMENSIONS);
-		Tilesets.spikeTrapSprite.draw();
-		Tilesets.nullPieceSprite.position((paletteX + 8) * Grid.SQUARE_DIMENSIONS, (paletteY + 1) * Grid.SQUARE_DIMENSIONS);
-		Tilesets.nullPieceSprite.draw();
-		
-		// Draw Pallete Buttons
-		arrowPanelButton.draw();
-		boundaryButton.draw();
-		doorButton.draw();
-		emptyTileButton.draw();
-		girlButton.draw();
-		goalButton.draw();
-		helperCharacterButton.draw();
-		keyButton.draw();
-		pitButton.draw();
-		pushableBlockButton.draw();
-		spikeballButton.draw();
-		spikeTrapButton.draw();
-		nullPieceButton.draw();
+		if (testing)
+		{
+			backButton.draw();
+		}
+		else
+		{
+			editLevel.draw();
+			
+			// draw grid overlay
+			for (int x = 0; x < Grid.WIDTH; x++)
+				for (int y = 0; y < Grid.HEIGHT; y++)
+				{
+					gridSquare.position(x * Grid.SQUARE_DIMENSIONS, y * Grid.SQUARE_DIMENSIONS);
+					gridSquare.draw();
+				}
+			
+			// draw GUI
+			
+			// TODO: draw HUD menu bar
+			
+			// Draw Palette
+			double rotation = 0;
+			
+			if (mouseDirection == Direction.Up)
+				rotation = 0;
+			else if (mouseDirection == Direction.Right)
+				rotation = 90;
+			else if (mouseDirection == Direction.Down)
+				rotation = 180;
+			else if (mouseDirection == Direction.Left)
+				rotation = 270;
+			
+			Tilesets.arrowPanelSprite.position(paletteX * Grid.SQUARE_DIMENSIONS, paletteY * Grid.SQUARE_DIMENSIONS);
+			Tilesets.arrowPanelSprite.rotate(rotation);
+			Tilesets.arrowPanelSprite.draw();
+			Tilesets.emptyTileSprite.position((paletteX + 1) * Grid.SQUARE_DIMENSIONS, paletteY * Grid.SQUARE_DIMENSIONS);
+			Tilesets.emptyTileSprite.draw();
+			Tilesets.goalSprite.position((paletteX + 2) * Grid.SQUARE_DIMENSIONS, paletteY * Grid.SQUARE_DIMENSIONS);
+			Tilesets.goalSprite.draw();
+			Tilesets.pitSprite.position((paletteX + 3) * Grid.SQUARE_DIMENSIONS, paletteY * Grid.SQUARE_DIMENSIONS);
+			Tilesets.pitSprite.draw();
+			
+			Tilesets.boundarySprite.position(paletteX * Grid.SQUARE_DIMENSIONS, (paletteY + 1) * Grid.SQUARE_DIMENSIONS);
+			Tilesets.boundarySprite.draw();
+			Tilesets.doorSprite.position((paletteX + 1) * Grid.SQUARE_DIMENSIONS, (paletteY + 1) * Grid.SQUARE_DIMENSIONS);
+			Tilesets.doorSprite.draw();
+			Tilesets.girlSprite.position((paletteX + 2) * Grid.SQUARE_DIMENSIONS, (paletteY + 1) * Grid.SQUARE_DIMENSIONS);
+			Tilesets.girlSprite.draw();
+			Tilesets.helperCharacterSprite.position((paletteX + 3) * Grid.SQUARE_DIMENSIONS, (paletteY + 1) * Grid.SQUARE_DIMENSIONS);
+			Tilesets.helperCharacterSprite.draw();
+			Tilesets.keySprite.position((paletteX + 4) * Grid.SQUARE_DIMENSIONS, (paletteY + 1) * Grid.SQUARE_DIMENSIONS);
+			Tilesets.keySprite.draw();
+			Tilesets.pushableBlockSprite.position((paletteX + 5) * Grid.SQUARE_DIMENSIONS, (paletteY + 1) * Grid.SQUARE_DIMENSIONS);
+			Tilesets.pushableBlockSprite.draw();
+			Tilesets.spikeballSprite.position((paletteX + 6) * Grid.SQUARE_DIMENSIONS, (paletteY + 1) * Grid.SQUARE_DIMENSIONS);
+			Tilesets.spikeballSprite.draw();
+			Tilesets.spikeTrapSprite.position((paletteX + 7) * Grid.SQUARE_DIMENSIONS, (paletteY + 1) * Grid.SQUARE_DIMENSIONS);
+			Tilesets.spikeTrapSprite.draw();
+			Tilesets.nullPieceSprite.position((paletteX + 8) * Grid.SQUARE_DIMENSIONS, (paletteY + 1) * Grid.SQUARE_DIMENSIONS);
+			Tilesets.nullPieceSprite.draw();
+			Tilesets.rotateButtonSprite.position((paletteX - 1.5) * Grid.SQUARE_DIMENSIONS, (paletteY + 0.5) * Grid.SQUARE_DIMENSIONS);
+			Tilesets.rotateButtonSprite.draw();
+			
+			// Draw Pallete Buttons
+			arrowPanelButton.draw();
+			boundaryButton.draw();
+			doorButton.draw();
+			emptyTileButton.draw();
+			girlButton.draw();
+			goalButton.draw();
+			helperCharacterButton.draw();
+			keyButton.draw();
+			pitButton.draw();
+			pushableBlockButton.draw();
+			spikeballButton.draw();
+			spikeTrapButton.draw();
+			nullPieceButton.draw();
+			
+			// draw other buttons
+			rotateButton.draw();
+			optionsButton.draw();
+			testButton.draw();
+			loadButton.draw();
+			saveButton.draw();
+		}
 	}
 	
 	public void onClick(int x, int y)
@@ -160,7 +232,7 @@ public class LevelEditor
 		
 		if (mouseMode == PlacementType.ArrowPanel)
 		{
-			objectToAdd = new ArrowPanel(column, row, Direction.Up);
+			objectToAdd = new ArrowPanel(column, row, mouseDirection);
 		}
 		else if (mouseMode == PlacementType.Boundary)
 		{
@@ -208,7 +280,7 @@ public class LevelEditor
 		}
 		else if (mouseMode == PlacementType.Spikeball)
 		{
-			objectToAdd = new Spikeball(column, row, Direction.Up);
+			objectToAdd = new Spikeball(column, row, mouseDirection);
 		}
 		else if (mouseMode == PlacementType.SpikeTrap)
 		{
@@ -231,6 +303,135 @@ public class LevelEditor
 		{
 			editLevel.setTileDown((Tile)objectToAdd);
 		}
+	}
+
+	public void displayOptions() 
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	public GameState testLevel() 
+	{
+		if (!girlPlaced())
+		{
+        	JOptionPane.showMessageDialog(gameloop, "No Girl in Level!", "Error", JOptionPane.ERROR_MESSAGE, null);
+        	return null;
+		}
+		
+		// TODO Auto-generated method stub
+		try {
+			testLevel = editLevel.copy(gameloop);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (DataFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		testing = true;
+		
+		return testLevel;
+	}
+
+	public void loadLevel() 
+	{	
+		//Create a file chooser
+		final JFileChooser fc = new JFileChooser(System.getProperty("user.dir") + "/Levels");
+		
+		//In response to a button click:
+		int returnVal = fc.showOpenDialog(gameloop);
+		
+        if (returnVal == JFileChooser.APPROVE_OPTION) 
+        {
+            File file = fc.getSelectedFile();
+            
+            if (!file.exists())
+            {	
+            	JOptionPane.showMessageDialog(gameloop, "File \"" + file.getAbsolutePath() + "\" does not exist!", 
+            			"Error", JOptionPane.ERROR_MESSAGE, null);
+            	while(!file.delete());
+            }
+            
+            
+            // Load the File
+            try 
+            {
+				editLevel.loadLevel(file.getAbsolutePath());
+			} 
+            catch (IOException e) 
+            {
+            	JOptionPane.showMessageDialog(gameloop, "Error reading File", "Error", JOptionPane.ERROR_MESSAGE, null);
+			} 
+            catch (DataFormatException e) 
+            {
+            	JOptionPane.showMessageDialog(gameloop, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE, null);
+			}
+            
+            girlX = editLevel.getGirlX();
+            girlY = editLevel.getGirlY();
+        } 
+	}
+
+	public void saveLevel() 
+	{
+		if (!girlPlaced())
+		{
+        	JOptionPane.showMessageDialog(gameloop, "No Girl in Level!", "Error", JOptionPane.ERROR_MESSAGE, null);
+        	return;
+		}
+		
+		//Create a file chooser
+		final JFileChooser fc = new JFileChooser(System.getProperty("user.dir") + "/Levels");
+		
+		//In response to a button click:
+		int returnVal = fc.showSaveDialog(gameloop);
+		
+        if (returnVal == JFileChooser.APPROVE_OPTION) 
+        {
+            File file = fc.getSelectedFile();
+            
+            if (file.exists())
+            {
+            	int response = JOptionPane.showOptionDialog(gameloop, "File exists, are you sure you wish to overwrite?",
+            					"File Exists", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, 
+            					null, null, null);
+            	
+            	if (response != JOptionPane.YES_OPTION)
+            	{
+            		return;
+            	}
+            	
+            	JOptionPane.showMessageDialog(gameloop, "Error writing File", "Error", JOptionPane.ERROR_MESSAGE, null);
+            }
+            
+            
+            // Save the File
+            try 
+            {
+				editLevel.writeLevel(file.getAbsolutePath());
+			} 
+            catch (IOException e) 
+            {
+            	JOptionPane.showMessageDialog(gameloop, "Error writing File", "Error", JOptionPane.ERROR_MESSAGE, null);
+			} 
+            catch (DataFormatException e) 
+            {
+            	JOptionPane.showMessageDialog(gameloop, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE, null);
+			}
+        } 
+	}
+	
+	private boolean girlPlaced()
+	{
+		return editLevel.getPieceAt(girlX, girlY) instanceof Girl;
+	}
+
+	public void endTest() 
+	{
+		// TODO Auto-generated method stub
+		testing = false;
 	}
 		
 

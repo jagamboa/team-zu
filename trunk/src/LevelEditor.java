@@ -331,6 +331,8 @@ public class LevelEditor
 		}
 		
 		testing = true;
+		showEditButtons(false);
+		showTestButtons(true);
 		
 		return testLevel;
 	}
@@ -423,16 +425,77 @@ public class LevelEditor
         } 
 	}
 	
-	private boolean girlPlaced()
-	{
-		return editLevel.getPieceAt(girlX, girlY) instanceof Girl;
-	}
-
 	public void endTest() 
 	{
 		// TODO Auto-generated method stub
 		testing = false;
+		
+		showEditButtons(true);
+		showTestButtons(false);
 	}
 		
+	
+	private boolean girlPlaced()
+	{
+		return editLevel.getPieceAt(girlX, girlY) instanceof Girl;
+	}
+	
+	private void showEditButtons(boolean show)
+	{
+		if (show)
+		{
+			arrowPanelButton.show();
+			boundaryButton.show();
+			doorButton.show();
+			emptyTileButton.show();
+			girlButton.show();
+			goalButton.show();
+			helperCharacterButton.show();
+			keyButton.show();
+			pitButton.show();
+			pushableBlockButton.show();
+			spikeballButton.show();
+			spikeTrapButton.show();
+			nullPieceButton.show();
+			rotateButton.show();
+			optionsButton.show();
+			testButton.show();
+			loadButton.show();
+			saveButton.show();
+		}
+		else
+		{
+			arrowPanelButton.hide();
+			boundaryButton.hide();
+			doorButton.hide();
+			emptyTileButton.hide();
+			girlButton.hide();
+			goalButton.hide();
+			helperCharacterButton.hide();
+			keyButton.hide();
+			pitButton.hide();
+			pushableBlockButton.hide();
+			spikeballButton.hide();
+			spikeTrapButton.hide();
+			nullPieceButton.hide();
+			rotateButton.hide();
+			optionsButton.hide();
+			testButton.hide();
+			loadButton.hide();
+			saveButton.hide();
+		}
+	}
+	
+	private void showTestButtons(boolean show)
+	{
+		if (show)
+		{
+			backButton.show();
+		}
+		else
+		{
+			backButton.hide();
+		}
+	}
 
 }

@@ -28,11 +28,16 @@ public class Forsaken extends Ucigame
 	private Sprite instructionButton; // Instruction button
 	private Sprite editorButton; // Editor starter button
 	private Sprite menuButton; // Button to go back to the menu
+	private Sprite restartButton;
 	private int state; // 0 for menu, 1 for instructions, 2 for editor, 3 for test level
 	
 	// Menu Sprites
 	private Sprite startPicture; // The picture in the menu screen
 	private Sprite instructions;  // The actual instructions shown on the instructions screen
+	
+	//HUD sprites
+	private Sprite levelName;
+	private Sprite keyCounter;
 
 	
 	
@@ -53,10 +58,15 @@ public class Forsaken extends Ucigame
 		instructionButton = makeButton("Instruction", getImage("Art/instructions.png", 255, 255, 255), 378, 51);
 		editorButton  = makeButton("Editor", getImage("Art/editor.png", 255, 255, 255), 204, 51);
 		menuButton = makeButton("Menu", getImage("Art/Menu.png", 255, 255, 255), 169, 51);
+		restartButton = makeButton("Restart", getImage("Art/start.png", 255, 255, 255), 180, 51);
 		
 		// load GUI
 		startPicture = new Sprite(getImage("Art/picture.png", 255, 255, 255));
 		instructions = new Sprite(getImage("Art/Instructions1.png", 255, 255, 255));
+		
+		//load HUD
+		levelName = new Sprite(getImage("Art/levelName.png", 255, 255, 255));
+		keyCounter = new Sprite(getImage("Art/keyCounter.png", 255, 255, 255));
 
 		// Position buttons and GUI elements
 		startPicture.position(400, 119);
@@ -84,7 +94,7 @@ public class Forsaken extends Ucigame
 			startPicture.draw();
 			startButton.draw();
 			instructionButton.draw();
-			editorButton.draw();
+			editorButton.draw();;
 		}
 		else if (state == Forsaken.INSTRUCTIONS_STATE) // Instruction Screen
 		{
@@ -117,6 +127,15 @@ public class Forsaken extends Ucigame
 			gameState.draw();
 			
 			menuButton.draw();
+			restartButton.draw();
+			
+			levelName.draw();
+			levelName.font("Arial", PLAIN, 20, 0,0,0);
+			levelName.putText("Level Name: " + "Circle of Doom", 5, 20); //second "" for name
+			keyCounter.draw();
+			keyCounter.font("Arial", PLAIN, 20, 0,0,0);
+			keyCounter.putText("x " + gameState.getGirl().getKeyCount(), 30, 20); //second "" for key count
+			
 		}
 	}
 	
@@ -166,11 +185,14 @@ public class Forsaken extends Ucigame
 		canvas.background(155, 155, 152);
 		menuButton.hide();
 		instructions.hide();
+		restartButton.hide();
+		levelName.hide();
 		startPicture.show();
 		startButton.show();
 		instructionButton.show();
 		editorButton.show();
 		state = Forsaken.MENU_STATE;
+		SoundPlayer.playBGM(SoundPlayer.grandWaltz);
 	}
 	
 	public void onClickInstruction()
@@ -179,6 +201,9 @@ public class Forsaken extends Ucigame
 		startButton.hide();
 		instructionButton.hide();
 		editorButton.hide();
+		restartButton.hide();
+		levelName.hide();
+		keyCounter.hide();
 		instructions.show();
 		menuButton.position(453, 564);
 		menuButton.show();
@@ -189,8 +214,11 @@ public class Forsaken extends Ucigame
 	{
 		canvas.background(155, 155, 152);
 		startButton.hide();
+		restartButton.hide();
 		instructionButton.hide();
 		editorButton.hide();
+		levelName.hide();
+		keyCounter.hide();
 		menuButton.position(25, 660);
 		menuButton.show();
 		state = Forsaken.EDITOR_STATE;
@@ -201,8 +229,16 @@ public class Forsaken extends Ucigame
 		startButton.hide();
 		instructionButton.hide();
 		editorButton.hide();
-		menuButton.position(750, 25);
+		menuButton.position(15, 660);
 		menuButton.show();
+		restartButton.position(575, 660);
+		restartButton.show();
+
+		levelName.position(200, 650);
+		levelName.show();
+		keyCounter.position(210, 680);
+		keyCounter.show();
+		
 		
 		try {
 			gameState.loadLevel("Levels/ArrowCircle");
@@ -215,6 +251,11 @@ public class Forsaken extends Ucigame
 		}
 		
 		state = Forsaken.START_GAME_STATE;
+	}
+	
+	public void onClickRestart()
+	{
+		onClickStart();
 	}
 	
 	// Level Editor Palette Buttons

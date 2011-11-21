@@ -64,6 +64,12 @@ public class GameState
 		return player.getGirl().getY();
 	}
 	
+	//returns the girl
+	public Girl getGirl()
+	{
+		return player.getGirl();
+	}
+	
 	// writes the level into a file called "fileOut"
 	public void writeLevel(String fileOut) throws IOException, DataFormatException
 	{

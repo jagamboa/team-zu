@@ -28,7 +28,7 @@ public abstract class Piece
 	// it takes for the piece to move one Square
 	private double moveDuration;
 	
-	protected double pieceMoveDuration = 200;
+	private double pieceMoveDuration = 200;
 	
 	private double launchSpeed = 100;
 	
@@ -52,7 +52,7 @@ public abstract class Piece
 		moveDuration = pieceMoveDuration;
 	}
 	
-	public Piece(int gridX, int gridY, double moveDuration)
+	public Piece(int gridX, int gridY, int pieceMoveDuration, int launchSpeed)
 	{
 		this.gridX = gridX;
 		this.gridY = gridY;
@@ -69,8 +69,10 @@ public abstract class Piece
 		timeMoveStart = 0;
 		currentMoveTime = 0;
 		
-		pieceMoveDuration = moveDuration;
-		this.moveDuration = moveDuration;
+		this.pieceMoveDuration = pieceMoveDuration;
+		this.launchSpeed = launchSpeed;
+		
+		moveDuration = pieceMoveDuration;
 	}
 	
 	// Moves the piece in direction d (if it's not already moving in another

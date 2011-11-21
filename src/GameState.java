@@ -238,6 +238,10 @@ public class GameState
 	// Moves the piece that the player currently controls.
 	public void move(Direction d)
 	{
+		// return if the player is currently controlling no piece
+		if (player.getCurrentPiece() == null)
+			return;
+		
 		boolean wasMoving = player.getCurrentPiece().isMoving();
 		Direction prevDirection = player.getCurrentPiece().getLastDirectionMoved();
 		
@@ -380,7 +384,23 @@ public class GameState
 		}
 		
 		if (grid.getPieceAt(player.getGirl().getX(), player.getGirl().getY()) == null)
-			throw new NullPointerException();
+		{
+			//throw new NullPointerException();
+			
+			// error, this shouldn't happen
+			// TODO:  fix this bug
+			
+			// reset level
+			try {
+				loadLevel(loadedLevel);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (DataFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	// draws each tile and piece in the grid and the player

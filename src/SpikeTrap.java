@@ -4,7 +4,7 @@ public class SpikeTrap extends Piece implements Hazard
 
 	public SpikeTrap(int gridX, int gridY) 
 	{
-		super(gridX, gridY, 100);
+		super(gridX, gridY, 200, 150);
 		// TODO Auto-generated constructor stub
 	}
 

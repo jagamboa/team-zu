@@ -11,7 +11,7 @@ public class Spikeball extends Piece implements Hazard
 	// movement direction and start moving again.
 	public Spikeball(int gridX, int gridY, Direction initialDirection) 
 	{
-		super(gridX, gridY, 200);
+		super(gridX, gridY, 200, 100);
 		
 		this.initialDirection = initialDirection;
 		direction = initialDirection;

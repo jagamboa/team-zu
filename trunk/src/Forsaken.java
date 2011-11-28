@@ -241,7 +241,7 @@ public class Forsaken extends Ucigame
 		
 		
 		try {
-			gameState.loadLevel("Levels/Level7");
+			gameState.loadLevel("Levels/ArrowCircle");
 		} catch (IOException e) {
 			System.err.print(e.getMessage());
 			System.exit(1);

@@ -175,6 +175,7 @@ public class Grid
 							claimSquare(p.getX(), p.getY(), d);
 							grid[pieceX][pieceY].getPiece().move(d);
 							p.move(d);
+							SoundPlayer.blockPushSFX.play();
 						}
 						else if (!p.isBeingLaunched() || p.getLaunchedDirection() != grid[pieceX][pieceY].getPiece().getLaunchedDirection())
 						{

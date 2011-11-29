@@ -3,6 +3,7 @@ import ucigame.*;
 public class SoundPlayer 
 {
 	public static FXPlayer arrowPanelSFX;
+	public static FXPlayer blockPushSFX;
 	
 	private static BGMPlayer grandWaltzBGM;
 	private static BGMPlayer hopefulUnderstandingBGM;
@@ -16,6 +17,7 @@ public class SoundPlayer
 	public static void loadContent(Ucigame ucigame)
 	{
 		arrowPanelSFX = new FXPlayer("Sound/ArrowPanel.wav");
+		blockPushSFX = new FXPlayer("Sound/PushableBlock_Move.wav");
 		
 		grandWaltzBGM = new BGMPlayer("Sound/Grand_Waltz.mp3", ucigame);
 		hopefulUnderstandingBGM = new BGMPlayer("Sound/Hopeful_Understanding.mp3", ucigame);

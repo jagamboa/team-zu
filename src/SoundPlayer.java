@@ -37,7 +37,7 @@ public class SoundPlayer
 		}
 	}
 	
-	private static void stopAll()
+	public static void stopAll()
 	{
 		grandWaltzBGM.stop();
 		hopefulUnderstandingBGM.stop();

@@ -13,6 +13,7 @@ public class GameState
 	private Forsaken gameloop;
 	private boolean showingCutscene;
 	private String loadedLevel;
+	private String levelName;
 	
 
 
@@ -64,10 +65,16 @@ public class GameState
 		return player.getGirl().getY();
 	}
 	
-	//returns the girl
+	// returns the girl
 	public Girl getGirl()
 	{
 		return player.getGirl();
+	}
+	
+	// returns the name of the level
+	public String getLevelName()
+	{
+		return levelName;
 	}
 	
 	// writes the level into a file called "fileOut"
@@ -101,6 +108,7 @@ public class GameState
 //		loadTestLevel();
 		
 		loadedLevel = fileIn;
+		levelName = fileIn.substring(fileIn.lastIndexOf('/') + 1, fileIn.length());
 		
 		grid = new Grid();
 		
@@ -131,6 +139,7 @@ public class GameState
 			}
 		
 		player = new Player(IO.getGirl());
+		Tilesets.girlSprite.play("downStand");
 		
 		SoundPlayer.playBGM(bgm);
 	}
@@ -356,31 +365,14 @@ public class GameState
 		
 		if (grid.isGoalState())
 		{
-			// advance to next level
-			try {
-				loadLevel(loadedLevel);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (DataFormatException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			gameloop.nextGamestate();
 		}
 		
 		if (!player.girlIsAlive())
 		{
 			// TODO
 			// reset level
-			try {
-				loadLevel(loadedLevel);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (DataFormatException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			restart();
 		}
 		
 		if (grid.getPieceAt(player.getGirl().getX(), player.getGirl().getY()) == null)
@@ -390,16 +382,20 @@ public class GameState
 			// error, this shouldn't happen
 			// TODO:  fix this bug
 			
-			// reset level
-			try {
-				loadLevel(loadedLevel);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (DataFormatException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			restart();
+		}
+	}
+	
+	public void restart()
+	{
+		try {
+			loadLevel(loadedLevel);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (DataFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 	

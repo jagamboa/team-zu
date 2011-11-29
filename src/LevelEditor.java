@@ -404,8 +404,6 @@ public class LevelEditor
             	{
             		return;
             	}
-            	
-            	JOptionPane.showMessageDialog(gameloop, "Error writing File", "Error", JOptionPane.ERROR_MESSAGE, null);
             }
             
             

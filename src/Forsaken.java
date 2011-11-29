@@ -17,11 +17,35 @@ public class Forsaken extends Ucigame
 	public static final int WINDOW_WIDTH = 768;
 	public static final int WINDOW_HEIGHT = 768;
 	
+	public static final boolean DEBUG = true;
+	
+	//gamestate codes
 	public static final int MENU_STATE = 0;
 	public static final int INSTRUCTIONS_STATE = 1;
-	public static final int EDITOR_STATE = 2;
-	public static final int TEST_LEVEL_STATE = 3;
-	public static final int START_GAME_STATE = 4;
+	public static final int CREDITS = 2;
+	public static final int EDITOR_STATE = 3;
+	public static final int TEST_LEVEL_STATE = 4;
+	public static final int CUTSCENE_1 = 10;
+	public static final int LEVEL_1 = 11;
+	public static final int CUTSCENE_2 = 12;
+	public static final int LEVEL_2 = 13;
+	public static final int CUTSCENE_3 = 14;
+	public static final int LEVEL_3 = 15;
+	public static final int CUTSCENE_4 = 16;
+	public static final int LEVEL_4 = 17;
+	public static final int CUTSCENE_5 = 18;
+	public static final int LEVEL_5 = 19;
+	public static final int CUTSCENE_6 = 20;
+	public static final int LEVEL_6 = 21;
+	public static final int CUTSCENE_7 = 22;
+	public static final int LEVEL_7 = 23;
+	public static final int CUTSCENE_8 = 24;
+	public static final int LEVEL_8 = 25;
+	public static final int CUTSCENE_9 = 26;
+	
+	// current gamestate
+	private int state;
+	private boolean loaded;
 	
 	// Button list
 	private Sprite startButton; // Start game button
@@ -29,7 +53,6 @@ public class Forsaken extends Ucigame
 	private Sprite editorButton; // Editor starter button
 	private Sprite menuButton; // Button to go back to the menu
 	private Sprite restartButton;
-	private int state; // 0 for menu, 1 for instructions, 2 for editor, 3 for test level
 	
 	// Menu Sprites
 	private Sprite startPicture; // The picture in the menu screen
@@ -121,22 +144,112 @@ public class Forsaken extends Ucigame
 	        	onClickLvlEdBackButton();
 			}
 		}
-		else if (state == Forsaken.START_GAME_STATE) // Test level 
+		else if (showingGameplay())
 		{
-			gameState.update();
-			gameState.draw();
-			
-			menuButton.draw();
-			restartButton.draw();
-			
-			levelName.draw();
-			levelName.font("Arial", PLAIN, 20, 0,0,0);
-			levelName.putText("Level Name: " + "Circle of Doom", 5, 20); //second "" for name
-			keyCounter.draw();
-			keyCounter.font("Arial", PLAIN, 20, 0,0,0);
-			keyCounter.putText("x " + gameState.getGirl().getKeyCount(), 30, 20); //second "" for key count
-			
+			try
+			{
+				gameState.update();
+				gameState.draw();
+				
+				menuButton.draw();
+				restartButton.draw();
+				
+				levelName.draw();
+				levelName.font("Arial", PLAIN, 20, 0,0,0);
+				levelName.putText("Level Name: " + gameState.getLevelName(), 5, 20); //second "" for name
+				keyCounter.draw();
+				keyCounter.font("Arial", PLAIN, 20, 0,0,0);
+				keyCounter.putText("x " + gameState.getGirl().getKeyCount(), 30, 20); //second "" for key count	
+			}
+			catch (java.lang.Throwable t)
+			{
+	        	JOptionPane.showMessageDialog(this, "Error Occurred! Resetting Level", "Error", JOptionPane.ERROR_MESSAGE, null);
+	        	gameState.restart();
+			}
 		}
+		else if (showingCutscene())
+		{
+			// TODO: draw cutscene
+			canvas.putText("Cutscene stuff", 10 * 32, 12 * 32);
+		}
+	}
+	
+	public boolean showingCutscene()
+	{
+		return state >= CUTSCENE_1 && state % 2 == 0 && loaded;
+	}
+	
+	public boolean showingGameplay()
+	{
+		return (state >= LEVEL_1 && state % 2 == 1) || state == TEST_LEVEL_STATE && loaded;
+	}
+	
+	public void nextGamestate()
+	{
+		loaded = false;
+		
+		if (state == MENU_STATE)
+			state = CUTSCENE_1;
+		else
+			state++;
+		
+		SoundPlayer.stopAll();
+		
+		if (state % 2 == 0)
+			startNextCutscene();
+		else
+			loadNextLevel();
+		
+		loaded = true;
+	}
+	
+	private void loadNextLevel()
+	{
+		try
+		{
+			if (state == LEVEL_1)
+			{
+				gameState.loadLevel("Levels/Level 1 - Bus");
+			}
+			else if (state == LEVEL_2)
+			{
+				gameState.loadLevel("Levels/Level 2 - Garden");
+			}
+			else if (state == LEVEL_3)
+			{
+				gameState.loadLevel("Levels/Level 3 - House");
+			}
+			else if (state == LEVEL_4)
+			{
+				gameState.loadLevel("Levels/Level 4 - Sunroom");
+			}
+			else if (state == LEVEL_5)
+			{
+				gameState.loadLevel("Levels/Level 5 - Library");
+			}
+			else if (state == LEVEL_6)
+			{
+				gameState.loadLevel("Levels/Level 6 - Twisted Hall");
+			}
+			else if (state == LEVEL_7)
+			{
+				gameState.loadLevel("Levels/Level 7 - Basement");
+			}
+			else if (state == LEVEL_8)
+			{
+				gameState.loadLevel("Levels/Level 8 - Glutton");
+			}
+		}
+		catch (Exception e)
+		{
+        	JOptionPane.showMessageDialog(this, "Error Loading Level!\nReturning to Main Menu", "Error", JOptionPane.ERROR_MESSAGE, null);
+        	onClickMenu();
+		}
+	}
+	
+	private void startNextCutscene()
+	{
+		
 	}
 	
 	// Keyboard Input ///////////////////////////////////////////////////////////////////
@@ -159,16 +272,38 @@ public class Forsaken extends Ucigame
 		{
 			gameState.move(Direction.Right);
 		}
+		if (keyboard.isDown(keyboard.SPACE))
+		{
+			if (showingCutscene())
+			{
+				// TODO: advance cutscene text
+				nextGamestate();
+			}
+		}
+		
+		if (DEBUG)
+		{
+			if (keyboard.isDown(keyboard.PERIOD))
+			{
+				if (showingGameplay())
+					nextGamestate();
+			}
+		}
 	}
 	
 	// Mouse Input //////////////////////////////////////////////////////////////////////
 	
 	public void onMousePressed()
 	{
-		if (state == Forsaken.START_GAME_STATE || state == Forsaken.TEST_LEVEL_STATE)
+		if (showingGameplay())
 			gameState.onClick(mouse.x(), mouse.y());
 		else if (state == Forsaken.EDITOR_STATE)
 			levelEditor.onClick(mouse.x(), mouse.y());
+		else if (showingCutscene())
+		{
+			// TODO: advance cutscene text
+			nextGamestate();
+		}
 	}
 	
 	public void onMouseDragged()
@@ -239,23 +374,12 @@ public class Forsaken extends Ucigame
 		keyCounter.position(210, 680);
 		keyCounter.show();
 		
-		
-		try {
-			gameState.loadLevel("Levels/ArrowCircle");
-		} catch (IOException e) {
-			System.err.print(e.getMessage());
-			System.exit(1);
-		} catch (DataFormatException e) {
-			System.err.print(e.getMessage());
-			System.exit(1);
-		}
-		
-		state = Forsaken.START_GAME_STATE;
+		nextGamestate();
 	}
 	
 	public void onClickRestart()
 	{
-		onClickStart();
+		gameState.restart();
 	}
 	
 	// Level Editor Palette Buttons

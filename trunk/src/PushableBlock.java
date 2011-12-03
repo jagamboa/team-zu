@@ -38,7 +38,14 @@ public class PushableBlock extends Piece
 	@Override
 	public void touch(Piece pieceBeingTouched) 
 	{
-		// TODO Auto-generated method stub
+		if (pieceBeingTouched instanceof Glutton)
+		{
+			if (isBeingLaunched())
+			{
+				pieceBeingTouched.touch(this);
+			}
+		}
+		
 
 	}
 

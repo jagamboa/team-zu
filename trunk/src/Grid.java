@@ -89,6 +89,13 @@ public class Grid
 			for (int y = 0; y < HEIGHT; y++)
 			{
 				grid[x][y].update(this);
+				
+				if (grid[x][y].getPieceMovingToThis() != null && getPieceAt(x - 1, y) == null && 
+						getPieceAt(x + 1, y) == null && getPieceAt(x, y - 1) == null && 
+						getPieceAt(x, y + 1) == null)
+				{
+					grid[x][y].setIsBeingMovedTo(null, false);
+				}
 			}
 		}
 		
@@ -147,6 +154,7 @@ public class Grid
 				&& grid[pieceX][pieceY].getPiece().getLaunchedDirection() != d)
 			return;
 			
+		// handle glutton's movement differently
 		if (grid[pieceX][pieceY].getPiece() instanceof Glutton)
 		{
 			moveGlutton(pieceX, pieceY, d);
@@ -225,6 +233,11 @@ public class Grid
 				{	
 					grid[pieceX][pieceY].getPiece().touch(outerWall);
 					grid[pieceX][pieceY].getPiece().stop();
+					
+					if (grid[pieceX][pieceY].getPiece().isDestroyed())
+					{
+						unclaimSquare(pieceX, pieceY, d);
+					}
 				}
 			}
 		}
@@ -267,7 +280,7 @@ public class Grid
 				Piece pieceMovingInWay = getPieceMovingInWay(pieceX, pieceY, d);
 				
 				if (pieceMovingInWay != null)
-				{
+				{	
 					if (pieceMovingInWay instanceof Playable)
 					{
 						grid[pieceX][pieceY].getPiece().move(d);
@@ -453,6 +466,45 @@ public class Grid
 					&& grid[initX + 1][initY].canMoveOnto())
 			{
 				grid[initX + 1][initY].setIsBeingMovedTo(grid[initX][initY].getPiece(), true);
+			}
+		}
+	}
+	
+	public void unclaimSquare(int initX, int initY, Direction directionOfMovement)
+	{
+		if (initX < 0 || initY < 0 || initX > Grid.WIDTH || initX > Grid.HEIGHT)
+			return;
+		
+		if (directionOfMovement == null)
+		{
+			grid[initX][initY].setIsBeingMovedTo(null, false);
+		}
+		else if (directionOfMovement == Direction.Up)
+		{
+			if (!(initY - 1 < 0))
+			{
+				grid[initX][initY - 1].setIsBeingMovedTo(null, false);
+			}
+		}
+		else if (directionOfMovement == Direction.Down)
+		{
+			if (!(initY + 1 > HEIGHT - 1))
+			{
+				grid[initX][initY + 1].setIsBeingMovedTo(null, false);
+			}
+		}
+		else if (directionOfMovement == Direction.Left)
+		{
+			if (!(initX - 1 < 0))
+			{
+				grid[initX - 1][initY].setIsBeingMovedTo(null, false);
+			}
+		}
+		else if (directionOfMovement == Direction.Right)
+		{
+			if (!(initX + 1 > WIDTH - 1))
+			{
+				grid[initX + 1][initY].setIsBeingMovedTo(null, false);
 			}
 		}
 	}

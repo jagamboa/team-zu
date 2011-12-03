@@ -79,7 +79,18 @@ public class Square
 			piece.isOnTopOf(tile);
 			
 			if (piece.isDestroyed())
+			{
+				if (piece.isMoving() || piece.isBeingLaunched())
+				{
+					grid.unclaimSquare(piece.getX(), piece.getY(), piece.getLastDirectionMoved());
+				}
+				else
+				{
+					grid.unclaimSquare(piece.getX(), piece.getY(), null);
+				}
+				
 				piece = null;
+			}
 		}
 	}
 }

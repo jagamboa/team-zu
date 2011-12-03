@@ -317,13 +317,18 @@ public class LevelEditor
 			return;
 		}
 		
-		if (objectToAdd == null || objectToAdd instanceof Piece)
+		if (objectToAdd instanceof Piece)
 		{
 			editLevel.setPieceDown((Piece)objectToAdd, column, row);
 		}
 		else if (objectToAdd instanceof Tile)
 		{
 			editLevel.setTileDown((Tile)objectToAdd);
+		}
+		else if (objectToAdd == null)
+		{
+			editLevel.setPieceDown(null, column, row);
+			editLevel.setTileDown(new EmptyTile(column, row));
 		}
 	}
 

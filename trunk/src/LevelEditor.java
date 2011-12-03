@@ -26,6 +26,8 @@ public class LevelEditor
 	// Level Variables
 	private int girlX = -1;
 	private int girlY = -1;
+	private int gluttonX = -1;
+	private int gluttonY = -1;
 	private boolean testing = false;
 	
 	// Palette Buttons
@@ -41,6 +43,7 @@ public class LevelEditor
 	private Sprite pushableBlockButton;
 	private Sprite spikeballButton;
 	private Sprite spikeTrapButton;
+	private Sprite gluttonButton;
 	private Sprite nullPieceButton;
 	
 	// Other Button
@@ -100,9 +103,12 @@ public class LevelEditor
 		spikeTrapButton = gameloop.makeButton("LvlEdSpikeTrapButton", gameloop.getImage("Art/LvlEdPaletteButton.png"),
 				Grid.SQUARE_DIMENSIONS, Grid.SQUARE_DIMENSIONS);
 		spikeTrapButton.position((paletteX + 7) * Grid.SQUARE_DIMENSIONS, (paletteY + 1) * Grid.SQUARE_DIMENSIONS);
+		gluttonButton = gameloop.makeButton("LvlEdGluttonButton", gameloop.getImage("Art/LvlEdPaletteButton.png"),
+				Grid.SQUARE_DIMENSIONS, Grid.SQUARE_DIMENSIONS);
+		gluttonButton.position((paletteX + 8) * Grid.SQUARE_DIMENSIONS, (paletteY + 1) * Grid.SQUARE_DIMENSIONS);
 		nullPieceButton = gameloop.makeButton("LvlEdNullPieceButton", gameloop.getImage("Art/LvlEdPaletteButton.png"),
 				Grid.SQUARE_DIMENSIONS, Grid.SQUARE_DIMENSIONS);
-		nullPieceButton.position((paletteX + 8) * Grid.SQUARE_DIMENSIONS, (paletteY + 1) * Grid.SQUARE_DIMENSIONS);
+		nullPieceButton.position((paletteX + 9) * Grid.SQUARE_DIMENSIONS, (paletteY + 1) * Grid.SQUARE_DIMENSIONS);
 		
 		
 		// Initialize Other Buttons
@@ -187,7 +193,9 @@ public class LevelEditor
 			Tilesets.spikeballSprite.draw();
 			Tilesets.spikeTrapSprite.position((paletteX + 7) * Grid.SQUARE_DIMENSIONS, (paletteY + 1) * Grid.SQUARE_DIMENSIONS);
 			Tilesets.spikeTrapSprite.draw();
-			Tilesets.nullPieceSprite.position((paletteX + 8) * Grid.SQUARE_DIMENSIONS, (paletteY + 1) * Grid.SQUARE_DIMENSIONS);
+			Tilesets.gluttonButtonSprite.position((paletteX  + 8) * Grid.SQUARE_DIMENSIONS, (paletteY + 1) * Grid.SQUARE_DIMENSIONS);
+			Tilesets.gluttonButtonSprite.draw();
+			Tilesets.nullPieceSprite.position((paletteX + 9) * Grid.SQUARE_DIMENSIONS, (paletteY + 1) * Grid.SQUARE_DIMENSIONS);
 			Tilesets.nullPieceSprite.draw();
 			Tilesets.rotateButtonSprite.position((paletteX - 1.5) * Grid.SQUARE_DIMENSIONS, (paletteY + 0.5) * Grid.SQUARE_DIMENSIONS);
 			Tilesets.rotateButtonSprite.draw();
@@ -205,6 +213,7 @@ public class LevelEditor
 			pushableBlockButton.draw();
 			spikeballButton.draw();
 			spikeTrapButton.draw();
+			gluttonButton.draw();
 			nullPieceButton.draw();
 			
 			// draw other buttons
@@ -285,6 +294,19 @@ public class LevelEditor
 		else if (mouseMode == PlacementType.SpikeTrap)
 		{
 			objectToAdd = new SpikeTrap(column, row);
+		}
+		else if (mouseMode == PlacementType.glutton)
+		{
+			objectToAdd = new Glutton(column, row);
+			
+			if (editLevel.getPieceAt(gluttonX, gluttonY) instanceof Glutton)
+			{
+				editLevel.setPieceDown(null, gluttonX, gluttonY);
+			}
+			
+			gluttonX = column;
+			gluttonY = row;
+			
 		}
 		else if (mouseMode == PlacementType.nullPiece)
 		{
@@ -370,6 +392,14 @@ public class LevelEditor
             {
             	JOptionPane.showMessageDialog(gameloop, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE, null);
 			}
+            
+            Glutton g = IO.getGlutton();
+            
+            if (g != null)
+            {
+            	gluttonX = g.getX();
+            	gluttonY = g.getY();
+            }
             
             girlX = editLevel.getGirlX();
             girlY = editLevel.getGirlY();

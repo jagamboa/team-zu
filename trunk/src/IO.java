@@ -19,6 +19,7 @@ public class IO
 	public static final int pushableBlock = 6;
 	public static final int spikeball = 7;
 	public static final int spikeTrap = 8;
+	public static final int glutton = 9;
 	
 	// tile codes
 	public static final int emptyTile = 0;
@@ -35,10 +36,16 @@ public class IO
 	private static boolean processedGirl = false;
 	private static Girl readGirl = null;
 	
+	private static boolean processedGlutton = false;
+	private static Glutton readGlutton = null;
+	
 	// begins a write or read
 	public static void begin()
 	{
 		processedGirl = false;
+		readGirl = null;
+		processedGlutton = false;
+		readGlutton = null;
 	}
 	
 	public static void writePiece(FileWriter outWriter, Piece p) throws IOException, DataFormatException
@@ -99,6 +106,10 @@ public class IO
 		else if (p instanceof SpikeTrap)
 		{
 			outWriter.write(IO.spikeTrap);
+		}
+		else if (p instanceof Glutton)
+		{
+			outWriter.write(IO.glutton);
 		}
 		else
 		{
@@ -208,6 +219,16 @@ public class IO
 		{
 			return new SpikeTrap(x, y);
 		}
+		else if (code == IO.glutton)
+		{
+			if (!processedGlutton)
+			{
+				readGlutton = new Glutton(x, y);
+				return readGlutton;
+			}
+			else
+				throw new DataFormatException("A Glutton Piece has already been read from this file");
+		}
 		else
 		{
 			throw new DataFormatException("Unrecognized Piece Code in input file: " + code);
@@ -260,5 +281,10 @@ public class IO
 		Girl girl = readGirl;
 		readGirl = null;
 		return girl;
+	}
+	
+	public static Glutton getGlutton()
+	{
+		return readGlutton;
 	}
 }

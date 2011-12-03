@@ -1,0 +1,52 @@
+krys:
+code tileset loader
+google missing sprites
+enemies sprites
+
+glutton sprites
+script for cutscene 0
+
+James:
+sound effects
+increase volume of arrow panels
+optional - more music
+program glutton
+change level and tileset on level editor
+mouse cursor should change on level editor
+add labels for tiles and pieces
+show direction for patrolling piece button
+
+advancing to appropriate level and cutscenes
+level name = file name
+debug level editor saving (overwrite)
+
+
+Ali:
+testing
+google backgrounds
+text for cutscenes
+brief instructions before level
+
+Michelle:
+make buttons
+// buttons
+start - mouse over, mouse press frames
+instructions - mouse over, mouse press frames
+editor - mouse over, mouse press frames
+credits - mouse over, mouse press frames
+menu - mouse over, mouse press frames
+restart
+//pause
+
+// level editor buttons
+// should match the other button's style
+load
+save
+options
+test
+back
+small left arrow button (for toggling values)
+small right arrow button (for toggling values)
+
+
+

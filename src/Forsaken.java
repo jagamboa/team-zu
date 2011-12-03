@@ -186,6 +186,12 @@ public class Forsaken extends Ucigame
 	
 	public void nextGamestate()
 	{
+		if (state == TEST_LEVEL_STATE)
+		{
+			onClickLvlEdBackButton();
+			return;
+		}
+		
 		loaded = false;
 		
 		if (state == MENU_STATE)

@@ -443,6 +443,11 @@ public class Forsaken extends Ucigame
 		levelEditor.mouseMode = PlacementType.SpikeTrap;
 	}
 	
+	public void onClickLvlEdGluttonButton()
+	{
+		levelEditor.mouseMode = PlacementType.glutton;
+	}
+	
 	public void onClickLvlEdNullPieceButton()
 	{
 		levelEditor.mouseMode = PlacementType.nullPiece;

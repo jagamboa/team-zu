@@ -13,5 +13,6 @@ public enum PlacementType
 	PushableBlock,
 	Spikeball,
 	SpikeTrap,
+	glutton,
 	nullPiece;
 }

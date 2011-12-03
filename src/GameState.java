@@ -491,6 +491,11 @@ public class GameState
 					Tilesets.spikeTrapSprite.position(piece.getPixelX(), piece.getPixelY());
 					Tilesets.spikeTrapSprite.draw();
 				}
+				else if (piece instanceof Glutton)
+				{
+					Tilesets.gluttonSprite.position(piece.getPixelX(), piece.getPixelY());
+					Tilesets.gluttonSprite.draw();
+				}
 			}
 		}
 	}

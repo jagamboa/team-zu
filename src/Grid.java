@@ -147,6 +147,11 @@ public class Grid
 				&& grid[pieceX][pieceY].getPiece().getLaunchedDirection() != d)
 			return;
 			
+		if (grid[pieceX][pieceY].getPiece() instanceof Glutton)
+		{
+			moveGlutton(pieceX, pieceY, d);
+			return;
+		}
 		
 		if (canMoveToSquare(pieceX, pieceY, d))
 		{
@@ -224,6 +229,63 @@ public class Grid
 			}
 		}
 	}
+
+	// Special case for moving the glutton piece
+	private void moveGlutton(int pieceX, int pieceY, Direction d)
+	{
+		int x = pieceX;
+		int y = pieceY;
+		
+		if (d == Direction.Up)
+			y--;
+		else if (d == Direction.Down)
+			y++;
+		else if (d == Direction.Left)
+			x--;
+		else if (d == Direction.Right)
+			x++;
+		
+		if (canMoveToSquare(x, y, d))
+		{
+			claimSquare(pieceX, pieceY, d);
+			grid[pieceX][pieceY].getPiece().move(d);
+		}
+		else
+		{
+			Piece p = getPieceInWay(x, y, d);
+			
+			if (p != null)
+			{
+				grid[pieceX][pieceY].getPiece().touch(p);
+				grid[pieceX][pieceY].getPiece().stop();
+				
+				if (p instanceof Playable)
+					grid[pieceX][pieceY].getPiece().move(d);
+			}
+			else
+			{	
+				Piece pieceMovingInWay = getPieceMovingInWay(pieceX, pieceY, d);
+				
+				if (pieceMovingInWay != null)
+				{
+					if (pieceMovingInWay instanceof Playable)
+					{
+						grid[pieceX][pieceY].getPiece().move(d);
+					}
+					else
+					{
+						grid[pieceX][pieceY].getPiece().touch(pieceMovingInWay);
+						grid[pieceX][pieceY].getPiece().stop();
+					}
+				}
+				else
+				{	
+					grid[pieceX][pieceY].getPiece().touch(outerWall);
+					grid[pieceX][pieceY].getPiece().stop();
+				}
+			}
+		}
+	}
 	
 	// Returns true if a piece (starting at initX,initY) can move one space in the
 	// direction of movement.  Called right before a movement is going to take place
@@ -278,6 +340,9 @@ public class Grid
 	// trying to push a piece.
 	private Piece getPieceInWay(int initX, int initY, Direction directionOfMovement)
 	{
+		if (initX < 0 || initY < 0 || initX > Grid.WIDTH || initY > Grid.HEIGHT)
+			return null;
+		
 		if (directionOfMovement == Direction.Up)
 		{
 			if (initY - 1 < 0)

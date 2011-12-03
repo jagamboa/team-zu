@@ -20,6 +20,7 @@ public class Tilesets
 	public static Sprite pitSprite;
 	
 	public static Sprite girlSprite;
+	public static Sprite gluttonSprite;
 	public static Sprite boundarySprite;
 	public static Sprite doorSprite;
 	public static Sprite helperCharacterSprite;
@@ -30,6 +31,7 @@ public class Tilesets
 	
 	public static Sprite nullPieceSprite;
 	public static Sprite rotateButtonSprite;
+	public static Sprite gluttonButtonSprite;
 	
 	// Gameloop
 	// used for loading images
@@ -65,9 +67,14 @@ public class Tilesets
 		girlSprite.framerate(7);
 		girlSprite.play("downStand");
 		
+		// initialize Glutton sprite
+		gluttonSprite = new Sprite(80, 94);
+		gluttonSprite.addFrames(gameloop.getImage("Art/glutton_large.png"), 0,0);
+		
 		// initialize buttons for level editor
 		nullPieceSprite = new Sprite(gameloop.getImage("Art/NullPiece.png"));
 		rotateButtonSprite = new Sprite(gameloop.getImage("Art/RotateButton.png"));
+		gluttonButtonSprite = new Sprite(gameloop.getImage("Art/gluttonLvlEdButton.png"));
 	}
 	
 	public static void loadTileset(int tileset)
@@ -188,7 +195,7 @@ public class Tilesets
 			helperCharacterSprite = new Sprite(gameloop.getImage("Art/HelperCharacter.png"));
 			keySprite = new Sprite(gameloop.getImage("Art/7key.png"));
 			pushableBlockSprite = new Sprite(gameloop.getImage("Art/7block.png"));
-			spikeballSprite = new Sprite(gameloop.getImage("Art/7indirect.png"));
+			spikeballSprite = new Sprite(gameloop.getImage("Art/7indirect.png", 255, 255, 255));
 			spikeTrapSprite = new Sprite(gameloop.getImage("Art/7direct.png"));
 		}
 		else if (tileset == gluttonTileset)

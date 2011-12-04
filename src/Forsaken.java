@@ -269,32 +269,32 @@ public class Forsaken extends Ucigame
 					frontporch.draw();
 					framedGirl.draw();
 					canvas.putText("Girl:", 450, 550);
-					canvas.putText("Finally, I'm home", 320, 625);
+					canvas.putText("Finally, I'm home", 350, 625);
 				}
 				else if (next == 2)
 				{
 					frontporch.draw();
-					canvas.putText("*loud crashes and yelling*", 320, 625);
+					canvas.putText("*loud crashes and yelling*", 240, 625);
 				}
 				else if (next == 3)
 				{
 					frontporch.draw();
 					framedGirl.draw();
 					canvas.putText("Girl:", 450, 550);
-					canvas.putText("Huh, what's that sound?", 320, 625);
-					canvas.putText("It must be coming from the neighbors.", 320, 675);
+					canvas.putText("Huh, what's that sound?", 250, 625);
+					canvas.putText("It must be coming from the neighbors.", 250, 675);
 				}
 				else if (next == 4)
 				{
 					frontporch.draw();
-					canvas.putText("*more loud crashes and yelling*", 320, 625);
+					canvas.putText("*more loud crashes and yelling*", 210, 625);
 				}
 				else if (next == 5)
 				{
 					frontporch.draw();
 					framedGirl.draw();
 					canvas.putText("Girl:", 450, 550);
-					canvas.putText("Wait, that's coming from inside!", 320, 625);
+					canvas.putText("Wait, that's coming from inside!", 295, 625);
 				}
 				else if (next == 6)
 				{
@@ -308,20 +308,20 @@ public class Forsaken extends Ucigame
 					insidehouse.draw();
 					framedGirl.draw();
 					canvas.putText("Girl:", 450, 550);
-					canvas.putText("Why is everything such a mess?", 320, 625);
+					canvas.putText("Why is everything such a mess?", 290, 625);
 				}
 				else if (next == 2)
 				{
 					insidehouse.draw();
-					canvas.putText("*whimpering from afar*", 320, 625);
+					canvas.putText("*whimpering from afar*", 265, 625);
 				}
 				else if (next == 3)
 				{
 					insidehouse.draw();
 					framedGirl.draw();
 					canvas.putText("Girl:", 450, 550);
-					canvas.putText("What's that? It sounds like it's... ", 320, 625);
-					canvas.putText("coming from over there?", 320, 675);
+					canvas.putText("What's that? It sounds like it's... ", 300, 625);
+					canvas.putText("coming from over there?", 300, 675);
 				}
 				else if (next == 4)
 				{
@@ -362,56 +362,71 @@ public class Forsaken extends Ucigame
 					hallway.draw();
 					framedGirl.draw();
 					canvas.putText("Girl:", 450, 550);
-					canvas.putText("Is that, the maid?! Why are you chained to the floor?", 320, 625);
+					canvas.putText("Is that, the maid?!",290, 625);
+					canvas.putText("Why are you chained to the floor?", 290, 675);
 				}
 				else if (next == 2)
 				{
 					hallway.draw();
 					framedMaid.draw();
 					canvas.putText("Maid:", 450, 550);
-					canvas.putText("", 320, 625);
+					canvas.putText("Your uncle, he's... ", 345, 625);
+					canvas.putText("He's gone insane!", 345, 675);
 				}
 				else if (next == 3)
 				{
 					hallway.draw();
 					framedGirl.draw();
 					canvas.putText("Girl:", 450, 550);
-					canvas.putText("", 320, 625);
+					canvas.putText("What's going on, do you know?", 300, 625);
+					canvas.putText("Please, tell me...", 300, 675);
 				}
 				else if (next == 4)
 				{
 					hallway.draw();
 					framedMaid.draw();
 					canvas.putText("Maid:", 450, 550);
-					canvas.putText("", 320, 625);
+					canvas.putText("Your uncle's been going to some cult", 240, 625);
+					canvas.putText("meeting recently.  He came back today", 240, 675);
+					canvas.putText("and he kept mumbling purify.", 240, 725);
 				}
 				else if (next == 5)
 				{
 					hallway.draw();
-					framedGirl.draw();
-					canvas.putText("Girl:", 450, 550);
-					canvas.putText("", 320, 625);
+					framedMaid.draw();
+					canvas.putText("Maid:", 450, 550);
+					canvas.putText("I thought he was just thinking out loud, but", 205, 625);
+					canvas.putText("it became alarming when he picked up a", 205, 675);
+					canvas.putText("knife and started chanting even louder!", 205, 725);
 				}
 				else if (next == 6)
 				{
 					hallway.draw();
-					framedMaid.draw();
-					canvas.putText("Maid:", 450, 550);
-					canvas.putText("", 320, 625);
+					framedGirl.draw();
+					canvas.putText("Girl:", 450, 550);
+					canvas.putText("And what's wrong with the house,", 285, 625);
+					canvas.putText("why's this all happening?!", 285, 675);
 				}
 				else if (next == 7)
 				{
 					hallway.draw();
-					canvas.putText("", 320, 625);
+					framedMaid.draw();
+					canvas.putText("Maid:", 450, 550);
+					canvas.putText("My dear, you've gone complet-", 305, 625);
 				}
 				else if (next == 8)
 				{
 					hallway.draw();
-					framedGirl.draw();
-					canvas.putText("Girl:", 450, 550);
-					canvas.putText("", 320, 625);
+					canvas.putText("*uncle barges in*", 285, 625);
 				}
 				else if (next == 9)
+				{
+					hallway.draw();
+					framedGirl.draw();
+					canvas.putText("Girl:", 450, 550);
+					canvas.putText("Ahh! *girl runs into the library*", 295, 625);
+				}
+				else if (next == 10)
 				{
 					//instructions
 				}
@@ -423,21 +438,24 @@ public class Forsaken extends Ucigame
 					twistedhallway.draw();
 					framedGirl.draw();
 					canvas.putText("Girl:", 450, 550);
-					canvas.putText("", 320, 625);
+					canvas.putText("I have to get out of this place.", 300, 625);
+					canvas.putText("Huh? Who's that?", 300, 675);
 				}
 				else if (next == 2)
 				{
 					twistedhallway.draw();
 					//man in white
 					canvas.putText("Man in White:", 400, 550);
-					canvas.putText("", 320, 625);
+					canvas.putText("...", 440, 625);
 				}
 				else if (next == 3)
 				{
 					twistedhallway.draw();
 					framedGirl.draw();
 					canvas.putText("Girl:", 450, 550);
-					canvas.putText("", 320, 625);
+					canvas.putText("I don't know who he is,", 265, 625);
+					canvas.putText("but he sure doesn't look friendly...", 265, 675);
+					canvas.putText("I better find a way to sneak past him.", 265, 725);
 				}
 				else if (next == 4)
 				{
@@ -451,28 +469,31 @@ public class Forsaken extends Ucigame
 					basement.draw();
 					framedGirl.draw();
 					canvas.putText("Girl:", 450, 550);
-					canvas.putText("", 320, 625);
+					canvas.putText("Ugh... that hurt!", 355, 625);
 				}
 				else if (next == 2)
 				{
 					basement.draw();
 					framedUncle.draw();
 					canvas.putText("Uncle:", 450, 550);
-					canvas.putText("", 320, 625);
+					canvas.putText("Purify... PURIFY!", 365, 625);
 				}
 				else if (next == 3)
 				{
 					basement.draw();
 					framedGirl.draw();
 					canvas.putText("Girl:", 450, 550);
-					canvas.putText("", 320, 625);
+					canvas.putText("I gotta get out of this basement...", 280, 625);
+					canvas.putText("Why won't this door open?!", 280, 675);
+					canvas.putText("*girl tries to open the locked door*", 280, 725);
 				}
 				else if (next == 4)
 				{
 					basement.draw();
 					framedGirl.draw();
 					canvas.putText("Girl:", 450, 550);
-					canvas.putText("", 320, 625);
+					canvas.putText("Wait, there must be an emergency", 275, 625);
+					canvas.putText("key here somewhere!", 275, 675);
 				}
 				else if (next == 5)
 				{
@@ -486,57 +507,57 @@ public class Forsaken extends Ucigame
 					rottenhallway.draw();
 					framedGirl.draw();
 					canvas.putText("Girl:", 450, 550);
-					canvas.putText("", 320, 625);
+					canvas.putText("The front door!", 360, 625);
 				}
 				else if (next == 2)
 				{
 					rottenhallway.draw();
-					canvas.putText("", 320, 625);
+					canvas.putText("*police officer kicks door open*", 220, 625);
 				}
 				else if (next == 3)
 				{
 					rottenhallway.draw();
 					//police
 					canvas.putText("Police:", 450, 550);
-					canvas.putText("", 320, 625);
+					canvas.putText("Is anyone there?!", 365, 625);
 				}
 				else if (next == 4)
 				{
 					rottenhallway.draw();
 					framedGirl.draw();
 					canvas.putText("Girl:", 450, 550);
-					canvas.putText("", 320, 625);
+					canvas.putText("Oh thank heavens, get me out of her-", 260, 625);
 				}
 				else if (next == 5)
 				{
 					rottenhallway.draw();
-					canvas.putText("", 320, 625);
+					canvas.putText("*uncle jumps from second floor and kills police officer*", 20, 625);
 				}
 				else if (next == 6)
 				{
 					rottenhallway.draw();
 					framedGirl.draw();
 					canvas.putText("Girl:", 450, 550);
-					canvas.putText("", 320, 625);
+					canvas.putText("Ahh!", 445, 625);
 				}
 				else if (next == 7)
 				{
 					rottenhallway.draw();
-					canvas.putText("", 320, 625);
+					canvas.putText("*girl notices uncle's transformation*", 200, 625);
 				}
 				else if (next == 8)
 				{
 					rottenhallway.draw();
 					framedGirl.draw();
 					canvas.putText("Girl:", 450, 550);
-					canvas.putText("", 320, 625);
+					canvas.putText("Oh... Oh god...", 360, 625);
 				}
 				else if (next == 9)
 				{
 					rottenhallway.draw();
 					framedGlutton.draw();
 					canvas.putText("Glutton:", 450, 550);
-					canvas.putText("", 320, 625);
+					canvas.putText("Now, you. I must purify you!", 320, 625);
 				}
 				else if (next == 10)
 				{
@@ -709,7 +730,7 @@ public class Forsaken extends Ucigame
 		}
 		else if (state == CUTSCENE_5)
 		{
-			if (next != 9)
+			if (next != 10)
 			{
 				next++;
 			}

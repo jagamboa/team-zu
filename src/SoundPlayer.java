@@ -11,12 +11,14 @@ public class SoundPlayer
 	
 	private static BGMPlayer grandWaltzBGM;
 	private static BGMPlayer hopefulUnderstandingBGM;
+	private static BGMPlayer cutsceneBGM;
 	
 	public static int currentBGM = -1;
 	
 	// BGM codes
 	public static final int grandWaltz = 0;
 	public static final int hopefulUnderstanding = 1;
+	public static final int cutscene = 2;
 	
 	public static void loadContent(Ucigame ucigame)
 	{
@@ -29,6 +31,7 @@ public class SoundPlayer
 		
 		grandWaltzBGM = new BGMPlayer("Sound/Grand_Waltz.mp3", ucigame);
 		hopefulUnderstandingBGM = new BGMPlayer("Sound/Hopeful_Understanding.mp3", ucigame);
+		cutsceneBGM = new BGMPlayer("Sound/Hopeful_Understanding.mp3", ucigame);
 	}
 	
 	public static void playBGM(int bgmCode)
@@ -45,11 +48,17 @@ public class SoundPlayer
 			hopefulUnderstandingBGM.play();
 			currentBGM = hopefulUnderstanding;
 		}
+		else if (bgmCode == cutscene)
+		{
+			cutsceneBGM.play();
+			currentBGM = cutscene;
+		}
 	}
 	
 	public static void stopAll()
 	{
 		grandWaltzBGM.stop();
 		hopefulUnderstandingBGM.stop();
+		cutsceneBGM.stop();
 	}
 }

@@ -29,6 +29,7 @@ public class LevelEditor
 	private int gluttonX = -1;
 	private int gluttonY = -1;
 	private boolean testing = false;
+	private boolean showingOptions = false;
 	
 	// Palette Buttons
 	private Sprite arrowPanelButton;
@@ -137,6 +138,21 @@ public class LevelEditor
 	{
 		if (testing)
 		{
+			backButton.draw();
+		}
+		else if (showingOptions)
+		{
+			editLevel.draw();
+			
+			// draw grid overlay
+			for (int x = 0; x < Grid.WIDTH; x++)
+				for (int y = 0; y < Grid.HEIGHT; y++)
+				{
+					gridSquare.position(x * Grid.SQUARE_DIMENSIONS, y * Grid.SQUARE_DIMENSIONS);
+					gridSquare.draw();
+				}
+			
+			gameloop.canvas.putText("Current Tileset:  ", Forsaken.WINDOW_WIDTH / 2 - 20, Forsaken.WINDOW_HEIGHT / 4);
 			backButton.draw();
 		}
 		else
@@ -334,10 +350,18 @@ public class LevelEditor
 
 	public void displayOptions() 
 	{
-		// TODO Auto-generated method stub
-		
+		showingOptions = true;
+		showEditButtons(false);
+		showOptionsButtons(true);
 	}
 
+	public void hideOptions()
+	{
+		showingOptions = false;
+		showEditButtons(true);
+		showOptionsButtons(false);
+	}
+	
 	public GameState testLevel() 
 	{
 		if (!girlPlaced())
@@ -520,6 +544,18 @@ public class LevelEditor
 	}
 	
 	private void showTestButtons(boolean show)
+	{
+		if (show)
+		{
+			backButton.show();
+		}
+		else
+		{
+			backButton.hide();
+		}
+	}
+	
+	private void showOptionsButtons(boolean show)
 	{
 		if (show)
 		{

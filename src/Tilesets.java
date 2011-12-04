@@ -12,6 +12,7 @@ public class Tilesets
 	public static final int twistedHallTileset = 5;
 	public static final int basementTileset = 6;
 	public static final int gluttonTileset = 7;
+	private static int currentTileset;
 	
 	// Sprite list
 	public static Sprite emptyTileSprite;
@@ -79,6 +80,8 @@ public class Tilesets
 	
 	public static void loadTileset(int tileset)
 	{
+		currentTileset = tileset;
+		
 		if (tileset == busTileset)
 		{
 			emptyTileSprite = new Sprite(gameloop.getImage("Art/1floor.png"));
@@ -233,4 +236,9 @@ public class Tilesets
 			spikeTrapSprite = new Sprite(gameloop.getImage("Art/7direct.png"));
 		}
 	}
+	
+//	public static String getName()
+//	{
+//		if ()
+//	}
 }

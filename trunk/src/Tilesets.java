@@ -237,8 +237,43 @@ public class Tilesets
 		}
 	}
 	
-//	public static String getName()
-//	{
-//		if ()
-//	}
+	public static String getName()
+	{
+		if (currentTileset == busTileset)
+		{
+			return "Bus";
+		}
+		else if (currentTileset == gardenTileset)
+		{
+			return "Garden";
+		}
+		else if (currentTileset == houseTileset)
+		{
+			return "House";
+		}
+		else if (currentTileset == sunroomTileset)
+		{
+			return "Sunroom";
+		}
+		else if (currentTileset == libraryTileset)
+		{
+			return "Library";
+		}
+		else if (currentTileset == twistedHallTileset)
+		{
+			return "Twisted Hall";
+		}
+		else if (currentTileset == basementTileset)
+		{
+			return "Basement";
+		}
+		else if (currentTileset == gluttonTileset)
+		{
+			return "Glutton";
+		}
+		else
+		{
+			return "Default";
+		}
+	}
 }

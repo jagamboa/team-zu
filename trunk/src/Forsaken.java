@@ -47,6 +47,7 @@ public class Forsaken extends Ucigame
 	// current gamestate
 	private int state;
 	private boolean loaded;
+	private boolean spacePressed;
 	private int next = 0;
 	
 	// Button list
@@ -111,15 +112,15 @@ public class Forsaken extends Ucigame
 		instructionButton.position(323, 474);
 		editorButton.position(410, 564);
 		instructions.position(537 - instructions.width()/2, 200);
-		
-		// Show start menu
-		onClickMenu();
 				
 		// Create GameState
 		gameState = new GameState(this);
 		
 		// Create Level Editor
 		levelEditor = new LevelEditor(this);
+		
+		// Show start menu
+		onClickMenu();
 	}
 	
 	public void draw()
@@ -666,12 +667,16 @@ public class Forsaken extends Ucigame
 		{
 			gameState.move(Direction.Right);
 		}
+		
 		if (keyboard.isDown(keyboard.SPACE))
 		{
 			if (showingCutscene())
 			{
-				// TODO: advance cutscene text
-				nextGamestate();
+				if (!spacePressed)
+				{
+					startNextCutscene();
+					spacePressed = true;
+				}
 			}
 		}
 		
@@ -679,9 +684,17 @@ public class Forsaken extends Ucigame
 		{
 			if (keyboard.isDown(keyboard.PERIOD))
 			{
-				if (showingGameplay())
+				if (showingGameplay() && state != TEST_LEVEL_STATE)
 					nextGamestate();
 			}
+		}
+	}
+	
+	public void onKeyRelease()
+	{
+		if (!keyboard.isDown(keyboard.SPACE))
+		{
+			spacePressed = false;
 		}
 	}
 	
@@ -713,6 +726,7 @@ public class Forsaken extends Ucigame
 	public void onClickMenu()
 	{
 		canvas.background(155, 155, 152);
+		levelEditor.hide();
 		menuButton.hide();
 		instructions.hide();
 		restartButton.hide();
@@ -752,6 +766,7 @@ public class Forsaken extends Ucigame
 		keyCounter.hide();
 		menuButton.position(25, 660);
 		menuButton.show();
+		levelEditor.show();
 		state = Forsaken.EDITOR_STATE;
 	}
 	
@@ -914,6 +929,26 @@ public class Forsaken extends Ucigame
 			state = EDITOR_STATE;
 			menuButton.show();
 		}
+	}
+	
+	public void onClickLvlEdLeftMusicToggleButton()
+	{
+		
+	}
+	
+	public void onClickLvlEdRightMusicToggleButton()
+	{
+		
+	}
+	
+	public void onClickLvlEdLeftSpriteToggleButton()
+	{
+		
+	}
+	
+	public void onClickLvlEdRightSpriteToggleButton()
+	{
+		
 	}
 	
 }

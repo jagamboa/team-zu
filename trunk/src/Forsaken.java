@@ -61,6 +61,10 @@ public class Forsaken extends Ucigame
 	//HUD sprites
 	private Sprite levelName;
 	private Sprite keyCounter;
+	
+	//Cut-scene sprites/backgrounds
+	private Sprite framedGirl;
+	private Sprite bus;
 
 	
 	
@@ -90,6 +94,10 @@ public class Forsaken extends Ucigame
 		//load HUD
 		levelName = new Sprite(getImage("Art/levelName.png", 255, 255, 255));
 		keyCounter = new Sprite(getImage("Art/keyCounter.png", 255, 255, 255));
+		
+		//load Cut-scene sprites/backgrounds
+		bus = new Sprite(getImage("Art/bus.jpg"));
+		framedGirl = new Sprite(getImage("Art/framedgirl.jpg"));
 
 		// Position buttons and GUI elements
 		startPicture.position(400, 119);
@@ -170,7 +178,45 @@ public class Forsaken extends Ucigame
 		else if (showingCutscene())
 		{
 			// TODO: draw cutscene
-			canvas.putText("Cutscene stuff", 10 * 32, 12 * 32);
+			if (state == CUTSCENE_1)
+			{
+				bus.draw();
+				framedGirl.draw();
+				framedGirl.position(0, 515);
+			}
+			else if (state == CUTSCENE_2)
+			{
+
+			}
+			else if (state == CUTSCENE_3)
+			{
+
+			}
+			else if (state == CUTSCENE_4)
+			{
+
+			}
+			else if (state == CUTSCENE_5)
+			{
+
+			}
+			else if (state == CUTSCENE_6)
+			{
+
+			}
+			else if (state == CUTSCENE_7)
+			{
+
+			}
+			else if (state == CUTSCENE_8)
+			{
+
+			}
+			else if (state == CUTSCENE_9)
+			{
+
+			}
+			
 		}
 	}
 	

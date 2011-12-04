@@ -211,15 +211,15 @@ public class Tilesets
 			arrowPanelSprite.addFrames(gameloop.getImage("Art/ArrowPanel.png"), /*0,0,*/ 32,0);
 			arrowPanelSprite.framerate(1);
 			goalSprite = new Sprite(gameloop.getImage("Art/8goal.png"));
-			pitSprite = new Sprite(gameloop.getImage("Art/Pit.png"));
+			pitSprite = new Sprite(gameloop.getImage("Art/7pit.png"));
 			
 			boundarySprite = new Sprite(gameloop.getImage("Art/8boundary.png"));
 			doorSprite = new Sprite(gameloop.getImage("Art/Door.png"));
 			helperCharacterSprite = new Sprite(gameloop.getImage("Art/HelperCharacter.png"));
 			keySprite = new Sprite(gameloop.getImage("Art/Key.png"));
 			pushableBlockSprite = new Sprite(gameloop.getImage("Art/8block.png"));
-			spikeballSprite = new Sprite(gameloop.getImage("Art/SpikeBall.png"));
-			spikeTrapSprite = new Sprite(gameloop.getImage("Art/SpikeTrap.png"));
+			spikeballSprite = new Sprite(gameloop.getImage("Art/6indirect.png"));
+			spikeTrapSprite = new Sprite(gameloop.getImage("Art/6direct.png"));
 		}
 		else // default case, should be deleted once other tilesets are implemented
 		{

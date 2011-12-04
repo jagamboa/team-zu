@@ -7,7 +7,7 @@ import java.util.zip.DataFormatException;
 public class IO 
 {
 	// version number
-	public static final int version = 2;
+	public static final int version = 3;
 	
 	// piece codes
 	public static final int nullPiece = 0;

@@ -16,6 +16,7 @@ public class SoundPlayer
 	public static int currentBGM = -1;
 	
 	// BGM codes
+	private static final int numberOfSongs = 3;
 	public static final int grandWaltz = 0;
 	public static final int hopefulUnderstanding = 1;
 	public static final int cutscene = 2;
@@ -80,5 +81,25 @@ public class SoundPlayer
 		{
 			return "None";
 		}
+	}
+	
+	public static void nextBGM()
+	{
+		currentBGM++;
+		
+		if (currentBGM >= numberOfSongs)
+			currentBGM = 0;
+		
+		playBGM(currentBGM);
+	}
+	
+	public static void prevBGM()
+	{
+		currentBGM--;
+		
+		if (currentBGM < 0)
+			currentBGM = numberOfSongs - 1;
+		
+		playBGM(currentBGM);
 	}
 }

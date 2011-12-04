@@ -4,6 +4,7 @@ import ucigame.*;
 public class Tilesets 
 {
 	// Tileset Codes
+	public static final int defaultTileset = -1;
 	public static final int busTileset = 0;
 	public static final int gardenTileset = 1;
 	public static final int houseTileset = 2;
@@ -12,7 +13,9 @@ public class Tilesets
 	public static final int twistedHallTileset = 5;
 	public static final int basementTileset = 6;
 	public static final int gluttonTileset = 7;
-	private static int currentTileset;
+	
+	public static int currentTileset;
+	private static final int numberOfTilesets = 9;
 	
 	// Sprite list
 	public static Sprite emptyTileSprite;
@@ -44,7 +47,7 @@ public class Tilesets
 		
 		// should be initialized with busTileset once the
 		// tilesets are implemented
-		Tilesets.loadTileset(-1);
+		Tilesets.loadTileset(defaultTileset);
 		
 		// initialize girl sprite
 		girlSprite = new Sprite(30, 35);
@@ -275,5 +278,25 @@ public class Tilesets
 		{
 			return "Default";
 		}
+	}
+	
+	public static void nextTileset()
+	{
+		currentTileset++;
+		
+		if (currentTileset >= numberOfTilesets)
+			currentTileset = 0;
+		
+		loadTileset(currentTileset);
+	}
+	
+	public static void prevTileset()
+	{
+		currentTileset--;
+		
+		if (currentTileset < 0)
+			currentTileset = numberOfTilesets - 1;
+		
+		loadTileset(currentTileset);
 	}
 }

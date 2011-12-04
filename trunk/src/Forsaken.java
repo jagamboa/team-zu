@@ -933,22 +933,22 @@ public class Forsaken extends Ucigame
 	
 	public void onClickLvlEdLeftMusicToggleButton()
 	{
-		
+		SoundPlayer.prevBGM();
 	}
 	
 	public void onClickLvlEdRightMusicToggleButton()
 	{
-		
+		SoundPlayer.nextBGM();
 	}
 	
 	public void onClickLvlEdLeftSpriteToggleButton()
 	{
-		
+		Tilesets.prevTileset();
 	}
 	
 	public void onClickLvlEdRightSpriteToggleButton()
 	{
-		
+		Tilesets.nextTileset();
 	}
 	
 }

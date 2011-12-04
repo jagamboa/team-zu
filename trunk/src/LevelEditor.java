@@ -394,14 +394,11 @@ public class LevelEditor
         	return null;
 		}
 		
-		// TODO Auto-generated method stub
 		try {
 			testLevel = editLevel.copy(gameloop);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (DataFormatException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -508,7 +505,6 @@ public class LevelEditor
 	
 	public void endTest() 
 	{
-		// TODO Auto-generated method stub
 		testing = false;
 		
 		showEditButtons(true);
@@ -596,10 +592,18 @@ public class LevelEditor
 		if (show)
 		{
 			backButton.show();
+			leftMusicToggleButton.show();
+			rightMusicToggleButton.show();
+			leftSpriteToggleButton.show();
+			rightSpriteToggleButton.show();
 		}
 		else
 		{
 			backButton.hide();
+			leftMusicToggleButton.hide();
+			rightMusicToggleButton.hide();
+			leftSpriteToggleButton.hide();
+			rightSpriteToggleButton.hide();
 		}
 	}
 

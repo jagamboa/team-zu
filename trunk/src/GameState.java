@@ -90,6 +90,7 @@ public class GameState
 		outWriter.write(Grid.HEIGHT);
 		
 		outWriter.write(SoundPlayer.currentBGM);
+		outWriter.write(Tilesets.currentTileset);
 		
 		for (int x = 0; x < Grid.WIDTH; x++)
 			for (int y = 0; y < Grid.HEIGHT; y++)
@@ -118,14 +119,21 @@ public class GameState
 		
 		int version = inReader.read();
 		
-		if (version != IO.version)
-			throw new DataFormatException("File Version mismatch!\nFile version: " 
-					+ version + ", Expected version: " + IO.version);
-		
 		int width = inReader.read();
 		int height = inReader.read();
 		
 		int bgm = inReader.read();
+		
+		int tileset;
+		
+		if (version >= 3)
+		{
+			tileset = inReader.read();
+		}
+		else
+		{
+			tileset = Tilesets.defaultTileset;
+		}
 		
 		if (width != Grid.WIDTH || height != Grid.HEIGHT)
 			throw new DataFormatException("Grid dimentions don't match! input = (" + width + 
@@ -142,6 +150,7 @@ public class GameState
 		Tilesets.girlSprite.play("downStand");
 		
 		SoundPlayer.playBGM(bgm);
+		Tilesets.loadTileset(tileset);
 	}
 	
 	public void loadEmptyLevel()

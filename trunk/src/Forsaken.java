@@ -47,7 +47,7 @@ public class Forsaken extends Ucigame
 	// current gamestate
 	private int state;
 	private boolean loaded;
-	private int next = 1;
+	private int next = 0;
 	
 	// Button list
 	private Sprite startButton; // Start game button
@@ -100,13 +100,10 @@ public class Forsaken extends Ucigame
 		
 		//load Cut-scene sprites/backgrounds
 		bus = new Sprite(getImage("Art/bus.jpg"));
-		bus.hide();
 		framedGirl = new Sprite(getImage("Art/framedgirl.jpg"));
 		framedGirl.position(5, 515);
-		framedGirl.hide();
 		framedDriver = new Sprite(getImage("Art/frameddriver.jpg"));
 		framedDriver.position(5, 515);
-		framedDriver.hide();
 
 		// Position buttons and GUI elements
 		startPicture.position(400, 119);
@@ -190,44 +187,261 @@ public class Forsaken extends Ucigame
 		}
 		else if (showingCutscene())
 		{
+			canvas.font("Arial", PLAIN, 30);
 			// TODO: draw cutscene
 			if (state == CUTSCENE_1)
 			{
-				bus.draw();
-				framedGirl.draw();
-				framedDriver.draw();
+				if (next == 1)
+				{
+					bus.draw();
+					framedGirl.draw();
+					canvas.putText("Girl:", 450, 550);
+					canvas.putText("*yawn* Ah, what time is it?", 320, 625);
+					canvas.putText("Am I home yet?", 320, 675);
+				}
+				else if (next == 2)
+				{
+					bus.draw();
+					framedDriver.draw();
+					canvas.putText("Bus Driver:", 400, 550);
+					canvas.putText("Last stop!", 405, 625);
+				}
+				else if (next == 3)
+				{
+					bus.draw();
+					framedGirl.draw();
+					canvas.putText("Girl:", 450, 550);
+					canvas.putText("Home sweet home.", 350, 625);
+				}
+				else if (next == 4)
+				{
+					bus.draw();
+					framedDriver.draw();
+					canvas.putText("Bus Driver:", 400, 550);
+					canvas.putText("Sorry about the luggage miss,", 290, 625);
+					canvas.putText("just push it aside on your way out.", 290, 675);
+
+				}
+				else if (next == 5)
+				{
+					canvas.font("Arial", PLAIN, 70);
+					canvas.putText("To complete the level,", 20, 200);
+					canvas.putText("push the luggage out", 20, 300);
+					canvas.putText("of your way to reach", 20, 400);
+					canvas.putText("the goal", 20, 500);
+				}
 			}
 			else if (state == CUTSCENE_2)
 			{
-
+				if (next == 1)
+				{
+					
+				}
+				else if (next == 2)
+				{
+					
+				}
+				else if (next == 3)
+				{
+		
+				}
+				else if (next == 4)
+				{
+					
+				}
+				else if (next == 5)
+				{
+					
+				}
 			}
 			else if (state == CUTSCENE_3)
 			{
-
+				if (next == 1)
+				{
+					
+				}
+				else if (next == 2)
+				{
+					
+				}
+				else if (next == 3)
+				{
+		
+				}
+				else if (next == 4)
+				{
+					
+				}
+				else if (next == 5)
+				{
+					
+				}
+				else if (next == 6)
+				{
+					
+				}
 			}
 			else if (state == CUTSCENE_4)
 			{
-
+				if (next == 1)
+				{
+					
+				}
+				else if (next == 2)
+				{
+					
+				}
+				else if (next == 3)
+				{
+		
+				}
+				else if (next == 4)
+				{
+					
+				}
+				else if (next == 5)
+				{
+					
+				}
+				else if (next == 6)
+				{
+					
+				}
 			}
 			else if (state == CUTSCENE_5)
 			{
-
+				if (next == 1)
+				{
+					
+				}
+				else if (next == 2)
+				{
+					
+				}
+				else if (next == 3)
+				{
+		
+				}
+				else if (next == 4)
+				{
+					
+				}
+				else if (next == 5)
+				{
+					
+				}
+				else if (next == 6)
+				{
+					
+				}
 			}
 			else if (state == CUTSCENE_6)
 			{
-
+				if (next == 1)
+				{
+					
+				}
+				else if (next == 2)
+				{
+					
+				}
+				else if (next == 3)
+				{
+		
+				}
+				else if (next == 4)
+				{
+					
+				}
+				else if (next == 5)
+				{
+					
+				}
+				else if (next == 6)
+				{
+					
+				}
 			}
 			else if (state == CUTSCENE_7)
 			{
-
+				if (next == 1)
+				{
+					
+				}
+				else if (next == 2)
+				{
+					
+				}
+				else if (next == 3)
+				{
+		
+				}
+				else if (next == 4)
+				{
+					
+				}
+				else if (next == 5)
+				{
+					
+				}
+				else if (next == 6)
+				{
+					
+				}
 			}
 			else if (state == CUTSCENE_8)
 			{
-
+				if (next == 1)
+				{
+					
+				}
+				else if (next == 2)
+				{
+					
+				}
+				else if (next == 3)
+				{
+		
+				}
+				else if (next == 4)
+				{
+					
+				}
+				else if (next == 5)
+				{
+					
+				}
+				else if (next == 6)
+				{
+					
+				}
 			}
 			else if (state == CUTSCENE_9)
 			{
-
+				if (next == 1)
+				{
+					
+				}
+				else if (next == 2)
+				{
+					
+				}
+				else if (next == 3)
+				{
+		
+				}
+				else if (next == 4)
+				{
+					
+				}
+				else if (next == 5)
+				{
+					
+				}
+				else if (next == 6)
+				{
+					
+				}
 			}
 			
 		}
@@ -324,31 +538,11 @@ public class Forsaken extends Ucigame
 	{
 		if (state == CUTSCENE_1)
 		{
-			if (next == 1)
+			if (next != 5)
 			{
-				bus.show();
-				framedGirl.show();
 				next++;
 			}
-			else if (next == 2)
-			{
-				framedGirl.hide();
-				framedDriver.show();
-				next++;
-			}
-			else if (next == 3)
-			{
-				framedDriver.hide();
-				framedGirl.show();
-				next++;
-			}
-			else if (next == 4)
-			{
-				framedGirl.hide();
-				framedDriver.show();
-				next++;
-			}
-			else if (next == 5)
+			else
 			{
 				nextGamestate();
 				next = 1;
@@ -356,35 +550,99 @@ public class Forsaken extends Ucigame
 		}
 		else if (state == CUTSCENE_2)
 		{
-
+			if (next != 5)
+			{
+				next++;
+			}
+			else
+			{
+				nextGamestate();
+				next = 1;
+			}
 		}
 		else if (state == CUTSCENE_3)
 		{
-
+			if (next != 6)
+			{
+				next++;
+			}
+			else
+			{
+				nextGamestate();
+				next = 1;
+			}
 		}
 		else if (state == CUTSCENE_4)
 		{
-
+			if (next != 5)
+			{
+				next++;
+			}
+			else
+			{
+				nextGamestate();
+				next = 1;
+			}
 		}
 		else if (state == CUTSCENE_5)
 		{
-
+			if (next != 5)
+			{
+				next++;
+			}
+			else
+			{
+				nextGamestate();
+				next = 1;
+			}
 		}
 		else if (state == CUTSCENE_6)
 		{
-
+			if (next != 5)
+			{
+				next++;
+			}
+			else
+			{
+				nextGamestate();
+				next = 1;
+			}
 		}
 		else if (state == CUTSCENE_7)
 		{
-
+			if (next != 5)
+			{
+				next++;
+			}
+			else
+			{
+				nextGamestate();
+				next = 1;
+			}
 		}
 		else if (state == CUTSCENE_8)
 		{
-
+			if (next != 5)
+			{
+				next++;
+			}
+			else
+			{
+				nextGamestate();
+				next = 1;
+			}
 		}
 		else if (state == CUTSCENE_9)
 		{
-
+			if (next != 5)
+			{
+				next++;
+			}
+			else
+			{
+				nextGamestate();
+				next = 1;
+			}
 		}
 	}
 	

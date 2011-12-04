@@ -25,6 +25,7 @@ public class Forsaken extends Ucigame
 	public static final int CREDITS = 2;
 	public static final int EDITOR_STATE = 3;
 	public static final int TEST_LEVEL_STATE = 4;
+	public static final int EDITOR_OPTIONS = 5;
 	public static final int CUTSCENE_1 = 10;
 	public static final int LEVEL_1 = 11;
 	public static final int CUTSCENE_2 = 12;
@@ -81,7 +82,7 @@ public class Forsaken extends Ucigame
 		
 		
 		// load Buttons
-		startButton = makeButton("Start", getImage("Art/start.png", 255, 255, 255), 180, 51);
+		startButton = makeButton("Start", getImage("Art/PlayButton.png", 255, 255, 255), 226, 43);
 		instructionButton = makeButton("Instruction", getImage("Art/instructions.png", 255, 255, 255), 378, 51);
 		editorButton  = makeButton("Editor", getImage("Art/editor.png", 255, 255, 255), 204, 51);
 		menuButton = makeButton("Menu", getImage("Art/Menu.png", 255, 255, 255), 169, 51);
@@ -136,6 +137,10 @@ public class Forsaken extends Ucigame
 		{
 			levelEditor.draw();
 			menuButton.draw();
+		}
+		else if (state == Forsaken.EDITOR_OPTIONS)
+		{
+			levelEditor.draw();
 		}
 		else if (state == Forsaken.TEST_LEVEL_STATE)
 		{
@@ -227,7 +232,7 @@ public class Forsaken extends Ucigame
 	
 	public boolean showingGameplay()
 	{
-		return (state >= LEVEL_1 && state % 2 == 1) || state == TEST_LEVEL_STATE && loaded;
+		return ((state >= LEVEL_1 && state % 2 == 1) || state == TEST_LEVEL_STATE) && loaded;
 	}
 	
 	public void nextGamestate()
@@ -242,6 +247,11 @@ public class Forsaken extends Ucigame
 		
 		if (state == MENU_STATE)
 			state = CUTSCENE_1;
+		else if (state == CUTSCENE_9)
+		{
+			onClickMenu();
+			return;
+		}
 		else
 			state++;
 		
@@ -379,6 +389,7 @@ public class Forsaken extends Ucigame
 		instructionButton.show();
 		editorButton.show();
 		state = Forsaken.MENU_STATE;
+		SoundPlayer.stopAll();
 		SoundPlayer.playBGM(SoundPlayer.grandWaltz);
 	}
 	
@@ -528,10 +539,13 @@ public class Forsaken extends Ucigame
 	public void onClickLvlEdOptionsButton()
 	{
 		levelEditor.displayOptions();
+		state = EDITOR_OPTIONS;
+		menuButton.hide();
 	}
 	
 	public void onClickLvlEdTestButton()
 	{
+		loaded = false;
 		GameState testLevel = levelEditor.testLevel();
 		
 		if (testLevel != null)
@@ -539,6 +553,7 @@ public class Forsaken extends Ucigame
 			state = TEST_LEVEL_STATE;
 			gameState = testLevel;
 			menuButton.hide();
+			loaded = true;
 		}
 	}
 	
@@ -554,9 +569,18 @@ public class Forsaken extends Ucigame
 	
 	public void onClickLvlEdBackButton()
 	{
-		levelEditor.endTest();
-		state = EDITOR_STATE;
-		menuButton.show();
+		if (state == TEST_LEVEL_STATE)
+		{
+			levelEditor.endTest();
+			state = EDITOR_STATE;
+			menuButton.show();
+		}
+		else if (state == EDITOR_OPTIONS)
+		{
+			levelEditor.hideOptions();
+			state = EDITOR_STATE;
+			menuButton.show();
+		}
 	}
 	
 }

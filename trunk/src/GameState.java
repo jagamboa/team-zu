@@ -325,6 +325,8 @@ public class GameState
 	// lost the level.
 	public void update()
 	{
+		if (player == null)
+			System.out.println("Player is null");
 		Girl girl = player.getGirl();
 		
 		if (girl.isBeingLaunched())

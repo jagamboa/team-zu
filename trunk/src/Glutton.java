@@ -74,7 +74,7 @@ public class Glutton extends Piece implements Hazard {
 				}
 				else if (grid.getPieceAt(getX(), y) instanceof Playable)
 				{
-					launch(Direction.Up);
+					glaunch(Direction.Up);
 					SoundPlayer.gluttonChargeSFX.play();
 				}
 				else
@@ -95,7 +95,7 @@ public class Glutton extends Piece implements Hazard {
 				}
 				else if (grid.getPieceAt(getX(), y) instanceof Playable)
 				{
-					launch(Direction.Down);
+					glaunch(Direction.Down);
 					SoundPlayer.gluttonChargeSFX.play();
 				}
 				else
@@ -116,7 +116,7 @@ public class Glutton extends Piece implements Hazard {
 				}
 				else if (grid.getPieceAt(x, getY()) instanceof Playable)
 				{
-					launch(Direction.Left);
+					glaunch(Direction.Left);
 					SoundPlayer.gluttonChargeSFX.play();
 				}
 				else
@@ -137,7 +137,7 @@ public class Glutton extends Piece implements Hazard {
 				}
 				else if (grid.getPieceAt(x, getY()) instanceof Playable)
 				{
-					launch(Direction.Right);
+					glaunch(Direction.Right);
 					SoundPlayer.gluttonChargeSFX.play();
 				}
 				else

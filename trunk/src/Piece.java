@@ -230,6 +230,14 @@ public abstract class Piece
 		moveDuration = launchSpeed;
 	}
 	
+	// launches the piece in direction d, the piece will
+	// continue to move until it hits a solid object
+	public void glaunch(Direction d)
+	{
+		launchedDirection = d;
+		moveDuration = launchSpeed*0.5;
+	}	
+	
 	// stops a launched piece
 	public void stop()
 	{

@@ -204,7 +204,7 @@ public class Tilesets
 			arrowPanelSprite = new Sprite(32, 32);
 			arrowPanelSprite.addFrames(gameloop.getImage("Art/ArrowPanel.png"), /*0,0,*/ 32,0);
 			arrowPanelSprite.framerate(1);
-			goalSprite = new Sprite(gameloop.getImage("Art/Goal.png"));
+			goalSprite = new Sprite(gameloop.getImage("Art/8goal.png"));
 			pitSprite = new Sprite(gameloop.getImage("Art/Pit.png"));
 			
 			boundarySprite = new Sprite(gameloop.getImage("Art/8boundary.png"));
@@ -229,7 +229,7 @@ public class Tilesets
 			helperCharacterSprite = new Sprite(gameloop.getImage("Art/HelperCharacter.png"));
 			keySprite = new Sprite(gameloop.getImage("Art/7key.png"));
 			pushableBlockSprite = new Sprite(gameloop.getImage("Art/7block.png"));
-			spikeballSprite = new Sprite(gameloop.getImage("Art/7indirect.png"));
+			spikeballSprite = new Sprite(gameloop.getImage("Art/7indirect.png", 255, 255, 255));
 			spikeTrapSprite = new Sprite(gameloop.getImage("Art/7direct.png"));
 		}
 	}

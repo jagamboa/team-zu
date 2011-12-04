@@ -68,6 +68,10 @@ public class Forsaken extends Ucigame
 	//Cut-scene sprites/backgrounds
 	private Sprite framedGirl;
 	private Sprite framedDriver;
+	private Sprite framedMaid;
+	private Sprite framedSiblings;
+	private Sprite framedUncle;
+	private Sprite framedGlutton;
 	private Sprite bus;
 	private Sprite frontporch;
 	private Sprite insidehouse;
@@ -122,6 +126,14 @@ public class Forsaken extends Ucigame
 		framedGirl.position(5, 515);
 		framedDriver = new Sprite(getImage("Art/frameddriver.jpg"));
 		framedDriver.position(5, 515);
+		framedMaid = new Sprite(getImage("Art/framedMaid.jpg"));
+		framedMaid.position(5, 515);
+		framedSiblings = new Sprite(getImage("Art/framedSiblings.jpg"));
+		framedSiblings.position(5, 515);
+		framedUncle = new Sprite(getImage("Art/framedUncle.jpg"));
+		framedUncle.position(5, 515);
+		framedGlutton = new Sprite(getImage("Art/framedGlutton.jpg"));
+		framedGlutton.position(5, 515);
 
 		// Position buttons and GUI elements
 		startPicture.position(400, 119);
@@ -286,7 +298,7 @@ public class Forsaken extends Ucigame
 				}
 				else if (next == 6)
 				{
-					
+					//instructions
 				}
 			}
 			else if (state == CUTSCENE_3)
@@ -294,29 +306,29 @@ public class Forsaken extends Ucigame
 				if (next == 1)
 				{
 					insidehouse.draw();
+					framedGirl.draw();
+					canvas.putText("Girl:", 450, 550);
+					canvas.putText("Why is everything such a mess?", 320, 625);
 				}
 				else if (next == 2)
 				{
 					insidehouse.draw();
+					canvas.putText("*whimpering from afar*", 320, 625);
 				}
 				else if (next == 3)
 				{
 					insidehouse.draw();
+					framedGirl.draw();
+					canvas.putText("Girl:", 450, 550);
+					canvas.putText("What's that? It sounds like it's... ", 320, 625);
+					canvas.putText("coming from over there?", 320, 675);
 				}
 				else if (next == 4)
 				{
-					insidehouse.draw();
-				}
-				else if (next == 5)
-				{
-					insidehouse.draw();
-				}
-				else if (next == 6)
-				{
-					insidehouse.draw();
+					//instructions
 				}
 			}
-			else if (state == CUTSCENE_4)
+			else if (state == CUTSCENE_4) //?????
 			{
 				if (next == 1)
 				{
@@ -340,7 +352,7 @@ public class Forsaken extends Ucigame
 				}
 				else if (next == 6)
 				{
-					closetdoor.draw();
+					//instructions
 				}
 			}
 			else if (state == CUTSCENE_5)
@@ -348,26 +360,60 @@ public class Forsaken extends Ucigame
 				if (next == 1)
 				{
 					hallway.draw();
+					framedGirl.draw();
+					canvas.putText("Girl:", 450, 550);
+					canvas.putText("Is that, the maid?! Why are you chained to the floor?", 320, 625);
 				}
 				else if (next == 2)
 				{
 					hallway.draw();
+					framedMaid.draw();
+					canvas.putText("Maid:", 450, 550);
+					canvas.putText("", 320, 625);
 				}
 				else if (next == 3)
 				{
 					hallway.draw();
+					framedGirl.draw();
+					canvas.putText("Girl:", 450, 550);
+					canvas.putText("", 320, 625);
 				}
 				else if (next == 4)
 				{
 					hallway.draw();
+					framedMaid.draw();
+					canvas.putText("Maid:", 450, 550);
+					canvas.putText("", 320, 625);
 				}
 				else if (next == 5)
 				{
 					hallway.draw();
+					framedGirl.draw();
+					canvas.putText("Girl:", 450, 550);
+					canvas.putText("", 320, 625);
 				}
 				else if (next == 6)
 				{
 					hallway.draw();
+					framedMaid.draw();
+					canvas.putText("Maid:", 450, 550);
+					canvas.putText("", 320, 625);
+				}
+				else if (next == 7)
+				{
+					hallway.draw();
+					canvas.putText("", 320, 625);
+				}
+				else if (next == 8)
+				{
+					hallway.draw();
+					framedGirl.draw();
+					canvas.putText("Girl:", 450, 550);
+					canvas.putText("", 320, 625);
+				}
+				else if (next == 9)
+				{
+					//instructions
 				}
 			}
 			else if (state == CUTSCENE_6)
@@ -375,26 +421,27 @@ public class Forsaken extends Ucigame
 				if (next == 1)
 				{
 					twistedhallway.draw();
+					framedGirl.draw();
+					canvas.putText("Girl:", 450, 550);
+					canvas.putText("", 320, 625);
 				}
 				else if (next == 2)
 				{
 					twistedhallway.draw();
+					//man in white
+					canvas.putText("Man in White:", 400, 550);
+					canvas.putText("", 320, 625);
 				}
 				else if (next == 3)
 				{
 					twistedhallway.draw();
+					framedGirl.draw();
+					canvas.putText("Girl:", 450, 550);
+					canvas.putText("", 320, 625);
 				}
 				else if (next == 4)
 				{
-					twistedhallway.draw();
-				}
-				else if (next == 5)
-				{
-					twistedhallway.draw();
-				}
-				else if (next == 6)
-				{
-					twistedhallway.draw();
+					//instructions
 				}
 			}
 			else if (state == CUTSCENE_7)
@@ -402,26 +449,34 @@ public class Forsaken extends Ucigame
 				if (next == 1)
 				{
 					basement.draw();
+					framedGirl.draw();
+					canvas.putText("Girl:", 450, 550);
+					canvas.putText("", 320, 625);
 				}
 				else if (next == 2)
 				{
 					basement.draw();
+					framedUncle.draw();
+					canvas.putText("Uncle:", 450, 550);
+					canvas.putText("", 320, 625);
 				}
 				else if (next == 3)
 				{
 					basement.draw();
+					framedGirl.draw();
+					canvas.putText("Girl:", 450, 550);
+					canvas.putText("", 320, 625);
 				}
 				else if (next == 4)
 				{
 					basement.draw();
+					framedGirl.draw();
+					canvas.putText("Girl:", 450, 550);
+					canvas.putText("", 320, 625);
 				}
 				else if (next == 5)
 				{
-					basement.draw();
-				}
-				else if (next == 6)
-				{
-					basement.draw();
+					//instructions
 				}
 			}
 			else if (state == CUTSCENE_8)
@@ -429,29 +484,66 @@ public class Forsaken extends Ucigame
 				if (next == 1)
 				{
 					rottenhallway.draw();
+					framedGirl.draw();
+					canvas.putText("Girl:", 450, 550);
+					canvas.putText("", 320, 625);
 				}
 				else if (next == 2)
 				{
 					rottenhallway.draw();
+					canvas.putText("", 320, 625);
 				}
 				else if (next == 3)
 				{
 					rottenhallway.draw();
+					//police
+					canvas.putText("Police:", 450, 550);
+					canvas.putText("", 320, 625);
 				}
 				else if (next == 4)
 				{
 					rottenhallway.draw();
+					framedGirl.draw();
+					canvas.putText("Girl:", 450, 550);
+					canvas.putText("", 320, 625);
 				}
 				else if (next == 5)
 				{
 					rottenhallway.draw();
+					canvas.putText("", 320, 625);
 				}
 				else if (next == 6)
 				{
 					rottenhallway.draw();
+					framedGirl.draw();
+					canvas.putText("Girl:", 450, 550);
+					canvas.putText("", 320, 625);
+				}
+				else if (next == 7)
+				{
+					rottenhallway.draw();
+					canvas.putText("", 320, 625);
+				}
+				else if (next == 8)
+				{
+					rottenhallway.draw();
+					framedGirl.draw();
+					canvas.putText("Girl:", 450, 550);
+					canvas.putText("", 320, 625);
+				}
+				else if (next == 9)
+				{
+					rottenhallway.draw();
+					framedGlutton.draw();
+					canvas.putText("Glutton:", 450, 550);
+					canvas.putText("", 320, 625);
+				}
+				else if (next == 10)
+				{
+					//instructions
 				}
 			}
-			else if (state == CUTSCENE_9)
+			else if (state == CUTSCENE_9) //?????
 			{
 				if (next == 1)
 				{
@@ -470,10 +562,6 @@ public class Forsaken extends Ucigame
 					frontporch2.draw();
 				}
 				else if (next == 5)
-				{
-					frontporch2.draw();
-				}
-				else if (next == 6)
 				{
 					frontporch2.draw();
 				}
@@ -597,7 +685,7 @@ public class Forsaken extends Ucigame
 		}
 		else if (state == CUTSCENE_3)
 		{
-			if (next != 6)
+			if (next != 4)
 			{
 				next++;
 			}
@@ -621,7 +709,7 @@ public class Forsaken extends Ucigame
 		}
 		else if (state == CUTSCENE_5)
 		{
-			if (next != 5)
+			if (next != 9)
 			{
 				next++;
 			}
@@ -633,7 +721,7 @@ public class Forsaken extends Ucigame
 		}
 		else if (state == CUTSCENE_6)
 		{
-			if (next != 5)
+			if (next != 4)
 			{
 				next++;
 			}
@@ -657,7 +745,7 @@ public class Forsaken extends Ucigame
 		}
 		else if (state == CUTSCENE_8)
 		{
-			if (next != 5)
+			if (next != 10)
 			{
 				next++;
 			}

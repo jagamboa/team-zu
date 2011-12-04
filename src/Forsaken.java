@@ -47,6 +47,7 @@ public class Forsaken extends Ucigame
 	// current gamestate
 	private int state;
 	private boolean loaded;
+	private int next = 1;
 	
 	// Button list
 	private Sprite startButton; // Start game button
@@ -66,6 +67,7 @@ public class Forsaken extends Ucigame
 	//Cut-scene sprites/backgrounds
 	private Sprite framedGirl;
 	private Sprite bus;
+	private Sprite framedDriver;
 
 	
 	
@@ -98,7 +100,13 @@ public class Forsaken extends Ucigame
 		
 		//load Cut-scene sprites/backgrounds
 		bus = new Sprite(getImage("Art/bus.jpg"));
+		bus.hide();
 		framedGirl = new Sprite(getImage("Art/framedgirl.jpg"));
+		framedGirl.position(5, 515);
+		framedGirl.hide();
+		framedDriver = new Sprite(getImage("Art/frameddriver.jpg"));
+		framedDriver.position(5, 515);
+		framedDriver.hide();
 
 		// Position buttons and GUI elements
 		startPicture.position(400, 119);
@@ -187,7 +195,7 @@ public class Forsaken extends Ucigame
 			{
 				bus.draw();
 				framedGirl.draw();
-				framedGirl.position(0, 515);
+				framedDriver.draw();
 			}
 			else if (state == CUTSCENE_2)
 			{
@@ -258,7 +266,10 @@ public class Forsaken extends Ucigame
 		SoundPlayer.stopAll();
 		
 		if (state % 2 == 0)
+		{
+			SoundPlayer.playBGM(SoundPlayer.cutscene);
 			startNextCutscene();
+		}
 		else
 			loadNextLevel();
 		
@@ -311,7 +322,70 @@ public class Forsaken extends Ucigame
 	
 	private void startNextCutscene()
 	{
-		
+		if (state == CUTSCENE_1)
+		{
+			if (next == 1)
+			{
+				bus.show();
+				framedGirl.show();
+				next++;
+			}
+			else if (next == 2)
+			{
+				framedGirl.hide();
+				framedDriver.show();
+				next++;
+			}
+			else if (next == 3)
+			{
+				framedDriver.hide();
+				framedGirl.show();
+				next++;
+			}
+			else if (next == 4)
+			{
+				framedGirl.hide();
+				framedDriver.show();
+				next++;
+			}
+			else if (next == 5)
+			{
+				nextGamestate();
+				next = 1;
+			}
+		}
+		else if (state == CUTSCENE_2)
+		{
+
+		}
+		else if (state == CUTSCENE_3)
+		{
+
+		}
+		else if (state == CUTSCENE_4)
+		{
+
+		}
+		else if (state == CUTSCENE_5)
+		{
+
+		}
+		else if (state == CUTSCENE_6)
+		{
+
+		}
+		else if (state == CUTSCENE_7)
+		{
+
+		}
+		else if (state == CUTSCENE_8)
+		{
+
+		}
+		else if (state == CUTSCENE_9)
+		{
+
+		}
 	}
 	
 	// Keyboard Input ///////////////////////////////////////////////////////////////////
@@ -364,7 +438,8 @@ public class Forsaken extends Ucigame
 		else if (showingCutscene())
 		{
 			// TODO: advance cutscene text
-			nextGamestate();
+			//nextGamestate();
+			startNextCutscene();
 		}
 	}
 	

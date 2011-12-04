@@ -6,6 +6,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 import ucigame.Sprite;
+import ucigame.Ucigame;
 
 public class LevelEditor 
 {
@@ -54,10 +55,15 @@ public class LevelEditor
 	private Sprite loadButton;
 	private Sprite saveButton;
 	private Sprite backButton;
+	private Sprite leftMusicToggleButton;
+	private Sprite rightMusicToggleButton;
+	private Sprite leftSpriteToggleButton;
+	private Sprite rightSpriteToggleButton;
 	
 	public LevelEditor(Forsaken gameloop)
 	{
 		this.gameloop = gameloop;
+		this.gameloop.canvas.font("Arial", Ucigame.PLAIN, 30, 0,0,0);
 		
 		editLevel = new GameState(gameloop);
 		editLevel.loadEmptyLevel();
@@ -131,7 +137,20 @@ public class LevelEditor
 		backButton = gameloop.makeButton("LvlEdBackButton", gameloop.getImage("Art/LvlEdBackButton.png"),
 				Grid.SQUARE_DIMENSIONS * 3, Grid.SQUARE_DIMENSIONS);
 		backButton.position(0.5 * Grid.SQUARE_DIMENSIONS, (paletteY + 1.5) * Grid.SQUARE_DIMENSIONS);
+		leftMusicToggleButton = gameloop.makeButton("LvlEdLeftMusicToggleButton", gameloop.getImage("Art/LvlEdLeftArrowToggle.png"),
+				Grid.SQUARE_DIMENSIONS * 3, Grid.SQUARE_DIMENSIONS);
+		leftMusicToggleButton.position(4.5 * Grid.SQUARE_DIMENSIONS, paletteY * Grid.SQUARE_DIMENSIONS);
+		rightMusicToggleButton = gameloop.makeButton("LvlEdRightMusicToggleButton", gameloop.getImage("Art/LvlEdRightArrowToggle.png"),
+				Grid.SQUARE_DIMENSIONS * 3, Grid.SQUARE_DIMENSIONS);
+		rightMusicToggleButton.position(16 * Grid.SQUARE_DIMENSIONS, paletteY * Grid.SQUARE_DIMENSIONS);
+		leftSpriteToggleButton = gameloop.makeButton("LvlEdLeftSpriteToggleButton", gameloop.getImage("Art/LvlEdLeftArrowToggle.png"),
+				Grid.SQUARE_DIMENSIONS * 3, Grid.SQUARE_DIMENSIONS);
+		leftSpriteToggleButton.position(4.5 * Grid.SQUARE_DIMENSIONS, (paletteY + 1.5) * Grid.SQUARE_DIMENSIONS);
+		rightSpriteToggleButton = gameloop.makeButton("LvlEdRightSpriteToggleButton", gameloop.getImage("Art/LvlEdRightArrowToggle.png"),
+				Grid.SQUARE_DIMENSIONS * 3, Grid.SQUARE_DIMENSIONS);
+		rightSpriteToggleButton.position(16 * Grid.SQUARE_DIMENSIONS, (paletteY + 1.5) * Grid.SQUARE_DIMENSIONS);
 		
+		hide();
 	}
 	
 	public void draw()
@@ -152,8 +171,13 @@ public class LevelEditor
 					gridSquare.draw();
 				}
 			
-			gameloop.canvas.putText("Current Tileset:  ", Forsaken.WINDOW_WIDTH / 2 - 20, Forsaken.WINDOW_HEIGHT / 4);
+			gameloop.canvas.putText(SoundPlayer.getBGMName(), 9.5 * Grid.SQUARE_DIMENSIONS, (paletteY + 0.83) * Grid.SQUARE_DIMENSIONS);
+			gameloop.canvas.putText(Tilesets.getName(), 9.5 * Grid.SQUARE_DIMENSIONS, (paletteY + 2.33) * Grid.SQUARE_DIMENSIONS);
 			backButton.draw();
+			leftMusicToggleButton.draw();
+			rightMusicToggleButton.draw();
+			leftSpriteToggleButton.draw();
+			rightSpriteToggleButton.draw();
 		}
 		else
 		{
@@ -488,6 +512,18 @@ public class LevelEditor
 		testing = false;
 		
 		showEditButtons(true);
+		showTestButtons(false);
+	}
+	
+	public void show()
+	{
+		showEditButtons(true);
+	}
+	
+	public void hide()
+	{
+		showEditButtons(false);
+		showOptionsButtons(false);
 		showTestButtons(false);
 	}
 		

@@ -61,4 +61,24 @@ public class SoundPlayer
 		hopefulUnderstandingBGM.stop();
 		cutsceneBGM.stop();
 	}
+	
+	public static String getBGMName()
+	{
+		if (currentBGM == grandWaltz)
+		{
+			return "Grand Waltz";
+		}
+		else if (currentBGM == hopefulUnderstanding)
+		{
+			return "Hopeful Understanding";
+		}
+		else if (currentBGM == cutscene)
+		{
+			return "Cutscene";
+		}
+		else
+		{
+			return "None";
+		}
+	}
 }

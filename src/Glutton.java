@@ -10,10 +10,12 @@ public class Glutton extends Piece implements Hazard {
 	
 	public Glutton(int gridX, int gridY) 
 	{
-		super(gridX, gridY, 300, 100);
-		// TODO Auto-generated constructor stub
+		// parameters:
+		// x position, y position, move duration, launch_move duration
+		// (smaller values = faster speed)
+		super(gridX, gridY, 250, 80);
 		
-		health = 5;
+		health = 3;
 		currentDirection = Direction.Down;
 		nextChangeTime = RandomGen.nextInt(MAX_CHANGE_TIME);
 		adjacent = new Piece[4];
@@ -74,7 +76,7 @@ public class Glutton extends Piece implements Hazard {
 				}
 				else if (grid.getPieceAt(getX(), y) instanceof Playable)
 				{
-					glaunch(Direction.Up);
+					launch(Direction.Up);
 					SoundPlayer.gluttonChargeSFX.play();
 				}
 				else
@@ -95,7 +97,7 @@ public class Glutton extends Piece implements Hazard {
 				}
 				else if (grid.getPieceAt(getX(), y) instanceof Playable)
 				{
-					glaunch(Direction.Down);
+					launch(Direction.Down);
 					SoundPlayer.gluttonChargeSFX.play();
 				}
 				else
@@ -116,7 +118,7 @@ public class Glutton extends Piece implements Hazard {
 				}
 				else if (grid.getPieceAt(x, getY()) instanceof Playable)
 				{
-					glaunch(Direction.Left);
+					launch(Direction.Left);
 					SoundPlayer.gluttonChargeSFX.play();
 				}
 				else
@@ -137,7 +139,7 @@ public class Glutton extends Piece implements Hazard {
 				}
 				else if (grid.getPieceAt(x, getY()) instanceof Playable)
 				{
-					glaunch(Direction.Right);
+					launch(Direction.Right);
 					SoundPlayer.gluttonChargeSFX.play();
 				}
 				else

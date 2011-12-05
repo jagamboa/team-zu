@@ -17,9 +17,7 @@ public class Forsaken extends Ucigame
 	public static final int WINDOW_WIDTH = 768;
 	public static final int WINDOW_HEIGHT = 768;
 	
-	public static boolean FROST = false;
-	private int[] cheatCode;
-	private int entryIndex = 0;
+	public static final boolean DEBUG = true;
 	
 	//gamestate codes
 	public static final int MENU_STATE = 0;
@@ -93,31 +91,18 @@ public class Forsaken extends Ucigame
 		window.size(WINDOW_WIDTH, WINDOW_HEIGHT);
 		window.title("Forsaken");
 		window.showFPS();
-		framerate(30);
+		framerate(50);
 		
 		SoundPlayer.loadContent(this);
 		Tilesets.initialize(this);
 		
-		// cheat code
-		cheatCode = new int[10];
-		cheatCode[0] = keyboard.UP;
-		cheatCode[1] = keyboard.UP;
-		cheatCode[2] = keyboard.DOWN;
-		cheatCode[3] = keyboard.DOWN;
-		cheatCode[4] = keyboard.LEFT;
-		cheatCode[5] = keyboard.RIGHT;
-		cheatCode[6] = keyboard.LEFT;
-		cheatCode[7] = keyboard.RIGHT;
-		cheatCode[8] = keyboard.B;
-		cheatCode[9] = keyboard.A;
-		
 		
 		// load Buttons
-		startButton = makeButton("Start", getImage("Art/PlayButton.png", 255, 255, 255), 226, 43);
-		instructionButton = makeButton("Instruction", getImage("Art/instructions.png", 255, 255, 255), 378, 51);
-		editorButton  = makeButton("Editor", getImage("Art/editor.png", 255, 255, 255), 204, 51);
-		menuButton = makeButton("Menu", getImage("Art/Menu.png", 255, 255, 255), 169, 51);
-		restartButton = makeButton("Restart", getImage("Art/start.png", 255, 255, 255), 180, 51);
+		startButton = makeButton("Start", getImage("Art/PlayButton.png", 255, 255, 255),389, 104);
+		instructionButton = makeButton("Instruction", getImage("Art/InstructionButton.png", 255, 255, 255), 389, 104);
+		editorButton  = makeButton("Editor", getImage("Art/EditorButton.png", 255, 255, 255), 389, 104);
+		menuButton = makeButton("Menu", getImage("Art/MenuButton.png", 255, 255, 255), 149, 65);
+		restartButton = makeButton("Restart", getImage("Art/Start.png", 255, 255, 255), 149, 65);
 		
 		// load GUI
 		startPicture = new Sprite(getImage("Art/picture.png", 255, 255, 255));
@@ -152,10 +137,10 @@ public class Forsaken extends Ucigame
 
 		// Position buttons and GUI elements
 		startPicture.position(400, 119);
-		startButton.position(422, 384);
-		instructionButton.position(323, 474);
-		editorButton.position(410, 564);
-		instructions.position(537 - instructions.width()/2, 200);
+		startButton.position(285, 300);
+		instructionButton.position(285, 440);
+		editorButton.position(285, 580);
+		instructions.position(50, 50);
 				
 		// Create GameState
 		gameState = new GameState(this);
@@ -809,47 +794,21 @@ public class Forsaken extends Ucigame
 	
 	public void onKeyPress()
 	{	
-		if (showingGameplay())
+		if (keyboard.isDown(keyboard.UP))
 		{
-			if (keyboard.isDown(keyboard.UP))
-			{
-				gameState.move(Direction.Up);
-			}
-			if (keyboard.isDown(keyboard.DOWN))
-			{
-				gameState.move(Direction.Down);
-			}
-			if (keyboard.isDown(keyboard.LEFT))
-			{
-				gameState.move(Direction.Left);
-			}
-			if (keyboard.isDown(keyboard.RIGHT))
-			{
-				gameState.move(Direction.Right);
-			}
+			gameState.move(Direction.Up);
 		}
-		else if (state == MENU_STATE)
+		if (keyboard.isDown(keyboard.DOWN))
 		{
-			if (entryIndex < cheatCode.length && keyboard.isDown(cheatCode[entryIndex]))
-			{
-				entryIndex++;
-				
-				if (entryIndex == cheatCode.length)
-				{
-					FROST = !FROST;
-					
-					if (FROST)
-						SoundPlayer.keyPickupSFX.play();
-					else
-						SoundPlayer.fallingSFX.play();
-					
-					entryIndex = 0;
-				}
-			}
-			else if (entryIndex > 0 && keyboard.key() != cheatCode[entryIndex - 1])
-			{
-				entryIndex = 0;
-			}
+			gameState.move(Direction.Down);
+		}
+		if (keyboard.isDown(keyboard.LEFT))
+		{
+			gameState.move(Direction.Left);
+		}
+		if (keyboard.isDown(keyboard.RIGHT))
+		{
+			gameState.move(Direction.Right);
 		}
 		
 		if (keyboard.isDown(keyboard.SPACE))
@@ -864,9 +823,9 @@ public class Forsaken extends Ucigame
 			}
 		}
 		
-		if (FROST)
+		if (DEBUG)
 		{
-			if (keyboard.isDown(keyboard.SHIFT))
+			if (keyboard.isDown(keyboard.PERIOD))
 			{
 				if (showingGameplay() && state != TEST_LEVEL_STATE)
 					nextGamestate();
@@ -933,7 +892,7 @@ public class Forsaken extends Ucigame
 		levelName.hide();
 		keyCounter.hide();
 		instructions.show();
-		menuButton.position(453, 564);
+		menuButton.position(440, 630);
 		menuButton.show();
 		state = Forsaken.INSTRUCTIONS_STATE;
 	}

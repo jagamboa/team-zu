@@ -37,6 +37,9 @@ public class Tilesets
 	public static Sprite rotateButtonSprite;
 	public static Sprite gluttonButtonSprite;
 	
+	public static int gluttonWalkFramerate = 4;
+	public static int gluttonChargeFramerate = 8;
+	
 	// Gameloop
 	// used for loading images
 	private static Forsaken gameloop;
@@ -73,7 +76,24 @@ public class Tilesets
 		
 		// initialize Glutton sprite
 		gluttonSprite = new Sprite(80, 94);
-		gluttonSprite.addFrames(gameloop.getImage("Art/glutton_large.png"), 0,0);
+		gluttonSprite.addFrames(gameloop.getImage("Art/glutton_large.png"), 0,0, 80,0, 160,0,
+																			0,94, 80,94, 160,94,
+																			0,188, 80,188, 160,188,
+																			0,282, 80,282, 160,282);
+		gluttonSprite.defineSequence("spin", 1, 4, 10, 7);
+		
+		gluttonSprite.defineSequence("upStand", 10);
+		gluttonSprite.defineSequence("downStand", 1);
+		gluttonSprite.defineSequence("leftStand", 4);
+		gluttonSprite.defineSequence("rightStand", 7);
+		
+		gluttonSprite.defineSequence("upMove", 9, 10, 11, 10);
+		gluttonSprite.defineSequence("downMove", 0, 1, 2, 1);
+		gluttonSprite.defineSequence("leftMove", 3, 4, 5, 4);
+		gluttonSprite.defineSequence("rightMove", 6, 7, 8, 7);
+		
+		gluttonSprite.framerate(gluttonWalkFramerate);
+		gluttonSprite.play("downStand");
 		
 		// initialize buttons for level editor
 		nullPieceSprite = new Sprite(gameloop.getImage("Art/NullPiece.png"));

@@ -30,7 +30,12 @@ public class ArrowPanel extends Tile
 		if (piece != null)
 		{
 			if (piece != lastPieceOnThis)
+			{
 				SoundPlayer.arrowPanelSFX.play();
+				
+				if (piece instanceof Glutton)
+					Tilesets.gluttonSprite.play("spin");
+			}
 			
 			piece.launch(direction);
 		}

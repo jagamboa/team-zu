@@ -154,7 +154,7 @@ public class Forsaken extends Ucigame
 		startButton.position(WINDOW_WIDTH/2 - 194, 300);
 		instructionButton.position(WINDOW_WIDTH/2 - 194, 440);
 		editorButton.position(WINDOW_WIDTH/2 - 194, 580);
-		instructions.position(50, 50);
+		instructions.position(50, 0);
 				
 		// Create GameState
 		gameState = new GameState(this);
@@ -932,7 +932,7 @@ public class Forsaken extends Ucigame
 		levelName.hide();
 		keyCounter.hide();
 		instructions.show();
-		menuButton.position(440, 630);
+		menuButton.position(530, 675);
 		menuButton.show();
 		state = Forsaken.INSTRUCTIONS_STATE;
 	}

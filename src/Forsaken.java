@@ -126,7 +126,7 @@ public class Forsaken extends Ucigame
 		restartButton = makeButton("Restart", getImage("Art/Start.png", 255, 255, 255), 149, 65);
 		
 		// load GUI
-		startPicture = new Sprite(getImage("Art/picture.png", 255, 255, 255));
+		startPicture = new Sprite(getImage("Art/title.png", 255, 255, 255));
 		instructions = new Sprite(getImage("Art/Instructions1.png", 255, 255, 255));
 		
 		//load HUD
@@ -167,7 +167,7 @@ public class Forsaken extends Ucigame
 		framedFather.position(5, 515);
 
 		// Position buttons and GUI elements
-		startPicture.position(400, 119);
+		startPicture.position(230, 70);
 		startButton.position(WINDOW_WIDTH/2 - 194, 300);
 		instructionButton.position(WINDOW_WIDTH/2 - 194, 440);
 		editorButton.position(WINDOW_WIDTH/2 - 194, 580);

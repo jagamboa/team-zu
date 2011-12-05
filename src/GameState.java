@@ -393,7 +393,16 @@ public class GameState
 			// error, this shouldn't happen
 			// TODO:  fix this bug
 			
-			restart();
+			if (Forsaken.FROST)
+			{
+				Girl cheatReplacement = new Girl(player.getGirl().getX(), player.getGirl().getY());
+				grid.setPieceDown(cheatReplacement);
+				player.setGirl(cheatReplacement);
+			}
+			else
+			{
+				restart();
+			}
 		}
 	}
 	
@@ -445,6 +454,8 @@ public class GameState
 				}
 				else if (tile instanceof Pit)
 				{
+					Tilesets.emptyTileSprite.position(tile.getPixelX(), tile.getPixelY());
+					Tilesets.emptyTileSprite.draw();
 					Tilesets.pitSprite.position(tile.getPixelX(), tile.getPixelY());
 					Tilesets.pitSprite.draw();
 				}

@@ -32,7 +32,10 @@ public class PushableBlock extends Piece
 	public void isOnTopOf(Tile tile) 
 	{
 		if (tile instanceof Pit)
+		{
 			isDestroyed = true;
+			SoundPlayer.fallingSFX.play();
+		}
 	}
 
 	@Override

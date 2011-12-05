@@ -42,8 +42,11 @@ public class Girl extends Piece implements Playable
 	@Override
 	public void isOnTopOf(Tile tile) 
 	{
-		if (tile instanceof Pit)
+		if (tile instanceof Pit && !Forsaken.FROST)
+		{
 			die();
+			SoundPlayer.fallingSFX.play();
+		}
 	}
 
 	@Override
@@ -61,6 +64,7 @@ public class Girl extends Piece implements Playable
 		else if (pieceBeingTouched instanceof Key)
 		{
 			keyCount++;
+			SoundPlayer.keyPickupSFX.play();
 		}
 	}
 

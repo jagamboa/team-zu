@@ -7,6 +7,7 @@ public class Glutton extends Piece implements Hazard {
 	private long lastChangeTime;
 	private long nextChangeTime;
 	private final int MAX_CHANGE_TIME = 3000;
+	private Grid grid;
 	
 	public Glutton(int gridX, int gridY) 
 	{
@@ -26,6 +27,7 @@ public class Glutton extends Piece implements Hazard {
 	public void update(Grid grid)
 	{
 		super.update(grid);
+		this.grid = grid;
 		
 		if (health < 1)
 		{
@@ -41,7 +43,7 @@ public class Glutton extends Piece implements Hazard {
 		
 		for (int i = 0; i < 4; i++)
 		{
-			if (adjacent[i] != null && (adjacent[i] instanceof Playable))
+			if (adjacent[i] != null && (adjacent[i] instanceof Playable) && !Forsaken.FROST)
 			{
 				if (Math.abs(adjacent[i].getPixelX() - super.getPixelX()) < 1.5 * Grid.SQUARE_DIMENSIONS
 						&& Math.abs(adjacent[i].getPixelY() - super.getPixelY()) < 1.8 * Grid.SQUARE_DIMENSIONS)
@@ -49,7 +51,7 @@ public class Glutton extends Piece implements Hazard {
 					((Playable)adjacent[i]).die();
 				}
 			}
-			else if (adjacent[i] != null && (adjacent[i] instanceof PushableBlock))
+			else if (adjacent[i] != null && (adjacent[i] instanceof PushableBlock) && !Forsaken.FROST)
 			{
 				if (Math.abs(adjacent[i].getPixelX() - super.getPixelX()) < 1.5 * Grid.SQUARE_DIMENSIONS
 						&& Math.abs(adjacent[i].getPixelY() - super.getPixelY()) < 2 * Grid.SQUARE_DIMENSIONS)
@@ -221,9 +223,33 @@ public class Glutton extends Piece implements Hazard {
 		}
 	}
 	
+	public void dieCheat()
+	{
+		health = 1;
+		getHurt(null);
+		
+		Direction d = getLastDirectionMoved();
+		
+		if (d == Direction.Up)
+			cheatChangeY(1);
+		else if (d == Direction.Down)
+			cheatChangeY(-1);
+		else if (d == Direction.Left)
+			cheatChangeX(1);
+		else if (d == Direction.Right)
+			cheatChangeX(-1);
+	}
+	
+	public Grid getGridCheat()
+	{
+		return grid;
+	}
+	
 	private void getHurt(PushableBlock hit)
 	{
-		hit.isDestroyed = true;
+		if (hit != null)
+			hit.isDestroyed = true;
+		
 		health--;
 		if (health > 0)
 		{

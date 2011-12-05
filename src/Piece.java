@@ -177,6 +177,18 @@ public abstract class Piece
 		return gridY;
 	}
 	
+	// changes the grid position of this piece directly
+	public void cheatChangeX(int x)
+	{
+		gridX += x;
+	}
+	
+	// changes the grid position of this piece directly
+	public void cheatChangeY(int y)
+	{
+		gridY += y;
+	}
+	
 	// returns the piece's pixel x location
 	// used for drawing
 	public int getPixelX()

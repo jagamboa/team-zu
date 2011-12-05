@@ -63,7 +63,6 @@ public class LevelEditor
 	public LevelEditor(Forsaken gameloop)
 	{
 		this.gameloop = gameloop;
-		this.gameloop.canvas.font("Arial", Ucigame.PLAIN, 30, 0,0,0);
 		
 		editLevel = new GameState(gameloop);
 		editLevel.loadEmptyLevel();
@@ -142,13 +141,13 @@ public class LevelEditor
 		leftMusicToggleButton.position(4.5 * Grid.SQUARE_DIMENSIONS, paletteY * Grid.SQUARE_DIMENSIONS);
 		rightMusicToggleButton = gameloop.makeButton("LvlEdRightMusicToggleButton", gameloop.getImage("Art/LvlEdRightArrowToggle.png"),
 				Grid.SQUARE_DIMENSIONS * 3, Grid.SQUARE_DIMENSIONS);
-		rightMusicToggleButton.position(16 * Grid.SQUARE_DIMENSIONS, paletteY * Grid.SQUARE_DIMENSIONS);
+		rightMusicToggleButton.position(20 * Grid.SQUARE_DIMENSIONS, paletteY * Grid.SQUARE_DIMENSIONS);
 		leftSpriteToggleButton = gameloop.makeButton("LvlEdLeftSpriteToggleButton", gameloop.getImage("Art/LvlEdLeftArrowToggle.png"),
 				Grid.SQUARE_DIMENSIONS * 3, Grid.SQUARE_DIMENSIONS);
 		leftSpriteToggleButton.position(4.5 * Grid.SQUARE_DIMENSIONS, (paletteY + 1.5) * Grid.SQUARE_DIMENSIONS);
 		rightSpriteToggleButton = gameloop.makeButton("LvlEdRightSpriteToggleButton", gameloop.getImage("Art/LvlEdRightArrowToggle.png"),
 				Grid.SQUARE_DIMENSIONS * 3, Grid.SQUARE_DIMENSIONS);
-		rightSpriteToggleButton.position(16 * Grid.SQUARE_DIMENSIONS, (paletteY + 1.5) * Grid.SQUARE_DIMENSIONS);
+		rightSpriteToggleButton.position(20 * Grid.SQUARE_DIMENSIONS, (paletteY + 1.5) * Grid.SQUARE_DIMENSIONS);
 		
 		hide();
 	}
@@ -514,6 +513,7 @@ public class LevelEditor
 	public void show()
 	{
 		showEditButtons(true);
+		this.gameloop.canvas.font("Arial", Ucigame.PLAIN, 30, 0,0,0);
 	}
 	
 	public void hide()

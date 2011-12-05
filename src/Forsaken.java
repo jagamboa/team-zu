@@ -151,9 +151,9 @@ public class Forsaken extends Ucigame
 
 		// Position buttons and GUI elements
 		startPicture.position(400, 119);
-		startButton.position(285, 300);
-		instructionButton.position(285, 440);
-		editorButton.position(285, 580);
+		startButton.position(WINDOW_WIDTH/2 - 194, 300);
+		instructionButton.position(WINDOW_WIDTH/2 - 194, 440);
+		editorButton.position(WINDOW_WIDTH/2 - 194, 580);
 		instructions.position(50, 50);
 				
 		// Create GameState
@@ -946,7 +946,7 @@ public class Forsaken extends Ucigame
 		editorButton.hide();
 		levelName.hide();
 		keyCounter.hide();
-		menuButton.position(25, 660);
+		menuButton.position(55, 645);
 		menuButton.show();
 		levelEditor.show();
 		state = Forsaken.EDITOR_STATE;

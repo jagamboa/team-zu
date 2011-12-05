@@ -114,13 +114,13 @@ public class LevelEditor
 		gluttonButton.position((paletteX + 8) * Grid.SQUARE_DIMENSIONS, (paletteY + 1) * Grid.SQUARE_DIMENSIONS);
 		nullPieceButton = gameloop.makeButton("LvlEdNullPieceButton", gameloop.getImage("Art/LvlEdPaletteButton.png"),
 				Grid.SQUARE_DIMENSIONS, Grid.SQUARE_DIMENSIONS);
-		nullPieceButton.position((paletteX + 9) * Grid.SQUARE_DIMENSIONS, (paletteY + 1) * Grid.SQUARE_DIMENSIONS);
+		nullPieceButton.position((paletteX - 1.5) * Grid.SQUARE_DIMENSIONS, (paletteY + 1) * Grid.SQUARE_DIMENSIONS);
 		
 		
 		// Initialize Other Buttons
 		rotateButton = gameloop.makeButton("LvlEdRotateButton", gameloop.getImage("Art/LvlEdPaletteButton.png"), 
 				Grid.SQUARE_DIMENSIONS, Grid.SQUARE_DIMENSIONS);
-		rotateButton.position((paletteX - 1.5) * Grid.SQUARE_DIMENSIONS, (paletteY + 0.5) * Grid.SQUARE_DIMENSIONS);
+		rotateButton.position((paletteX - 1.5) * Grid.SQUARE_DIMENSIONS, (paletteY + 0) * Grid.SQUARE_DIMENSIONS);
 		optionsButton = gameloop.makeButton("LvlEdOptionsButton", gameloop.getImage("Art/LvlEdOptionsButton.png"),
 				Grid.SQUARE_DIMENSIONS * 3, Grid.SQUARE_DIMENSIONS);
 		optionsButton.position( 20 * Grid.SQUARE_DIMENSIONS, paletteY * Grid.SQUARE_DIMENSIONS - 5);
@@ -234,9 +234,9 @@ public class LevelEditor
 			Tilesets.spikeTrapSprite.draw();
 			Tilesets.gluttonButtonSprite.position((paletteX  + 8) * Grid.SQUARE_DIMENSIONS, (paletteY + 1) * Grid.SQUARE_DIMENSIONS);
 			Tilesets.gluttonButtonSprite.draw();
-			Tilesets.nullPieceSprite.position((paletteX + 9) * Grid.SQUARE_DIMENSIONS, (paletteY + 1) * Grid.SQUARE_DIMENSIONS);
+			Tilesets.nullPieceSprite.position((paletteX - 1.5) * Grid.SQUARE_DIMENSIONS, (paletteY + 1) * Grid.SQUARE_DIMENSIONS);
 			Tilesets.nullPieceSprite.draw();
-			Tilesets.rotateButtonSprite.position((paletteX - 1.5) * Grid.SQUARE_DIMENSIONS, (paletteY + 0.5) * Grid.SQUARE_DIMENSIONS);
+			Tilesets.rotateButtonSprite.position((paletteX - 1.5) * Grid.SQUARE_DIMENSIONS, (paletteY) * Grid.SQUARE_DIMENSIONS);
 			Tilesets.rotateButtonSprite.draw();
 			
 			// Draw Pallete Buttons

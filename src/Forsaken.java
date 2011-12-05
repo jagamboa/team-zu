@@ -93,7 +93,7 @@ public class Forsaken extends Ucigame
 		window.size(WINDOW_WIDTH, WINDOW_HEIGHT);
 		window.title("Forsaken");
 		window.showFPS();
-		framerate(50);
+		framerate(30);
 		
 		SoundPlayer.loadContent(this);
 		Tilesets.initialize(this);
@@ -837,7 +837,12 @@ public class Forsaken extends Ucigame
 				if (entryIndex == cheatCode.length)
 				{
 					FROST = !FROST;
-					SoundPlayer.keyPickupSFX.play();
+					
+					if (FROST)
+						SoundPlayer.keyPickupSFX.play();
+					else
+						SoundPlayer.fallingSFX.play();
+					
 					entryIndex = 0;
 				}
 			}

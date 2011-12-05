@@ -17,7 +17,8 @@ public class Glutton extends Piece implements Hazard {
 		super(gridX, gridY, 250, 80);
 		
 		health = 3;
-		currentDirection = Direction.Down;
+		currentDirection = null;
+		Tilesets.gluttonSprite.play("downStand");
 		nextChangeTime = RandomGen.nextInt(MAX_CHANGE_TIME);
 		adjacent = new Piece[4];
 		lastChangeTime = -1;
@@ -80,6 +81,8 @@ public class Glutton extends Piece implements Hazard {
 				{
 					launch(Direction.Up);
 					SoundPlayer.gluttonChargeSFX.play();
+					Tilesets.gluttonSprite.play("upMove");
+					Tilesets.gluttonSprite.setToFrame(9);
 				}
 				else
 				{
@@ -101,6 +104,8 @@ public class Glutton extends Piece implements Hazard {
 				{
 					launch(Direction.Down);
 					SoundPlayer.gluttonChargeSFX.play();
+					Tilesets.gluttonSprite.play("downMove");
+					Tilesets.gluttonSprite.setToFrame(0);
 				}
 				else
 				{
@@ -122,6 +127,8 @@ public class Glutton extends Piece implements Hazard {
 				{
 					launch(Direction.Left);
 					SoundPlayer.gluttonChargeSFX.play();
+					Tilesets.gluttonSprite.play("leftMove");
+					Tilesets.gluttonSprite.setToFrame(3);
 				}
 				else
 				{
@@ -143,35 +150,21 @@ public class Glutton extends Piece implements Hazard {
 				{
 					launch(Direction.Right);
 					SoundPlayer.gluttonChargeSFX.play();
+					Tilesets.gluttonSprite.play("rightMove");
+					Tilesets.gluttonSprite.setToFrame(6);
 				}
 				else
 				{
 					break;
 				}
 			}
+			
+			if (isBeingLaunched())
+				Tilesets.gluttonSprite.framerate(Tilesets.gluttonChargeFramerate);
 		}
 		
 		// random movement
-		if (!isBeingLaunched())
-		{
-			if (lastChangeTime == -1)
-				lastChangeTime = System.currentTimeMillis();
-			
-			if (currentDirection != null)
-				grid.movePiece(this.getX(), this.getY(), currentDirection);
-			
-			long currentTime = System.currentTimeMillis();
-			
-			if (currentTime - lastChangeTime > nextChangeTime)
-			{
-				currentDirection = RandomGen.getRandomDirection();
-				lastChangeTime = currentTime;
-				nextChangeTime = RandomGen.nextInt(MAX_CHANGE_TIME);
-				
-				if (RandomGen.nextInt(4) < 1)
-					SoundPlayer.gluttonLaughSFX.play();
-			}
-		}
+		randomMovement(grid);
 	}
 	
 	@Override
@@ -211,8 +204,8 @@ public class Glutton extends Piece implements Hazard {
 	@Override
 	public void touch(Piece pieceBeingTouched) 
 	{
-		// TODO Auto-generated method stub
-		currentDirection = RandomGen.getRandomDirection();
+		lastChangeTime = 0;
+		randomMovement(null);
 		
 		if (pieceBeingTouched instanceof PushableBlock)
 		{
@@ -245,8 +238,78 @@ public class Glutton extends Piece implements Hazard {
 		return grid;
 	}
 	
+	private void randomMovement(Grid grid)
+	{
+		if (!isBeingLaunched())
+		{
+			if (lastChangeTime == -1)
+				lastChangeTime = System.currentTimeMillis();
+			
+			if (currentDirection != null && grid != null)
+				grid.movePiece(this.getX(), this.getY(), currentDirection);
+			
+			long currentTime = System.currentTimeMillis();
+			
+			if (currentTime - lastChangeTime > nextChangeTime)
+			{
+				Tilesets.gluttonSprite.framerate(Tilesets.gluttonWalkFramerate);
+				Direction oldDirection = currentDirection;
+				currentDirection = RandomGen.getRandomDirection();
+				lastChangeTime = currentTime;
+				nextChangeTime = RandomGen.nextInt(MAX_CHANGE_TIME);
+				
+				if (RandomGen.nextInt(4) < 1)
+					SoundPlayer.gluttonLaughSFX.play();
+				
+				if (currentDirection == Direction.Up)
+				{
+					Tilesets.gluttonSprite.play("upMove");
+					Tilesets.gluttonSprite.setToFrame(9);
+				}
+				else if (currentDirection == Direction.Down)
+				{
+					Tilesets.gluttonSprite.play("downMove");
+					Tilesets.gluttonSprite.setToFrame(0);
+				}
+				else if (currentDirection == Direction.Left)
+				{
+					Tilesets.gluttonSprite.play("leftMove");
+					Tilesets.gluttonSprite.setToFrame(3);
+				}
+				else if (currentDirection == Direction.Right)
+				{
+					Tilesets.gluttonSprite.play("rightMove");
+					Tilesets.gluttonSprite.setToFrame(6);
+				}
+				else
+				{
+					if (oldDirection == Direction.Up)
+					{
+						Tilesets.gluttonSprite.play("upStand");
+					}
+					else if (oldDirection == Direction.Down)
+					{
+						Tilesets.gluttonSprite.play("downStand");
+					}
+					else if (oldDirection == Direction.Left)
+					{
+						Tilesets.gluttonSprite.play("leftStand");
+					}
+					else if (oldDirection == Direction.Right)
+					{
+						Tilesets.gluttonSprite.play("rightStand");
+					}
+				}
+			}
+		}
+	}
+	
 	private void getHurt(PushableBlock hit)
 	{
+		// don't get hit by the same block twice
+		if (hit.isDestroyed)
+			return;
+		
 		if (hit != null)
 			hit.isDestroyed = true;
 		

@@ -23,9 +23,21 @@ public class Square
 	// initializes a piece on this square
 	public void setPiece(Piece piece)
 	{
-		this.piece = piece;
-		isBeingMovedTo = false;
-		pieceMoving = null;
+		if (piece instanceof Glutton && this.piece instanceof Playable && Forsaken.FROST)
+		{
+			((Glutton)piece).dieCheat();
+			((Glutton)piece).getGridCheat().setTileDown((new Goal(piece.getX(), piece.getY())));
+		}
+		
+		if (this.piece instanceof Glutton && piece != null)
+			return;
+		
+		if (piece == null || !(this.piece instanceof Playable))
+		{
+			this.piece = piece;
+			isBeingMovedTo = false;
+			pieceMoving = null;
+		}
 	}
 	
 	// returns the tile on this square
@@ -90,6 +102,14 @@ public class Square
 				}
 				
 				piece = null;
+			}
+		}
+		
+		if (isBeingMovedTo)
+		{
+			if (pieceMoving == null || !pieceMoving.isMoving())
+			{
+				setIsBeingMovedTo(null, false);
 			}
 		}
 	}

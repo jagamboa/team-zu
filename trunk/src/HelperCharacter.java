@@ -45,7 +45,10 @@ public class HelperCharacter extends Piece implements Playable
 	public void isOnTopOf(Tile tile) 
 	{
 		if (tile instanceof Pit)
+		{
 			die();
+			SoundPlayer.fallingSFX.play();
+		}
 	}
 
 	// Should function the same as the Girl except for the
@@ -65,6 +68,7 @@ public class HelperCharacter extends Piece implements Playable
 		else if (pieceBeingTouched instanceof Key)
 		{
 			keyCount++;
+			SoundPlayer.keyPickupSFX.play();
 		}
 		else if (pieceBeingTouched instanceof Spikeball)
 		{

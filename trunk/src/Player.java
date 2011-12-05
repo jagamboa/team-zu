@@ -51,6 +51,13 @@ public class Player
 		return girl;
 	}
 	
+	// sets the reference to a Girl object
+	public void setGirl(Girl girl)
+	{
+		this.girl = girl;
+		currentPiece = girl;
+	}
+	
 	// updates the player, if the current piece was deleted somehow then
 	// it is reverted back to the Girl piece
 	public void update()

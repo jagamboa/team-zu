@@ -42,6 +42,7 @@ public class Door extends Piece
 	public void unlock()
 	{
 		isDestroyed = true;
+		SoundPlayer.doorOpenSFX.play();
 	}
 
 }

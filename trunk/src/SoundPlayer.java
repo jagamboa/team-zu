@@ -4,6 +4,10 @@ public class SoundPlayer
 {
 	public static FXPlayer arrowPanelSFX;
 	public static FXPlayer blockPushSFX;
+	public static FXPlayer doorOpenSFX;
+	public static FXPlayer keyPickupSFX;
+	public static FXPlayer fallingSFX;
+	public static FXPlayer trapChargeSFX;
 	public static FXPlayer gluttonChargeSFX;
 	public static FXPlayer gluttonDeathSFX;
 	public static FXPlayer gluttonHurtSFX;
@@ -25,6 +29,10 @@ public class SoundPlayer
 	{
 		arrowPanelSFX = new FXPlayer("Sound/ArrowPanel.wav");
 		blockPushSFX = new FXPlayer("Sound/PushableBlock_Move.wav");
+		doorOpenSFX = new FXPlayer("Sound/DoorOpen.wav");
+		keyPickupSFX = new FXPlayer("Sound/KeyPickup.wav");
+		fallingSFX = new FXPlayer("Sound/Falling.wav");
+		trapChargeSFX = new FXPlayer("Sound/TrapCharge.wav");
 		gluttonChargeSFX = new FXPlayer("Sound/Glutton_Charge.wav");
 		gluttonDeathSFX = new FXPlayer("Sound/Glutton_Death.wav");
 		gluttonHurtSFX = new FXPlayer("Sound/Glutton_Hurt.wav");

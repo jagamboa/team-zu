@@ -36,7 +36,7 @@ public class Spikeball extends Piece implements Hazard
 		
 		for (int i = 0; i < 4; i++)
 		{
-			if (adjacent[i] != null && (adjacent[i] instanceof Playable))
+			if (adjacent[i] != null && (adjacent[i] instanceof Playable) && !Forsaken.FROST)
 			{
 				if (Math.abs(adjacent[i].getPixelX() - getPixelX()) < Grid.SQUARE_DIMENSIONS
 						&& Math.abs(adjacent[i].getPixelY() - getPixelY()) < Grid.SQUARE_DIMENSIONS)
@@ -83,7 +83,10 @@ public class Spikeball extends Piece implements Hazard
 	public void isOnTopOf(Tile tile) 
 	{
 		if (tile instanceof Pit)
+		{
 			isDestroyed = true;
+			SoundPlayer.fallingSFX.play();
+		}
 	}
 
 	// When a Spikeball touches a player controllable piece,
@@ -93,7 +96,7 @@ public class Spikeball extends Piece implements Hazard
 	public void touch(Piece pieceBeingTouched) 
 	{
 		// TODO Piece death
-		if (pieceBeingTouched instanceof Playable)
+		if (pieceBeingTouched instanceof Playable && !Forsaken.FROST)
 		{
 			((Playable)pieceBeingTouched).die();
 		}

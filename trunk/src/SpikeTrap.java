@@ -28,6 +28,7 @@ public class SpikeTrap extends Piece implements Hazard
 				else if (grid.getPieceAt(getX(), y) instanceof Playable)
 				{
 					launch(Direction.Up);
+					SoundPlayer.trapChargeSFX.play();
 				}
 				else
 				{
@@ -48,6 +49,7 @@ public class SpikeTrap extends Piece implements Hazard
 				else if (grid.getPieceAt(getX(), y) instanceof Playable)
 				{
 					launch(Direction.Down);
+					SoundPlayer.trapChargeSFX.play();
 				}
 				else
 				{
@@ -68,6 +70,7 @@ public class SpikeTrap extends Piece implements Hazard
 				else if (grid.getPieceAt(x, getY()) instanceof Playable)
 				{
 					launch(Direction.Left);
+					SoundPlayer.trapChargeSFX.play();
 				}
 				else
 				{
@@ -88,6 +91,7 @@ public class SpikeTrap extends Piece implements Hazard
 				else if (grid.getPieceAt(x, getY()) instanceof Playable)
 				{
 					launch(Direction.Right);
+					SoundPlayer.trapChargeSFX.play();
 				}
 				else
 				{
@@ -119,6 +123,7 @@ public class SpikeTrap extends Piece implements Hazard
 		if (tile instanceof Pit)
 		{
 			isDestroyed = true;
+			SoundPlayer.fallingSFX.play();
 		}
 	}
 
@@ -126,7 +131,7 @@ public class SpikeTrap extends Piece implements Hazard
 	@Override
 	public void touch(Piece pieceBeingTouched) 
 	{
-		if (pieceBeingTouched instanceof Playable)
+		if (pieceBeingTouched instanceof Playable && !Forsaken.FROST)
 		{
 			((Playable)pieceBeingTouched).die();
 		}

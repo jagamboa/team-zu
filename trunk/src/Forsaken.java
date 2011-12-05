@@ -17,7 +17,9 @@ public class Forsaken extends Ucigame
 	public static final int WINDOW_WIDTH = 768;
 	public static final int WINDOW_HEIGHT = 768;
 	
-	public static final boolean DEBUG = true;
+	public static boolean FROST = false;
+	private int[] cheatCode;
+	private int entryIndex = 0;
 	
 	//gamestate codes
 	public static final int MENU_STATE = 0;
@@ -95,6 +97,19 @@ public class Forsaken extends Ucigame
 		
 		SoundPlayer.loadContent(this);
 		Tilesets.initialize(this);
+		
+		// cheat code
+		cheatCode = new int[10];
+		cheatCode[0] = keyboard.UP;
+		cheatCode[1] = keyboard.UP;
+		cheatCode[2] = keyboard.DOWN;
+		cheatCode[3] = keyboard.DOWN;
+		cheatCode[4] = keyboard.LEFT;
+		cheatCode[5] = keyboard.RIGHT;
+		cheatCode[6] = keyboard.LEFT;
+		cheatCode[7] = keyboard.RIGHT;
+		cheatCode[8] = keyboard.B;
+		cheatCode[9] = keyboard.A;
 		
 		
 		// load Buttons
@@ -794,21 +809,42 @@ public class Forsaken extends Ucigame
 	
 	public void onKeyPress()
 	{	
-		if (keyboard.isDown(keyboard.UP))
+		if (showingGameplay())
 		{
-			gameState.move(Direction.Up);
+			if (keyboard.isDown(keyboard.UP))
+			{
+				gameState.move(Direction.Up);
+			}
+			if (keyboard.isDown(keyboard.DOWN))
+			{
+				gameState.move(Direction.Down);
+			}
+			if (keyboard.isDown(keyboard.LEFT))
+			{
+				gameState.move(Direction.Left);
+			}
+			if (keyboard.isDown(keyboard.RIGHT))
+			{
+				gameState.move(Direction.Right);
+			}
 		}
-		if (keyboard.isDown(keyboard.DOWN))
+		else if (state == MENU_STATE)
 		{
-			gameState.move(Direction.Down);
-		}
-		if (keyboard.isDown(keyboard.LEFT))
-		{
-			gameState.move(Direction.Left);
-		}
-		if (keyboard.isDown(keyboard.RIGHT))
-		{
-			gameState.move(Direction.Right);
+			if (entryIndex < cheatCode.length && keyboard.isDown(cheatCode[entryIndex]))
+			{
+				entryIndex++;
+				
+				if (entryIndex == cheatCode.length)
+				{
+					FROST = !FROST;
+					SoundPlayer.keyPickupSFX.play();
+					entryIndex = 0;
+				}
+			}
+			else if (entryIndex > 0 && keyboard.key() != cheatCode[entryIndex - 1])
+			{
+				entryIndex = 0;
+			}
 		}
 		
 		if (keyboard.isDown(keyboard.SPACE))
@@ -823,9 +859,9 @@ public class Forsaken extends Ucigame
 			}
 		}
 		
-		if (DEBUG)
+		if (FROST)
 		{
-			if (keyboard.isDown(keyboard.PERIOD))
+			if (keyboard.isDown(keyboard.SHIFT))
 			{
 				if (showingGameplay() && state != TEST_LEVEL_STATE)
 					nextGamestate();

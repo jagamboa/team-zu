@@ -74,15 +74,22 @@ public class Forsaken extends Ucigame
 	private Sprite framedSiblings;
 	private Sprite framedUncle;
 	private Sprite framedGlutton;
+	private Sprite framedDoctor;
+	private Sprite framedPolice;
+	private Sprite framedFather;
 	private Sprite bus;
 	private Sprite frontporch;
 	private Sprite insidehouse;
 	private Sprite closetdoor;
+	private Sprite room;
+	private Sprite room1;
+	private Sprite darkness;
+	private Sprite hallway1;
 	private Sprite hallway;
 	private Sprite twistedhallway;
 	private Sprite basement;
 	private Sprite rottenhallway;
-	private Sprite frontporch2;
+	private Sprite asylum;
 	
 
 	
@@ -131,11 +138,15 @@ public class Forsaken extends Ucigame
 		frontporch = new Sprite(getImage("Art/frontporch.jpg"));
 		insidehouse = new Sprite(getImage("Art/insidehouse.jpg"));
 		closetdoor = new Sprite(getImage("Art/closetdoor.jpg"));
+		room1 = new Sprite(getImage("Art/room1.jpg"));
+		darkness = new Sprite(getImage("Art/darkness.jpg"));
+		room = new Sprite(getImage("Art/room.jpg"));
+		hallway1 = new Sprite(getImage("Art/hallway1.jpg"));
 		hallway = new Sprite(getImage("Art/hallway.jpg"));
 		twistedhallway = new Sprite(getImage("Art/twistedhallway.jpg"));
 		basement = new Sprite(getImage("Art/basement.jpg"));
 		rottenhallway = new Sprite(getImage("Art/rottenhallway.jpg"));
-		frontporch2 = new Sprite(getImage("Art/frontporch2.jpg"));
+		asylum = new Sprite(getImage("Art/asylum.jpg"));
 		framedGirl = new Sprite(getImage("Art/framedgirl.jpg"));
 		framedGirl.position(5, 515);
 		framedDriver = new Sprite(getImage("Art/frameddriver.jpg"));
@@ -148,6 +159,12 @@ public class Forsaken extends Ucigame
 		framedUncle.position(5, 515);
 		framedGlutton = new Sprite(getImage("Art/framedGlutton.jpg"));
 		framedGlutton.position(5, 515);
+		framedDoctor = new Sprite(getImage("Art/framedDoctor.jpg"));
+		framedDoctor.position(5, 515);
+		framedPolice = new Sprite(getImage("Art/framedPolice.jpg"));
+		framedPolice.position(5, 515);
+		framedFather = new Sprite(getImage("Art/framedFather.jpg"));
+		framedFather.position(5, 515);
 
 		// Position buttons and GUI elements
 		startPicture.position(400, 119);
@@ -232,7 +249,6 @@ public class Forsaken extends Ucigame
 		else if (showingCutscene())
 		{
 			canvas.font("Arial", PLAIN, 30);
-			// TODO: draw cutscene
 			if (state == CUTSCENE_1)
 			{
 				if (next == 1)
@@ -272,7 +288,7 @@ public class Forsaken extends Ucigame
 					canvas.putText("To complete the level,", 20, 200);
 					canvas.putText("push the luggage out", 20, 300);
 					canvas.putText("of your way to reach", 20, 400);
-					canvas.putText("the goal", 20, 500);
+					canvas.putText("the goal.", 20, 500);
 				}
 			}
 			else if (state == CUTSCENE_2)
@@ -312,7 +328,14 @@ public class Forsaken extends Ucigame
 				}
 				else if (next == 6)
 				{
-					//instructions
+					canvas.font("Arial", PLAIN, 70);
+					canvas.putText("To complete the level,", 20, 200);
+					canvas.putText("push the pots out", 20, 300);
+					canvas.putText("of your way while", 20, 400);
+					canvas.putText("avoiding the pits.", 20, 500);
+					canvas.font("Arial", PLAIN,40);
+					canvas.putText("*hint* Obstacles can be pushed", 20, 640);
+					canvas.putText("into pits as well", 125,690);
 				}
 			}
 			else if (state == CUTSCENE_3)
@@ -339,34 +362,118 @@ public class Forsaken extends Ucigame
 				}
 				else if (next == 4)
 				{
-					//instructions
+					canvas.font("Arial", PLAIN, 70);
+					canvas.putText("To complete the level,", 20, 200);
+					canvas.putText("push the furniture", 20, 300);
+					canvas.putText("from multiple angles", 20, 400);
+					canvas.putText("to grab the key and", 20, 500);
+					canvas.putText("open the locked door", 20, 600);
 				}
 			}
-			else if (state == CUTSCENE_4) //?????
+			else if (state == CUTSCENE_4)
 			{
 				if (next == 1)
 				{
 					closetdoor.draw();
+					framedGirl.draw();
+					canvas.putText("Girl:", 450, 550);
+					canvas.putText("Brother! Sister! What's going on?", 280, 625);
+					canvas.putText("Why are you hiding in here?", 280, 675);
 				}
 				else if (next == 2)
 				{
 					closetdoor.draw();
+					framedSiblings.draw();
+					canvas.putText("Brother:", 450, 550);
+					canvas.putText("Uncle's being scary!", 350, 625);
+					canvas.putText("He started breaking things", 350, 675);
+					canvas.putText("and chasing mom!", 350, 725);
 				}
 				else if (next == 3)
 				{
 					closetdoor.draw();
+					canvas.putText("*screaming and yelling from upstairs*", 145, 625);
 				}
 				else if (next == 4)
 				{
 					closetdoor.draw();
+					framedGirl.draw();
+					canvas.putText("Girl:", 450, 550);
+					canvas.putText("Get out of here, go get the police! Hurry!", 230, 625);
+					canvas.putText("*girl runs upstairs towards the yelling*", 230, 675);
 				}
 				else if (next == 5)
 				{
-					closetdoor.draw();
+					room1.draw();
+					framedUncle.draw();
+					canvas.putText("Uncle:", 450, 550);
+					canvas.putText("Purify, PURIFY!!!", 385, 625);
 				}
 				else if (next == 6)
 				{
-					//instructions
+					room1.draw();
+					framedGirl.draw();
+					canvas.putText("Girl:", 450, 550);
+					canvas.putText("Mom!", 450, 625);
+					canvas.putText("*girl swings a vase at the uncle. she misses*", 185, 675);
+					canvas.putText("*gets pushed aside, and falls unconscious*", 185, 725);
+				}
+				else if (next == 7)
+				{
+					darkness.draw();
+					framedGirl.draw();
+					canvas.putText("Girl:", 450, 550);
+					canvas.putText("Ugh... what.. happene- oh no, mom...", 250, 625);
+				}
+				else if (next == 8)
+				{
+					room.draw();
+					canvas.putText("*mom is dead on the floor, the uncle cleaning his knife*", 10, 625);
+				}
+				else if (next == 9)
+				{
+					room.draw();
+					framedGirl.draw();
+					canvas.putText("Girl:", 450, 550);
+					canvas.putText("I have to get out of here...", 310, 625);
+					canvas.putText("*girl quietly moves towards door*", 280, 675);
+					canvas.putText("*steps on broken vase*", 310, 725);
+				}
+				else if (next == 10)
+				{
+					room.draw();
+					framedGirl.draw();
+					canvas.putText("Girl:", 450, 550);
+					canvas.putText("Shoot!", 450, 625);
+					canvas.putText("*girl runs as fast as she can*", 280, 675);
+				}
+				else if (next == 11)
+				{
+					hallway1.draw();
+					framedGirl.draw();
+					canvas.putText("Girl:", 450, 550);
+					canvas.putText("Ahh! What's going on?!", 300, 625);
+					canvas.putText("Why is the house so... broken?", 300, 675);
+				}
+				else if (next == 12)
+				{
+					hallway1.draw();
+					canvas.putText("*sound of banging on the door*", 220, 625);
+				}
+				else if (next == 13)
+				{
+					hallway1.draw();
+					framedGirl.draw();
+					canvas.putText("Girl:", 450, 550);
+					canvas.putText("I have to find a way downstairs...", 300, 625);
+				}
+				else if (next == 14)
+				{
+					canvas.font("Arial", PLAIN, 70);
+					canvas.putText("To complete the level,", 20, 200);
+					canvas.putText("push blocks into pits", 20, 300);
+					canvas.putText("and grab the key to", 20, 400);
+					canvas.putText("open the locked door", 20, 500);
 				}
 			}
 			else if (state == CUTSCENE_5)
@@ -442,7 +549,12 @@ public class Forsaken extends Ucigame
 				}
 				else if (next == 10)
 				{
-					//instructions
+					canvas.font("Arial", PLAIN, 70);
+					canvas.putText("To complete the level,", 20, 200);
+					canvas.putText("dodge the moving", 20, 300);
+					canvas.putText("bookshelves while", 20, 400);
+					canvas.putText("grabbing both keys", 20, 500);
+					canvas.putText("to reach the goal.", 20, 600);
 				}
 			}
 			else if (state == CUTSCENE_6)
@@ -458,9 +570,9 @@ public class Forsaken extends Ucigame
 				else if (next == 2)
 				{
 					twistedhallway.draw();
-					//man in white
+					framedDoctor.draw();
 					canvas.putText("Man in White:", 400, 550);
-					canvas.putText("...", 440, 625);
+					canvas.putText("...", 450, 625);
 				}
 				else if (next == 3)
 				{
@@ -473,7 +585,13 @@ public class Forsaken extends Ucigame
 				}
 				else if (next == 4)
 				{
-					//instructions
+					canvas.font("Arial", PLAIN, 70);
+					canvas.putText("To complete the level,", 20, 200);
+					canvas.putText("avoid the ghosts", 20, 300);
+					canvas.putText("and men in white", 20, 400);
+					canvas.font("Arial", PLAIN,40);
+					canvas.putText("*hint* Arrow panels launch you", 20, 540);
+					canvas.putText("until an obstacle is hit", 125, 590);
 				}
 			}
 			else if (state == CUTSCENE_7)
@@ -511,7 +629,11 @@ public class Forsaken extends Ucigame
 				}
 				else if (next == 5)
 				{
-					//instructions
+					canvas.font("Arial", PLAIN, 70);
+					canvas.putText("To complete the level,", 20, 200);
+					canvas.putText("gather the keys", 20, 300);
+					canvas.putText("and avoid the creatures", 20, 400);
+					canvas.putText("to reach the goal", 20, 500);
 				}
 			}
 			else if (state == CUTSCENE_8)
@@ -531,9 +653,9 @@ public class Forsaken extends Ucigame
 				else if (next == 3)
 				{
 					rottenhallway.draw();
-					//police
+					framedPolice.draw();
 					canvas.putText("Police:", 450, 550);
-					canvas.putText("Is anyone there?!", 365, 625);
+					canvas.putText("Is anyone there?!", 370, 625);
 				}
 				else if (next == 4)
 				{
@@ -575,31 +697,93 @@ public class Forsaken extends Ucigame
 				}
 				else if (next == 10)
 				{
-					//instructions
+					canvas.font("Arial", PLAIN, 70);
+					canvas.putText("To complete the level,", 20, 200);
+					canvas.putText("use the arrow panels to", 20, 300);
+					canvas.putText("launch blocks into the", 20, 400);
+					canvas.putText("glutton to defeat him!!!", 20, 500);
 				}
 			}
-			else if (state == CUTSCENE_9) //?????
+			else if (state == CUTSCENE_9)
 			{
 				if (next == 1)
 				{
-					frontporch2.draw();
+					rottenhallway.draw();
+					framedGirl.draw();
+					canvas.putText("Girl:", 450, 550);
+					canvas.putText("It's... finally...over", 345, 625);
 				}
 				else if (next == 2)
 				{
-					frontporch2.draw();
+					rottenhallway.draw();
+					framedGirl.draw();
+					canvas.putText("Girl:", 450, 550);
+					canvas.putText("I think I'm going to rest for a bit...", 290, 625);
 				}
 				else if (next == 3)
 				{
-					frontporch2.draw();
+					darkness.draw();
+					framedFather.draw();
+					canvas.putText("Father:", 450, 550);
+					canvas.putText("How is she, doc?", 370, 625);
 				}
 				else if (next == 4)
 				{
-					frontporch2.draw();
+					asylum.draw();
+					framedDoctor.draw();
+					canvas.putText("Doctor:", 450, 550);
+					canvas.putText("Well sir, I can't be quite sure...", 300, 625);
+					canvas.putText("to put it bluntly, she's sure lost it.", 300, 675);
 				}
 				else if (next == 5)
 				{
-					frontporch2.draw();
+					asylum.draw();
+					framedFather.draw();
+					canvas.putText("Father:", 450, 550);
+					canvas.putText("I don't understand, she's such an angel,", 235, 625);
+					canvas.putText("how could she become such a monster", 235, 675);
+					canvas.putText("and kill her own family...", 235, 725);
 				}
+				else if (next == 6)
+				{
+					asylum.draw();
+					framedDoctor.draw();
+					canvas.putText("Doctor:", 450, 550);
+					canvas.putText("I'm sorry, sir.", 210, 625);
+					canvas.putText("My condolences to your wife and children.", 210, 675);
+				}
+				else if (next == 7)
+				{
+					asylum.draw();
+					framedFather.draw();
+					canvas.putText("Father:", 450, 550);
+					canvas.putText("Will she ever regain sanity?", 280, 625);
+					canvas.putText("I have to know it wasn't the real her.", 280, 675);
+					canvas.putText("It can't be.", 280, 725);
+				}
+				else if (next == 8)
+				{
+					asylum.draw();
+					framedDoctor.draw();
+					canvas.putText("Doctor:", 450, 550);
+					canvas.putText("...", 470, 625);
+				}
+				else if (next == 9)
+				{
+					asylum.draw();
+					framedMaid.draw();
+					canvas.putText("Maid:", 450, 550);
+					canvas.putText("Sir, I'm sorry. I've been here for many years", 200, 625);
+					canvas.putText("and...I'm sorry, my dear,", 200, 675);
+					canvas.putText("but she's gone completely mad.", 200, 725);
+				}
+				else if (next == 10)
+				{
+					darkness.draw();
+					canvas.font("Arial", PLAIN, 70);
+					canvas.putText("The End.", 250, 650);
+				}
+				
 			}
 			
 		}
@@ -732,7 +916,7 @@ public class Forsaken extends Ucigame
 		}
 		else if (state == CUTSCENE_4)
 		{
-			if (next != 5)
+			if (next != 14)
 			{
 				next++;
 			}
@@ -792,7 +976,7 @@ public class Forsaken extends Ucigame
 		}
 		else if (state == CUTSCENE_9)
 		{
-			if (next != 5)
+			if (next != 10)
 			{
 				next++;
 			}
@@ -891,7 +1075,6 @@ public class Forsaken extends Ucigame
 			levelEditor.onClick(mouse.x(), mouse.y());
 		else if (showingCutscene())
 		{
-			// TODO: advance cutscene text
 			startNextCutscene();
 		}
 	}

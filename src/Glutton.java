@@ -305,13 +305,15 @@ public class Glutton extends Piece implements Hazard {
 	}
 	
 	private void getHurt(PushableBlock hit)
-	{
-		// don't get hit by the same block twice
-		if (hit.isDestroyed)
-			return;
-		
+	{	
 		if (hit != null)
+		{
+			// don't get hit by the same block twice
+			if (hit.isDestroyed)
+				return;
+			
 			hit.isDestroyed = true;
+		}
 		
 		health--;
 		if (health > 0)
